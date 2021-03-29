@@ -87,7 +87,7 @@ class celestial_system(object):
 
 
 solar_system = celestial_system("earthsystem")
-solar_system.simulate(end_t = 1000, dt=3)
+solar_system.simulate(end_t = 1000, dt=6)
 
 
 SEGMENTS = 48

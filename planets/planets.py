@@ -12,7 +12,7 @@ from solid.utils import right
 # Gravitational constant m/s2
 g = 6.674e-11
 
-g = 6.674e-3
+g = 3.674e-3
 
 # XYZ history of celestial body
 class history(object):
@@ -25,32 +25,37 @@ class history(object):
     def render_orbit(self):
         balls = union()
         for X in self.data:
-            balls += translate((X[0], X[1], X[2]))(sphere(r=0.3))
+            balls += translate((X[0], X[1], X[2]))(sphere(r=1.0))
 
         return balls
 
 # Heavenly, or celestial, object
 class celestial(object):
-    def __init__(self, X=[0,0,0], V=[0,0,0], m=1.0):
+    def __init__(self, X=[0.0,0.0,0.0], V=[0.0,0.0,0.0], m=1.0):
         self.X=np.array(X) # position vector
         self.V=np.array(V) # speed vector
+        self.A=np.array([0.0,0.0,0.0])
         self.m=m # object's mass
         self.history = history()
 
-    def step(self, sunandplanets, dt=1):
-        self.history.record(self.X)
-        A = np.array([0,0,0])
+    def calc_A(self, sunandplanets, X):
+        A = np.array([0.0,0.0,0.0])
+        saved_m = self.m
+        self.m = 0.0
         for p in sunandplanets.values():
-            D = p.X - self.X
+            D = p.X - X
             r2 = np.sum(np.square(D))
-            if r2 > 0:
+            if r2 > 0.0:
                 a = p.m / r2
-                Ap = np.multiply(D, a / np.sqrt(r2))
-                A = A + Ap
+                A = A + D * a / np.sqrt(r2)
+        self.m = saved_m
+        return A * g               
 
-        A = A * g
-        self.V = self.V + A * dt
+    def step(self, sunandplanets, dt=1.0):
+        self.history.record(self.X)
+        self.V = self.V + self.A * dt
         self.X = self.X + self.V * dt
+        self.A = self.calc_A(sunandplanets, self.X)
 
     def render_orbit(self):
         return self.history.render_orbit()
@@ -63,15 +68,17 @@ class celestial_system(object):
 
     def init_earth_system(self):
         self.sunandplanets = {}
-        self.sunandplanets['sun'] = celestial(m = 10000)
-        self.sunandplanets['earth'] = celestial(m = 1, X = [100, 0, 0], V = [0, 0.3, 0.3])
+        self.sunandplanets['sun'] = celestial(m = 10000.0)
+        self.sunandplanets['earth'] = celestial(m = 1.0, X = [100.0, 0.0, 0.0], V = [0.0, 0.3, 0.3])
 
-    def step(self, t=0, dt=1):
+    def step(self, t=0, dt=1.0):
         for p in self.sunandplanets.values():
             p.step(self.sunandplanets, dt)
 
-    def simulate(self, start_t=0, end_t=100, dt=1):
-        for t in range(start_t, end_t, dt):
+    def simulate(self, start_t=0.0, end_t=100.0, dt=1.0):
+        for p in self.sunandplanets.values():
+            p.A = p.calc_A(self.sunandplanets, p.X)
+        for t in np.arange(start_t, end_t, dt):
             self.step(t, dt)
 
     def init_history(self):
@@ -87,7 +94,7 @@ class celestial_system(object):
 
 
 solar_system = celestial_system("earthsystem")
-solar_system.simulate(end_t = 1000, dt=6)
+solar_system.simulate(end_t = 2000, dt=3.6)
 
 
 SEGMENTS = 48

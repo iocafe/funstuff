@@ -77,8 +77,9 @@ class celestial_system(object):
         self.sunandplanets = {}
         # self.sunandplanets['sun'] = celestial(m = 10000.0)
         # self.sunandplanets['earth'] = celestial(m = 1.0, X = [100.0, 0.0, 0.0], V = [0.0, 0.3, 0.3])
-        self.sunandplanets['sun'] = celestial(m = 5000.0, X = [0.0, 0.01, 0.0], V = [0.0, 0.0013, 0.0013])
-        self.sunandplanets['earth'] = celestial(m = 500.0, X = [100.0, 0.0, 0.0], V = [0.0, 0.3, 0.3])
+        self.sunandplanets['sun'] = celestial(m = 5000.0, X = [0.0, 0.01, 0.0], V = [-0.2, 0.0013, -0.1013])
+        self.sunandplanets['earth'] = celestial(m = 1500.0, X = [100.0, 0.0, 0.0], V = [0.0, 0.2, 0.23])
+        self.sunandplanets['moon'] = celestial(m = 50.0, X = [90.01, 0.02, 0.001], V = [0.0, 0.65, 0.65])
 
     def step(self, t=0, dt=1.0):
         for p in self.sunandplanets.values():
@@ -152,7 +153,7 @@ def HMS2deg(ra='', dec=''):
     return RA or DEC    
 
 solar_system = celestial_system("earthsystem")
-solar_system.simulate(end_t = 1500, dt=1.6)
+solar_system.simulate(end_t=1500, dt=1.6)
 
 print(deg2HMS(ra=66.918277))
 print(deg2HMS(dec=24.622590))

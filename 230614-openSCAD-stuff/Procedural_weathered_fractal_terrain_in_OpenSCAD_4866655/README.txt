@@ -1,0 +1,1 @@
+Procedural weathered fractal terrain in OpenSCAD by Amatulic on Thingiverse: https://www.thingiverse.com/thing:4866655

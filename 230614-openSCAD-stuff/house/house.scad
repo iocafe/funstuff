@@ -2,6 +2,7 @@ use <basefloor.scad>
 use <feet.scad> 
 use <cubewall.scad>
 use <houseroof.scad>
+use <terraceroof.scad>
 
 // House bottom floor with legs 
 house_width = 800;
@@ -39,3 +40,5 @@ terrace_pos = house_width/2+terrace_width/2 + 5;
 translate([0, terrace_pos, 0]) {color([120/255, 55/255, 55/255],1.0) feet(terrace_width,terrace_length,feet_height, terrace_height);
 basefloor(terrace_width, terrace_length,floor_thickness);} 
 color([255/255, 255/255, 255/255],0.8) translate([0, terrace_pos, 0]) cubewall(terrace_width, terrace_length, wall_thickness, terrace_fence_height);
+
+translate([0,terrace_pos,first_foor_height]) terraceroof(terrace_width, terrace_length);

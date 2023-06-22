@@ -3,6 +3,7 @@ use <feet.scad>
 use <cubewall.scad>
 use <houseroof.scad>
 use <terraceroof.scad>
+use <toilet.scad>
 
 // House bottom floor with legs 
 house_width = 800;
@@ -56,12 +57,18 @@ terrace_width = 400;
 terrace_length = 1200;
 terrace_fence_height = 100;
 terrace_height = 300;
-terrace_pos = house_width/2+terrace_width/2 + 5;
+terrace_pos = house_width/2+terrace_width/2 - 1.5*wall_thickness+ 5;
 translate([0, terrace_pos, 0]) {color([120/255, 55/255, 55/255],1.0) feet(terrace_width,terrace_length,feet_height, terrace_height);
     
 // Terrace floor
 color(base_level_floor_color,base_level_floor_alpha)  basefloor(terrace_width, terrace_length,floor_thickness);} 
 color(base_level_wall_color,base_level_wall_alpha) translate([0, terrace_pos, 0]) cubewall(terrace_width, terrace_length, wall_thickness, terrace_fence_height);
 
-// Teracce roof
+// Terrace toilet
+terrace_toilet_width = 280;
+terrace_toilet_length = 200;
+color(base_level_wall_color,base_level_wall_alpha)  translate([-house_length/2+terrace_toilet_length/2, house_width/2+terrace_width/2 + (terrace_width-terrace_toilet_width-2*wall_thickness - 5)/2,, floor_thickness/2]) rotate([0,0,180]) toilet(terrace_toilet_width, terrace_toilet_length, wall_thickness, 260) ;
+
+// Terrace roof
 color(roof_color, roof_alpha) translate([0,terrace_pos,first_foor_height]) terraceroof(terrace_width, terrace_length);
+

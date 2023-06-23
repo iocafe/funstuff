@@ -77,14 +77,14 @@ color(base_level_floor_color,base_level_floor_alpha)  basefloor(terrace_width, t
 color(base_level_wall_color,base_level_wall_alpha) translate([0, terrace_pos, 0]) cubewall(terrace_width, terrace_length, wall_thickness, terrace_fence_height);
 
 // Terrace toilet
-terrace_toilet_width = 280;
+terrace_toilet_width = 260;
 terrace_toilet_length = 200;
-color(base_level_wall_color,base_level_wall_alpha)  translate([-house_length/2+terrace_toilet_length/2, house_width/2+terrace_width/2 + (terrace_width-terrace_toilet_width-2*wall_thickness - 5)/2,, floor_thickness/2]) rotate([0,0,180]) toilet(terrace_toilet_width, terrace_toilet_length, wall_thickness, 260);
+/* color(base_level_wall_color,base_level_wall_alpha)  */ translate([-house_length/2+terrace_toilet_length/2, house_width/2+terrace_width/2 + (terrace_width-terrace_toilet_width-2*wall_thickness - 5)/2,, floor_thickness/2]) rotate([0,0,180]) toilet(terrace_toilet_width, terrace_toilet_length, wall_thickness, 260);
 
 // Terrace storage room
-storageroom_width = house_length - terrace_toilet_length + 2*wall_thickness;
+storageroom_width = terrace_width - terrace_toilet_width + wall_thickness;
 storageroom_length = terrace_toilet_length;
-color(base_level_wall_color,base_level_wall_alpha) translate([-house_length/2 - upstairs_toilet_width+storageroom_width/2-2*wall_thickness, house_width/2 + storageroom_length/2, floor_thickness/2]) rotate([0,0,180]) pumproom(storageroom_width, storageroom_length, wall_thickness, 260);
+color(base_level_wall_color,base_level_wall_alpha) translate([-house_length/2 + storageroom_length/2, terrace_pos - storageroom_length/2 - 2*wall_thickness, floor_thickness/2]) rotate([0,0,180]) pumproom(storageroom_width, storageroom_length, wall_thickness, 260);
 
 // Terrace roof
 color(roof_color, roof_alpha) translate([0,terrace_pos,first_foor_height]) terraceroof(terrace_width, terrace_length);

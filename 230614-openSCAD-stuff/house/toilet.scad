@@ -13,7 +13,7 @@ module toilet(width=250, length=200, wall_thickness=15, wall_height=260)
     // Position the door horizontally off the center.
     door_x_pos = -width/5;
     
-    // Rise floor which should stay dry by 2.5 cm
+    // Rise the part of floor which should stay dry by 2.5 cm.
     rise_floor = 2.5;
     rised_width = width/2;
     

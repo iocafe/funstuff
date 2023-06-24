@@ -1,6 +1,6 @@
  use <toiletseat.scad>
 
-module toilet(width=250, length=200, wall_thickness=15, wall_height=260,wall_color=[255/255, 255/255, 255/255],wall_alpha=1.0) 
+module toilet(is_upper_level=true, width=250, length=200, wall_thickness=15, wall_height=260,wall_color=[255/255, 255/255, 255/255],wall_alpha=1.0) 
 {
     // Colors
     toilet_wall_color = [255.0/255, 235/255,20/255];
@@ -29,18 +29,27 @@ module toilet(width=250, length=200, wall_thickness=15, wall_height=260,wall_col
 
     difference() {
         union() {
-            translate([0,-width/2+wall_thickness/2, wall_height/2]) color(wall_color,wall_alpha) cube([length, wall_thickness, wall_height],center=true);
+            translate([0,-width/2+wall_thickness/2, wall_height/2]) 
+            color(wall_color,wall_alpha) 
+            cube([length, wall_thickness, wall_height],center=true);
             
-            translate([0,-width/2+wall_thickness, wall_height/2]) color(toilet_wall_color,wall_alpha) cube([length, 0.1, wall_height],center=true);
+            translate([0,-width/2+wall_thickness, wall_height/2]) 
+            color(toilet_wall_color,wall_alpha) 
+            cube([length, 0.1, wall_height],center=true);
         }
-       n_holes = 5;
-        for (x = [0: n_holes-1]) {
-            translate([(x-(n_holes-1)/2) * ((length-4*wall_thickness)/(n_holes-1)), -width/2+wall_thickness/2, wall_height/20]) cube([hole_size, 1+wall_thickness, hole_size],center=true);
+        if (!is_upper_level) {
+           n_holes = 5;
+            for (x = [0: n_holes-1]) {
+                translate([(x-(n_holes-1)/2) * ((length-4*wall_thickness)/(n_holes-1)),
+                -width/2+wall_thickness/2, wall_height/20]) 
+                cube([hole_size, 1+wall_thickness, hole_size],center=true);
+            }
         }
-        
+    
         // Door 
-        // door_x_pos, wall_height/2-door_y_pos
+        if (is_upper_level) {
             translate([side_door_x_pos,-width/2+wall_thickness/2, wall_height/2-door_y_pos]) cube([door_width, wall_thickness+1, door_height],center=true);
+        }
     }
 
     difference() {
@@ -53,9 +62,6 @@ module toilet(width=250, length=200, wall_thickness=15, wall_height=260,wall_col
         for (x = [0: n_holes-1]) {
             translate([(x-(n_holes-1)/2) * ((length-4*wall_thickness)/(n_holes-1)), width/2-wall_thickness/2, wall_height/20]) cube([hole_size, 1+wall_thickness, hole_size],center=true);
         }
-
-        // Door
-        //translate([length/2-wall_thickness/2, door_x_pos, wall_height/2-door_y_pos]) //cube([wall_thickness+1, door_width, door_height],center=true);
     }
     
     difference() {
@@ -77,7 +83,15 @@ module toilet(width=250, length=200, wall_thickness=15, wall_height=260,wall_col
         }
 
         // Door
-        translate([-length/2+wall_thickness/2, door_x_pos, wall_height/2-door_y_pos]) cube([wall_thickness+1, door_width, door_height],center=true);
+        if (!is_upper_level) {
+           translate([-length/2+wall_thickness/2, door_x_pos, wall_height/2-door_y_pos])
+               cube([wall_thickness+1, door_width, door_height],center=true);
+        }
+
+        n_holes2 = 7;
+        for (x = [0: n_holes2-1]) {
+            translate([-length/2+wall_thickness/2, (x-(n_holes2-1)/2) * ((width-4*wall_thickness)/(n_holes2-1)), wall_height/20]) cube([1+wall_thickness, hole_size, hole_size],center=true);
+        }
     }
 
     translate([0, -(width-rised_width)/2, rise_floor/2]) cube([length, rised_width, rise_floor],center=true);

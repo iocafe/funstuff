@@ -1,7 +1,9 @@
  use <toiletseat.scad>
 
-module toilet(width=250, length=200, wall_thickness=15, wall_height=260) 
+module toilet(width=250, length=200, wall_thickness=15, wall_height=260,wall_color=[255/255, 255/255, 255/255],wall_alpha=1.0) 
 {
+    // Colors
+    toilet_wall_color = [255.0/255, 235/255,20/255];
     
     // Door opening size. Then we need some extra space for the door frame.
     door_width = 70+5;
@@ -9,9 +11,10 @@ module toilet(width=250, length=200, wall_thickness=15, wall_height=260)
     
     // Position the door so that bottom of opening is 5 cm above floor level
     door_y_pos = (wall_height-door_height)/2 - 5;
-    
+        
     // Position the door horizontally off the center.
     door_x_pos = -width/5;
+    side_door_x_pos = -width/10;
     
     // Rise the part of floor which should stay dry by 2.5 cm.
     rise_floor = 2.5;
@@ -26,30 +29,40 @@ module toilet(width=250, length=200, wall_thickness=15, wall_height=260)
 
     difference() {
         union() {
-            translate([0,-width/2+wall_thickness/2, wall_height/2]) cube([length, wall_thickness, wall_height],center=true);
+            translate([0,-width/2+wall_thickness/2, wall_height/2]) color(wall_color,wall_alpha) cube([length, wall_thickness, wall_height],center=true);
             
-            translate([0,-width/2+wall_thickness, wall_height/2]) color([1,0,0]) cube([length, 0.1, wall_height],center=true);
+            translate([0,-width/2+wall_thickness, wall_height/2]) color(toilet_wall_color,wall_alpha) cube([length, 0.1, wall_height],center=true);
         }
        n_holes = 5;
         for (x = [0: n_holes-1]) {
             translate([(x-(n_holes-1)/2) * ((length-4*wall_thickness)/(n_holes-1)), -width/2+wall_thickness/2, wall_height/20]) cube([hole_size, 1+wall_thickness, hole_size],center=true);
         }
+        
+        // Door 
+        // door_x_pos, wall_height/2-door_y_pos
+            translate([side_door_x_pos,-width/2+wall_thickness/2, wall_height/2-door_y_pos]) cube([door_width, wall_thickness+1, door_height],center=true);
     }
 
     difference() {
         union() {
-            translate([0,width/2-wall_thickness/2, wall_height/2]) cube([length,  wall_thickness, wall_height],center=true);
-            translate([0,width/2-wall_thickness, wall_height/2]) color([1,0,0]) cube([length,  0.1, wall_height],center=true);
+            translate([0,width/2-wall_thickness/2, wall_height/2]) color(wall_color,wall_alpha) cube([length,  wall_thickness, wall_height],center=true);
+            translate([0,width/2-wall_thickness, wall_height/2]) color(toilet_wall_color,wall_alpha) cube([length,  0.1, wall_height],center=true);
         }
      
        n_holes = 5;
         for (x = [0: n_holes-1]) {
             translate([(x-(n_holes-1)/2) * ((length-4*wall_thickness)/(n_holes-1)), width/2-wall_thickness/2, wall_height/20]) cube([hole_size, 1+wall_thickness, hole_size],center=true);
         }
+
+        // Door
+        //translate([length/2-wall_thickness/2, door_x_pos, wall_height/2-door_y_pos]) //cube([wall_thickness+1, door_width, door_height],center=true);
     }
     
     difference() {
-        translate([length/2-wall_thickness/2, 0, wall_height/2]) cube([wall_thickness, width, wall_height],center=true);
+        union() {
+            translate([length/2-wall_thickness/2, 0, wall_height/2]) color(wall_color,wall_alpha) cube([wall_thickness, width, wall_height],center=true);
+            translate([length/2-wall_thickness, 0, wall_height/2]) color(toilet_wall_color,wall_alpha) cube([0.1, width, wall_height],center=true);
+        }
         
         n_holes2 = 7;
         for (x = [0: n_holes2-1]) {
@@ -58,8 +71,12 @@ module toilet(width=250, length=200, wall_thickness=15, wall_height=260)
     }     
 
     difference() {
-        translate([-length/2+wall_thickness/2, 0, wall_height/2]) cube([wall_thickness, width, wall_height],center=true);
+        union() {
+            translate([-length/2+wall_thickness/2, 0, wall_height/2]) color(wall_color,wall_alpha) cube([wall_thickness, width, wall_height],center=true);
+            translate([-length/2+wall_thickness, 0, wall_height/2])  color(toilet_wall_color,wall_alpha) cube([0.1, width, wall_height],center=true);
+        }
 
+        // Door
         translate([-length/2+wall_thickness/2, door_x_pos, wall_height/2-door_y_pos]) cube([wall_thickness+1, door_width, door_height],center=true);
     }
 

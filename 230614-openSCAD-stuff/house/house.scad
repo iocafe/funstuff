@@ -44,11 +44,21 @@ color(base_level_floor_color,base_level_floor_alpha) basefloor(house_width, hous
 /* Bottom level walls */
 color(base_level_wall_color,base_level_wall_alpha) cubewall(house_width, house_length, wall_thickness, first_foor_height);
 
-// Bedroom 1
-bedroom1_width = house_width/2 - wall_thickness;
-bedroom1_length = bedroom1_width*0.9;
+/* Bedroom 1 */
+bedroom1_width = house_width/2 + 70;
+bedroom1_length = bedroom1_width*0.8;
 bedroom_wall_height = first_foor_height - floor_thickness/2;
-translate([-house_length/2 + bedroom1_length/2, -house_width/2+ bedroom1_length/2 + wall_thickness, floor_thickness/2 ]) rotate([0,0,0]) bedroom(bedroom1_width, bedroom1_length, wall_thickness, bedroom_wall_height,  top_level_wall_color, top_level_wall_alpha);
+translate([-house_length/2 + bedroom1_length/2, -house_width/2+ bedroom1_width/2, floor_thickness/2 ]) rotate([0,0,0]) bedroom(bedroom1_width/2-80, false, bedroom1_width, bedroom1_length, wall_thickness, bedroom_wall_height,  top_level_wall_color, top_level_wall_alpha, [1.0,0.7,0.7]);
+
+/* Bedroom 2 */
+bedroom2_width = house_width - bedroom1_width;
+bedroom2_length = bedroom1_length + 100;
+translate([-house_length/2 + bedroom2_length/2, -house_width/2+ bedroom2_width/2 + bedroom1_width - wall_thickness/2, floor_thickness/2 ]) rotate([0,0,0]) bedroom(-60, false, bedroom2_width + wall_thickness, bedroom2_length, wall_thickness, bedroom_wall_height,  top_level_wall_color, top_level_wall_alpha);
+
+/* Bedroom 3 */
+bedroom3_width = house_width/2-90;
+bedroom3_length = 0.3*house_length;
+translate([-house_length/2 + bedroom3_length/2 +bedroom1_length - wall_thickness, - house_width/2+ bedroom3_width/2, floor_thickness/2 ]) rotate([0,0,0]) bedroom(0, true, bedroom3_width, bedroom3_length, wall_thickness, bedroom_wall_height,  top_level_wall_color, top_level_wall_alpha, [0.6,0.9,0.7]);
 
 /*  Top level floor */
 if (show_upper_level) {
@@ -85,7 +95,9 @@ if (show_roof) {
 
 /* Upper level ceiling */
 if (show_roof) {
-color(concrete_ceiling_color, concrete_ceiling_alpha) translate([0, 0, first_foor_height+upper_level_height]) basefloor(house_width, house_length,floor_thickness); 
+    color(concrete_ceiling_color, concrete_ceiling_alpha) 
+    translate([0, 0, first_foor_height+upper_level_height]) 
+    basefloor(house_width, house_length,floor_thickness); 
 }
 
 /* Terrace floor with legs */
@@ -103,7 +115,7 @@ color(base_level_wall_color,base_level_wall_alpha) translate([0, terrace_pos, 0]
 // Terrace toilet
 terrace_toilet_width = 260;
 terrace_toilet_length = 200;
-/* color(base_level_wall_color,base_level_wall_alpha)  */ translate([-house_length/2+terrace_toilet_length/2, house_width/2+terrace_width/2 + (terrace_width-terrace_toilet_width-2*wall_thickness - 5)/2,, floor_thickness/2]) rotate([0,0,180]) toilet(false, terrace_toilet_width, terrace_toilet_length, wall_thickness, 260, base_level_wall_color,base_level_wall_alpha);
+translate([-house_length/2+terrace_toilet_length/2, house_width/2+terrace_width/2 + (terrace_width-terrace_toilet_width-2*wall_thickness - 5)/2, floor_thickness/2]) rotate([0,0,180]) toilet(false, terrace_toilet_width, terrace_toilet_length, wall_thickness, 260, base_level_wall_color,base_level_wall_alpha);
 
 // Terrace storage room
 storageroom_width = terrace_width - terrace_toilet_width + wall_thickness;

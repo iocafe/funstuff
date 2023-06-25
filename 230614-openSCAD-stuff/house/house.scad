@@ -6,6 +6,7 @@ use <roof/terraceroof.scad>
 use <toilet/toilet.scad>
 use <masterbedroom/masterbedroom.scad>
 use <bedroom/bedroom.scad>
+use <kitchen/kitchen.scad>
 use <storage/pumproom.scad>
 
 show_upper_level = false;
@@ -59,6 +60,11 @@ translate([-house_length/2 + bedroom2_length/2, -house_width/2+ bedroom2_width/2
 bedroom3_width = house_width/2-80;
 bedroom3_length = 0.26*house_length;
 translate([-house_length/2 + bedroom3_length/2 +bedroom1_length - wall_thickness, - house_width/2+ bedroom3_width/2, floor_thickness/2 ]) rotate([0,0,0]) bedroom(0, true, bedroom3_width, bedroom3_length, wall_thickness, bedroom_wall_height,  top_level_wall_color, top_level_wall_alpha, [0.6,0.9,0.7]);
+
+/* Kitchen */
+kitchen_width = house_width;
+kitchen_length = house_length - bedroom1_length;
+translate([house_length/2 - kitchen_length/2, 0, floor_thickness/2]) kitchen(kitchen_width, kitchen_length, wall_thickness, bedroom_wall_height,  top_level_wall_color, top_level_wall_alpha, [0.6,0.9,0.7]);
 
 /*  Top level floor */
 if (show_upper_level) {

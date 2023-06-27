@@ -10,7 +10,7 @@ use <kitchen/kitchen.scad>
 use <terrace/terrace.scad>
 use <storage/pumproom.scad>
 
-show_upper_level = true;
+show_upper_level = false;
 show_roof = false;
 
 // House bottom floor with legs 
@@ -56,6 +56,7 @@ feet(house_width,house_length,feet_height,extend_feet_up);
         wall_thickness, bedroom_wall_height, top_level_wall_color,
         top_level_wall_alpha, [1.0,0.7,0.7]);
     
+    /* Bedroom 2 */
     bedroom2_width = house_width - bedroom1_width;
     bedroom2_length = bedroom1_length;
     translate([-house_length/2 + bedroom2_length/2, -house_width/2+ bedroom2_width/2 + bedroom1_width - wall_thickness/2, floor_thickness/2 ]) rotate([0,0,0]) bedroom(-60, false, bedroom2_width + wall_thickness, bedroom2_length, wall_thickness, bedroom_wall_height,  top_level_wall_color, top_level_wall_alpha);

@@ -1,13 +1,11 @@
 
-module basicdoor(width=90, height=210, wall_thickness=15, right_handed = true) 
+module basicdoor(width=95.3, height=213.2, wall_thickness=15, right_handed = true, open_angle = 0) 
 {
-    open_angle = 00;
-    
     profile_width = 12;
-    door_thickness = 4.5;
-    frame_profile_width = 3.5;
+    door_thickness = 4.0;
+    frame_profile_width = 2.3;
     frame_profile_depth = wall_thickness;
-    seal_profile_width = 1.2;
+    seal_profile_width = 1.0;
     
     /* Outer frame fixed to convrete wall. */
     color([0.3,0.0,0.1])
@@ -30,7 +28,7 @@ module basicdoor(width=90, height=210, wall_thickness=15, right_handed = true)
     translate([right_handed?ow:-ow, 0, 0])
      union() {
         /* Playwood */
-        color([0.2,0.0,0.1])
+        color([0.4,0.0,0.1])
         cube([open_w, 1.5, open_h], center=true);
         
         /* Door strengtehing. */

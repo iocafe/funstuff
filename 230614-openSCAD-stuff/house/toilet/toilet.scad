@@ -1,13 +1,14 @@
  use <toiletseat.scad>
+ use <../doors/basicdoor.scad>
 
 module toilet(is_upper_level=true, width=250, length=200, wall_thickness=15, wall_height=260,wall_color=[255/255, 255/255, 255/255],wall_alpha=1.0) 
 {
     // Colors
     toilet_wall_color = [255.0/255, 235/255,20/255];
     
-    // Door opening size. Then we need some extra space for the door frame.
-    door_width = 70+5;
-    door_height = 210+2.5;
+    // Door opening size. We need some extra space for the door frame.
+    door_width = 80+5.3;
+    door_height = 210+3.2;
     
     // Position the door so that bottom of opening is 5 cm above floor level
     door_y_pos = (wall_height-door_height)/2 - 5;
@@ -46,10 +47,18 @@ module toilet(is_upper_level=true, width=250, length=200, wall_thickness=15, wal
             }
         }
     
-        // Door 
+        // Door hole
         if (is_upper_level) {
             translate([side_door_x_pos,-width/2+wall_thickness/2, wall_height/2-door_y_pos]) cube([door_width, wall_thickness+1, door_height],center=true);
         }
+    }
+    
+    /* Door */
+    if (is_upper_level) {
+        translate([side_door_x_pos,-width/2+wall_thickness/2,
+            wall_height/2-door_y_pos]) 
+        //rotate([0,0,180])
+        basicdoor(door_width, door_height, wall_thickness, true, 45);
     }
 
     difference() {
@@ -82,7 +91,7 @@ module toilet(is_upper_level=true, width=250, length=200, wall_thickness=15, wal
             translate([-length/2+wall_thickness, 0, wall_height/2])  color(toilet_wall_color,wall_alpha) cube([0.1, width, wall_height],center=true);
         }
 
-        // Door
+        /* Door hole */
         if (!is_upper_level) {
            translate([-length/2+wall_thickness/2, door_x_pos, wall_height/2-door_y_pos])
                cube([wall_thickness+1, door_width, door_height],center=true);
@@ -92,6 +101,13 @@ module toilet(is_upper_level=true, width=250, length=200, wall_thickness=15, wal
         for (x = [0: n_holes2-1]) {
             translate([-length/2+wall_thickness/2, (x-(n_holes2-1)/2) * ((width-4*wall_thickness)/(n_holes2-1)), wall_height/20]) cube([1+wall_thickness, hole_size, hole_size],center=true);
         }
+    }
+
+    /* Door */
+    if (!is_upper_level) {
+        translate([-length/2+wall_thickness/2, door_x_pos, wall_height/2-door_y_pos])
+        rotate([0,0,-90])
+        basicdoor(door_width, door_height, wall_thickness, true, 45);
     }
 
     translate([0, -(width-rised_width)/2, rise_floor/2]) cube([length, rised_width, rise_floor],center=true);

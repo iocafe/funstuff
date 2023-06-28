@@ -1,4 +1,4 @@
-use <../doors/bssicdoor.scad>
+use <../doors/basicdoor.scad>
 
 module bedroomwalls(door_x = 0, side_door=true, width=250, length=200, wall_thickness=15, wall_height=260,wall_color=[255/255, 255/255, 255/255],wall_alpha=1.0, paint_the_room = [0.0, 0.3,0.9])
 {
@@ -43,7 +43,7 @@ module bedroomwalls(door_x = 0, side_door=true, width=250, length=200, wall_thic
             cube([length,  0.1, wall_height],center=true);
         }
 
-        /* Door  */
+        /* Door hole */
         if (side_door) {
             translate([door_x, width/2 - wall_thickness/2, 
                 wall_height/2 - door_y_pos]) 
@@ -51,6 +51,7 @@ module bedroomwalls(door_x = 0, side_door=true, width=250, length=200, wall_thic
         }
     }
     
+    /* Door */
     if (side_door) {
         translate([door_x, width/2 - wall_thickness/2, 
             wall_height/2 - door_y_pos]) 

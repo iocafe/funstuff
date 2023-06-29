@@ -9,8 +9,9 @@ use <bedroom/bedroom.scad>
 use <kitchen/kitchen.scad>
 use <terrace/terrace.scad>
 use <storage/pumproom.scad>
+use <stairs/longstairs.scad>
 
-show_upper_level = false;
+show_upper_level = true;
 show_roof = false;
 
 // House bottom floor with legs 
@@ -160,6 +161,16 @@ if (show_roof) {
     color(roof_color, roof_alpha) translate([0,terrace_pos,first_foor_height]) terraceroof(terrace_width, terrace_length);
 }
 
+/* Stairs to upper level */
+stair_width = 110;
+stair_length = 420;
+stair_height = first_foor_height - floor_thickness/2;
+stair_n_steps = 16;
+translate([-100,
+    house_width/2 + stair_width/2 + wall_thickness/2,
+    floor_thickness/2]) 
+//rotate([0,0,180])
+longstairs(stair_length, stair_height, stair_width, stair_n_steps);
 
     translate([-360,200,290]) cube([450, 10, 10], center=true);
 translate([-400,225,290]) cube([10, 310, 10], center=true);

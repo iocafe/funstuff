@@ -6,8 +6,8 @@ module kitchendoor(door_width=300, door_height=260,wall_thickness=15, wall_color
     
     intersection() {
         color(wall_color,wall_alpha) 
-        translate([0,0,door_height/2])
-        cube([door_width, wall_thickness+0.4, door_height],center=true);
+        translate([0,0,door_height/2-0.1])
+        cube([door_width, wall_thickness+0.2, door_height],center=true);
         
         color(wall_color,wall_alpha)
         translate([0,0, door_height - r])

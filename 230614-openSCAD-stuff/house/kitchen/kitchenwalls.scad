@@ -1,6 +1,8 @@
 use <kitchendoor.scad> 
+use <../windows/slidingwindow.scad>
 
-module kitchenwalls(width=800, length=700, front_wall_len = 600, back_wall_len = 500, wall_thickness=15, wall_height=260,wall_color=[255/255, 255/255, 255/255],wall_alpha=1.0, paint_the_room = [0.9, 0.3,0.9])
+module kitchenwalls(width=800, length=800, front_wall_len = 800, back_wall_len = 500, wall_thickness=15, wall_height=260,wall_color=[255/255, 255/255, 255/255],wall_alpha=1.0, paint_the_room = [0.9, 0.3,0.9],
+    window_y = 90, window_w = 70+5.3, window_h = 120+5.3)
 {
     // Door opening size. Then we need some extra space for the door frame.
     door_width = 370;
@@ -15,7 +17,12 @@ module kitchenwalls(width=800, length=700, front_wall_len = 600, back_wall_len =
     arc_window_width = door_width;
     arc_window_height = 153;
     arc_window_x_pos = width/4.7;
-
+    
+    window_1_x_pos = -140;
+    window_2_x_pos = -305;
+    window_3_x_pos = -240;
+    window_4_x_pos = -5;
+    
     // Rise the part of floor which should stay dry by 2.5 cm.
     rise_floor = 2.5;
     rised_width = width/2;
@@ -41,8 +48,21 @@ module kitchenwalls(width=800, length=700, front_wall_len = 600, back_wall_len =
             color(paint_the_room,wall_alpha) 
             cube([back_wall_len, 0.1, wall_height],center=true);
         }
+
+        /* Window 4 hole */
+        translate([window_4_x_pos, 
+            -width/2 + wall_thickness/2, 
+            window_y + window_h/2]) 
+        cube([window_w, wall_thickness+1,   
+            window_h],center=true);
     } 
 
+    /* Window 4 */
+    translate([window_4_x_pos, 
+        - width/2 + wall_thickness/2,
+        window_y + window_h/2]) 
+    slidingwindow(window_w, window_h, wall_thickness); 
+    
     difference() {
         union() {
             translate([(length-front_wall_len)/2,
@@ -54,14 +74,37 @@ module kitchenwalls(width=800, length=700, front_wall_len = 600, back_wall_len =
             translate([(length-front_wall_len)/2,
                 width/2 - wall_thickness, wall_height/2]) 
             color(paint_the_room,wall_alpha) 
-            cube([front_wall_len,  0.1, wall_height],center=true);
+            cube([front_wall_len, 0.1, wall_height],center=true);
         }
 
-        // Door 
+        // Arc door hole 
         translate([door_x_pos,
-            width/2 - wall_thickness/2, 0]) 
+            width/2 - wall_thickness/2, 0.2]) 
         kitchendoor(door_width, door_height, wall_thickness, wall_color,wall_alpha);
-        }
+        
+        /* Window 1 hole */
+        translate([window_1_x_pos, width/2 - wall_thickness/2,
+            window_y + window_h/2]) 
+        cube([window_w, wall_thickness+1, 
+            window_h],center=true);
+        
+        /* Window 2 hole */
+        translate([window_2_x_pos, width/2 - wall_thickness/2,
+            window_y + window_h/2]) 
+        cube([window_w, wall_thickness+1, 
+            window_h],center=true);
+        
+    }
+    
+    /* Window 1 */
+    translate([window_1_x_pos, width/2 - wall_thickness/2,
+        window_y + window_h/2]) 
+    slidingwindow(window_w, window_h, wall_thickness); 
+    
+    /* Window 2 */
+    translate([window_2_x_pos, width/2 - wall_thickness/2,
+        window_y + window_h/2]) 
+    slidingwindow(window_w, window_h, wall_thickness); 
     
     difference() {
         union() {
@@ -81,7 +124,23 @@ module kitchenwalls(width=800, length=700, front_wall_len = 600, back_wall_len =
             arc_window_x_pos, door_height - arc_window_height])
         rotate([0,0,90])
         kitchendoor(arc_window_width, arc_window_height, wall_thickness, wall_color,wall_alpha);
-    }     
+        
+        /* Window 3 hole */
+        translate([length/2-wall_thickness/2, 
+            window_3_x_pos, 
+            window_y + window_h/2]) 
+        cube([wall_thickness+1, window_w,  
+            window_h],center=true);
+        
+    }
+
+    /* Window 3 */
+    translate([length/2-wall_thickness/2,
+        window_3_x_pos,
+        window_y + window_h/2])
+    rotate([0,0,90])
+    slidingwindow(window_w, window_h, wall_thickness); 
+      
 }
 
 // For testing

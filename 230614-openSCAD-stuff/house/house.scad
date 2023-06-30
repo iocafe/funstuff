@@ -10,6 +10,7 @@ use <kitchen/kitchen.scad>
 use <terrace/terrace.scad>
 use <storage/pumproom.scad>
 use <stairs/longstairs.scad>
+use <stairs/longstairs2.scad>
 
 show_upper_level = true;
 show_roof = false;
@@ -31,7 +32,8 @@ window_h = 140;
 
 base_level_wall_color = [255/255, 255/255, 255/255];
 top_level_wall_color = [255/255, 255/255, 255/255];
-base_level_floor_color = [0.30, 0.10, 0.10];
+base_level_floor_color = [0.20, 0.15, 0.15];
+// base_level_floor_color = [0.85, 0.85, 0.85];
 top_level_floor_color = [0.30, 0.10, 0.10];
 concrete_ceiling_color = [1.0,1.0,1.0];
 roof_color = [0.8,0.8,0.8];
@@ -50,14 +52,14 @@ feet(house_width,house_length,feet_height,extend_feet_up);
     color(base_level_floor_color,base_level_floor_alpha) basefloor(house_width, house_length,floor_thickness); 
     
     /* Bedroom 1 */
-    bedroom1_width = house_width/2 + 70;
-    bedroom1_length = house_length * 0.40;
+    bedroom1_width = house_width/2 + 50;
+    bedroom1_length = house_length * 0.41;
     bedroom_wall_height = first_foor_height - floor_thickness/2;
     translate([-house_length/2 + bedroom1_length/2, 
         -house_width/2+ bedroom1_width/2, 
         floor_thickness/2 ]) 
     rotate([0,0,0]) 
-    bedroom(bedroom1_width/2-80, 1, 
+    bedroom(bedroom1_width/2-75, 1, 
         bedroom1_width, bedroom1_length, 
         wall_thickness, bedroom_wall_height, top_level_wall_color,
         top_level_wall_alpha, [1.0,0.7,0.7]);
@@ -162,15 +164,25 @@ if (show_roof) {
 }
 
 /* Stairs to upper level */
-stair_width = 110;
-stair_length = 420;
-stair_height = first_foor_height - floor_thickness/2;
-stair_n_steps = 16;
-translate([-100,
+/*stair_width = 110;
+stair_length = 410;
+stair_height = first_foor_height - floor_thickness/2 - 20;
+stair_n_steps = 14;
+translate([-50,
     house_width/2 + stair_width/2 + wall_thickness/2,
     floor_thickness/2]) 
-//rotate([0,0,180])
 longstairs(stair_length, stair_height, stair_width, stair_n_steps);
+*/
 
-    translate([-360,200,290]) cube([450, 10, 10], center=true);
-translate([-400,225,290]) cube([10, 310, 10], center=true);
+stair_width2 = 120;
+stair_length2 = 430;
+stair_height2 = first_foor_height - floor_thickness/2;
+stair_n_steps2 = 15;
+translate([-150,
+    house_width/2 - stair_width2/2 - 1.5*wall_thickness,
+    floor_thickness/2]) 
+rotate([0,0,180])
+longstairs2(stair_length2, stair_height2, stair_width2, stair_n_steps2);
+
+/*    translate([-360,200,290]) cube([450, 10, 10], center=true);
+translate([-400,225,290]) cube([10, 310, 10], center=true); */

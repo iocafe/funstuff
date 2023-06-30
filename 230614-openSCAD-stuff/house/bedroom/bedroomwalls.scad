@@ -1,7 +1,7 @@
 use <../doors/basicdoor.scad>
 use <../windows/slidingwindow.scad>
 
-module bedroomwalls(door_x = 0, bedroom_nr=2, width=350, length=400, wall_thickness=15, wall_height=260,wall_color=[255/255, 255/255, 255/255],wall_alpha=1.0, paint_the_room = [0.0, 0.3,0.9],
+module bedroomwalls(door_x = -30, bedroom_nr=1, width=360, length=400, wall_thickness=15, wall_height=260,wall_color=[255/255, 255/255, 255/255],wall_alpha=1.0, paint_the_room = [0.0, 0.3,0.9],
     window_y = 90, window_w = 80+5.3, window_h = 120+5.3)
 {
     // Door opening size. Then we need some extra space for the door frame.
@@ -16,7 +16,7 @@ module bedroomwalls(door_x = 0, bedroom_nr=2, width=350, length=400, wall_thickn
     window_2_x_pos = -window_1_x_pos;
     window_3_x_pos = bedroom_nr == 1 ? 90 : 55;
     window_4_x_pos = -window_3_x_pos;
-    window_5_x_pos = 100;
+    window_5_x_pos = 50;
     
     // Rise the part of floor which should stay dry by 2.5 cm.
     rise_floor = 2.5;
@@ -130,6 +130,18 @@ module bedroomwalls(door_x = 0, bedroom_nr=2, width=350, length=400, wall_thickn
             translate([length/2-wall_thickness/2, door_x, wall_height/2-door_y_pos])
             cube([wall_thickness+1, door_width, door_height],center=true);
         }
+        
+        /* Stair opening */
+        if (bedroom_nr==2) {
+            opening_x_pos = 95;
+            opening_h = 140;
+            opening_w = 130;
+            translate([length/2-wall_thickness/2, 
+                opening_x_pos, 
+                wall_height-opening_h/2 + 0.1])
+            color(wall_color)
+            cube([wall_thickness+1, opening_w, opening_h],center=true);
+        }
     }     
 
     /* Door */
@@ -137,7 +149,6 @@ module bedroomwalls(door_x = 0, bedroom_nr=2, width=350, length=400, wall_thickn
         translate([length/2-wall_thickness/2, door_x, wall_height/2-door_y_pos])
         rotate([0,0,90])
         basicdoor(door_width, door_height, wall_thickness, true, 30);
-        
     }
     difference() {
         union() {

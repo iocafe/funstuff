@@ -1,4 +1,4 @@
-module longstairs(length = 400, height = 260, width = 140, n_steps=14)
+module longstairs(length = 400, height = 260, width = 110, n_steps=14)
 {
     beam_width = 15;
     stair_thickness = 8;
@@ -64,15 +64,13 @@ module longstairs(length = 400, height = 260, width = 140, n_steps=14)
         cube ([l, beam_width, w*0.5], center=true);
         
         translate([(n_steps-1)*x_step/2+0.5*x_step + balcony_size/2,
-            extend_w/2, 
+            -extend_w/2, 
             (n_steps-1)*z_step+1.0*z_step - balcony_thickness/2 + stair_thickness])
         color(side_color, stair_alpha)
         cube ([balcony_size, width+beam_width+extend_w, balcony_thickness], center=true);
         
         bx_steps = 4;
         for (i = [0:bx_steps-1])
-             /*+ 0.5*x_step-extend_step/2 */
-             
         {
             x = x_step * i + length/2;
             translate([x+0.5*x_step, railing_pos, height+0.5*z_step-stair_thickness])
@@ -81,7 +79,7 @@ module longstairs(length = 400, height = 260, width = 140, n_steps=14)
         }
         
         
-        by_steps = 5;
+        by_steps = 4;
         for (i = [0:by_steps-1])
         {
             y = x_step * i - width/2 + extend_w;

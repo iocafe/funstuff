@@ -4,6 +4,7 @@ use <cubewall.scad>
 use <roof/houseroof.scad>
 use <roof/terraceroof.scad>
 use <toilet/toilet.scad>
+use <toilet/toilet2.scad>
 use <masterbedroom/masterbedroom.scad>
 use <bedroom/bedroom.scad>
 use <kitchen/kitchen.scad>
@@ -13,8 +14,12 @@ use <stairs/longstairs.scad>
 use <stairs/longstairs2.scad>
 use <stairs/stairbox.scad>
 
+/* Modify these true/false settings to view different levels of building, etc. */
 show_upper_level = true;
 show_roof = false;
+show_top_ceiling = false;
+all_opaque = true;
+roof_opaque = false;
 
 /* Generic house parameters */
 house_width = 800;
@@ -38,12 +43,12 @@ top_level_floor_color = [0.20, 0.15, 0.15];
 concrete_ceiling_color = [1.0,1.0,1.0];
 roof_color = [0.8,0.8,0.8];
 
-base_level_wall_alpha = 0.8;
-top_level_wall_alpha = 0.8;
-base_level_floor_alpha = 1.0;
-top_level_floor_alpha = 0.85;
-concrete_ceiling_alpha = 0.74;
-roof_alpha = 0.3;
+base_level_wall_alpha = all_opaque ? 1.0 : 0.8;
+top_level_wall_alpha = all_opaque ? 1.0 : 0.8;
+base_level_floor_alpha = all_opaque ? 1.0 : 1.0;
+top_level_floor_alpha = all_opaque ? 1.0 : 0.85;
+concrete_ceiling_alpha = all_opaque ? 1.0 : 0.74;
+roof_alpha = roof_opaque ? 1.0 : 0.3;
 
 color([120/255, 55/255, 55/255],1.0) 
 feet(house_width,house_length,feet_height,extend_feet_up);
@@ -171,7 +176,7 @@ if (show_upper_level) {
     upstairs_toilet_width = 280;
     upstairs_toilet_length = 200;
      translate([house_length/2 - topfloor_length/2+upstairs_toilet_width/2-wall_thickness, -house_width/2 + upstairs_toilet_length/2 
-    + topfloor_side_terrace_width, first_foor_height + floor_thickness/2]) rotate([0,0,270]) toilet(true, upstairs_toilet_width, upstairs_toilet_length, wall_thickness, 260, top_level_wall_color,top_level_wall_alpha) ;
+    + topfloor_side_terrace_width, first_foor_height + floor_thickness/2]) rotate([0,0,270]) toilet2(true, upstairs_toilet_width, upstairs_toilet_length, wall_thickness, 260, top_level_wall_color,top_level_wall_alpha) ;
 
     /* Upstairs pumproom */
     pumproom_width = house_length - topfloor_length 
@@ -196,7 +201,7 @@ if (show_upper_level) {
     }
     
     /* Upper level ceiling */
-    if (show_roof) {
+    if (show_roof || show_top_ceiling) {
         translate([topfloor_length/2
             - house_length/2 
             + topfloor_back_terrace_width/2, 

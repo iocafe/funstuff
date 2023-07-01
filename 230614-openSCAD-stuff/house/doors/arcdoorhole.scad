@@ -5,14 +5,14 @@ module arcdoorhole(door_width=300, door_height=260,wall_thickness=15, wall_color
     dx = door_width / 2; 
     
     intersection() {
-        color(wall_color,wall_alpha) 
+        color(wall_color, 1.0) 
         translate([0,0,door_height/2-0.1])
-        cube([door_width, wall_thickness+0.2, door_height],center=true);
+        cube([door_width, wall_thickness+1.2, door_height],center=true);
         
-        color(wall_color,wall_alpha)
+        color(wall_color, 1.0)
         translate([0,0, door_height - r])
         rotate([90,0,0]) 
-        cylinder(h=wall_thickness+0.2, r=r, center=true); 
+        cylinder(h=wall_thickness+1.2, r=r, center=true); 
     }
 }
 

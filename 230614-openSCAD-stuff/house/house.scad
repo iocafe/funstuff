@@ -13,7 +13,7 @@ use <stairs/longstairs.scad>
 use <stairs/longstairs2.scad>
 
 show_upper_level = true;
-show_roof = true;
+show_roof = false;
 
 // House bottom floor with legs 
 house_width = 800;
@@ -95,9 +95,30 @@ feet(house_width,house_length,feet_height,extend_feet_up);
     
     /*  Top level floor */
     if (show_upper_level) {
-        color(top_level_floor_color,top_level_floor_alpha)
-            translate([0, 0, first_foor_height]) 
-            basefloor(house_width-0.2, house_length-0.2,floor_thickness); 
+        stair_hole_width = 130;
+        stair_hole_length = 400;
+        stair_hole_dx = -200;
+        stair_hole_dy = house_width/2 
+            - stair_hole_width/2
+            - wall_thickness;
+        
+        difference() {
+            translate([0, 0, first_foor_height])
+            color(top_level_floor_color,
+                top_level_floor_alpha)
+            basefloor(house_width - 0.2, 
+                house_length - 0.2,
+                floor_thickness); 
+            
+            translate([stair_hole_dx, 
+                stair_hole_dy, 
+                first_foor_height])
+            color(top_level_floor_color,
+                top_level_floor_alpha)       
+            cube([stair_hole_length,
+                stair_hole_width, 
+                floor_thickness+1], center=true);
+        }
     }
 
 /* Upper level */

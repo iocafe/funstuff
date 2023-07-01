@@ -11,11 +11,12 @@ use <terrace/terrace.scad>
 use <storage/pumproom.scad>
 use <stairs/longstairs.scad>
 use <stairs/longstairs2.scad>
+use <stairs/stairbox.scad>
 
 show_upper_level = true;
 show_roof = false;
 
-// House bottom floor with legs 
+/* Generic house parameters */
 house_width = 800;
 house_length = 1200;
 floor_thickness=20;
@@ -33,15 +34,14 @@ window_h = 140;
 base_level_wall_color = [255/255, 255/255, 255/255];
 top_level_wall_color = [255/255, 255/255, 255/255];
 base_level_floor_color = [0.20, 0.15, 0.15];
-// base_level_floor_color = [0.85, 0.85, 0.85];
-top_level_floor_color = [0.30, 0.10, 0.10];
+top_level_floor_color = [0.20, 0.15, 0.15];
 concrete_ceiling_color = [1.0,1.0,1.0];
 roof_color = [0.8,0.8,0.8];
 
 base_level_wall_alpha = 0.8;
 top_level_wall_alpha = 0.8;
 base_level_floor_alpha = 1.0;
-top_level_floor_alpha = 0.7;
+top_level_floor_alpha = 0.85;
 concrete_ceiling_alpha = 0.74;
 roof_alpha = 0.3;
 
@@ -93,14 +93,14 @@ feet(house_width,house_length,feet_height,extend_feet_up);
         front_wall_len, back_wall_len + wall_thickness, 
         wall_thickness, bedroom_wall_height, top_level_wall_color, top_level_wall_alpha, [0.9,0.3,0.3]);
     
-    /*  Top level floor */
+    /*  Top level floor and stair box */
     if (show_upper_level) {
-        stair_hole_width = 130;
-        stair_hole_length = 400;
-        stair_hole_dx = -200;
+        stair_hole_width = 140;
+        stair_hole_length = 370;
+        stair_hole_dx = -295;
         stair_hole_dy = house_width/2 
-            - stair_hole_width/2
-            - wall_thickness;
+            - stair_hole_width/2;
+            // - wall_thickness;
         
         difference() {
             translate([0, 0, first_foor_height])
@@ -110,6 +110,7 @@ feet(house_width,house_length,feet_height,extend_feet_up);
                 house_length - 0.2,
                 floor_thickness); 
             
+            /* Hole in floor for stairs */
             translate([stair_hole_dx, 
                 stair_hole_dy, 
                 first_foor_height])
@@ -119,6 +120,29 @@ feet(house_width,house_length,feet_height,extend_feet_up);
                 stair_hole_width, 
                 floor_thickness+1], center=true);
         }
+
+        /* Stair box */
+        translate([stair_hole_dx + wall_thickness/2,
+            stair_hole_dy - wall_thickness/2,
+            first_foor_height])
+        stairbox(stair_hole_width + wall_thickness,
+            stair_hole_length + wall_thickness,
+            wall_thickness, 
+            upper_level_height,
+            top_level_wall_color,
+            top_level_wall_alpha);
+        
+        /* Stairs to attick */
+        stair_width = 100;
+        stair_length = 400;
+        stair_height = upper_level_height 
+            - floor_thickness/2 - 20;
+        stair_n_steps = 13;
+        translate([-house_length/2 + stair_width/2 + wall_thickness, 
+            stair_length/2 - 120,
+            first_foor_height  + floor_thickness/2]) 
+            rotate([0,0,-90])
+        longstairs(stair_length, stair_height, stair_width, stair_n_steps);
     }
 
 /* Upper level */
@@ -136,7 +160,7 @@ if (show_upper_level) {
         wall_thickness, upper_level_height,
         top_level_wall_color, top_level_wall_alpha);
 
-    /* Upper floor balcony railing */
+    /* Upper level balcony railing */
     /* color([255/255, 255/255, 255/255],0.8) translate([topfloor_length/2,0,first_foor_height]) cubewall(house_width, house_length-topfloor_length, wall_thickness, 100); */ 
     color([255/255, 255/255, 255/255],0.8) 
     translate([0,0,first_foor_height]) 
@@ -167,6 +191,7 @@ if (show_upper_level) {
         color(roof_color, roof_alpha)
         translate([0,0,
             first_foor_height + upper_level_height])
+        rotate([0,0,180])
         houseroof(house_width, house_length);
     }
     
@@ -236,17 +261,7 @@ if (show_roof) {
             house_width + terrace_width - 300);
     }
 
-/* Stairs to upper level */
-/*stair_width = 110;
-stair_length = 410;
-stair_height = first_foor_height - floor_thickness/2 - 20;
-stair_n_steps = 14;
-translate([-50,
-    house_width/2 + stair_width/2 + wall_thickness/2,
-    floor_thickness/2]) 
-longstairs(stair_length, stair_height, stair_width, stair_n_steps);
-*/
-
+    /* Stairs to upper level */
     stair_width2 = 120;
     stair_length2 = 430;
     stair_height2 = first_foor_height - floor_thickness/2;

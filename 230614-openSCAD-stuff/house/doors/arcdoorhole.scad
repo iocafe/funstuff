@@ -1,4 +1,4 @@
-module kitchendoor(door_width=300, door_height=260,wall_thickness=15, wall_color=[0,0,1],wall_alpha=0.3)
+module arcdoorhole(door_width=300, door_height=260,wall_thickness=15, wall_color=[0,0,1],wall_alpha=0.3)
 {
     $fn = 50;
     r = 1.4 * door_width;
@@ -17,4 +17,4 @@ module kitchendoor(door_width=300, door_height=260,wall_thickness=15, wall_color
 }
 
 // For testing
-kitchendoor();
+arcdoorhole();

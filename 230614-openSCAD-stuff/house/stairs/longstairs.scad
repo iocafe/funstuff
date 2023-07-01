@@ -11,7 +11,7 @@ module longstairs(length = 400, height = 260, width = 140, n_steps=14)
     balcony_thickness = beam_width + stair_thickness;
     railing_height = 100;
     railing_bar_radius = 1.3;
-    railing_pos = width/2 + 6;
+    railing_pos = -width/2 - 6;
     railing_w = 12;
     railing_thickness = 6;
     
@@ -20,11 +20,8 @@ module longstairs(length = 400, height = 260, width = 140, n_steps=14)
     railing_bar_color = [0,0,0];
     railing_color = [0.3,0.1,0.1];
     stair_alpha = 1.0;
-    
-    
-    
+       
     union() {
-            
         for (i = [0:n_steps-1])
         {
             x = x_step * i - length/2; 
@@ -43,7 +40,7 @@ module longstairs(length = 400, height = 260, width = 140, n_steps=14)
             cylinder(h = railing_height, r = railing_bar_radius);
             
             translate([x+0.5*x_step-extend_step/2, 
-                +extend_w/2, 
+                -extend_w/2, 
                 z+1.0*z_step + stair_thickness/2])
             color(stair_color, stair_alpha)
             cube ([x_step+extend_step, 
@@ -109,10 +106,10 @@ module longstairs(length = 400, height = 260, width = 140, n_steps=14)
         cube ([bx_steps * x_step + railing_w, railing_w, railing_thickness], center=true);
         
         translate([(bx_steps-0.5)*x_step + length/2,
-            -width/2+railing_pos+railing_w/3-extend_w,
+            width/2+railing_pos-railing_w/3+extend_w,
             railing_height + height])
         color(railing_color)
-        cube ([railing_w, (by_steps+0.5)*x_step, railing_thickness], center=true);
+        cube ([railing_w, (by_steps+0.5)*x_step, railing_thickness], center=true); 
     }
 }
 

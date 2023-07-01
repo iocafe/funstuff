@@ -1,4 +1,4 @@
-use <kitchendoor.scad> 
+use <../doors/arcdoorhole.scad> 
 use <../windows/slidingwindow.scad>
 
 module kitchenwalls(width=800, length=800, front_wall_len = 800, back_wall_len = 500, wall_thickness=15, wall_height=260,wall_color=[255/255, 255/255, 255/255],wall_alpha=1.0, paint_the_room = [0.9, 0.3,0.9],
@@ -80,7 +80,7 @@ module kitchenwalls(width=800, length=800, front_wall_len = 800, back_wall_len =
         // Arc door hole 
         translate([door_x_pos,
             width/2 - wall_thickness/2, 0.2]) 
-        kitchendoor(door_width, door_height, wall_thickness, wall_color,wall_alpha);
+        arcdoorhole(door_width, door_height, wall_thickness, wall_color,wall_alpha);
         
         /* Window 1 hole */
         translate([window_1_x_pos, width/2 - wall_thickness/2,
@@ -123,7 +123,7 @@ module kitchenwalls(width=800, length=800, front_wall_len = 800, back_wall_len =
         translate([length/2-wall_thickness/2, 
             arc_window_x_pos, door_height - arc_window_height])
         rotate([0,0,90])
-        kitchendoor(arc_window_width, arc_window_height, wall_thickness, wall_color,wall_alpha);
+        arcdoorhole(arc_window_width, arc_window_height, wall_thickness, wall_color,wall_alpha);
         
         /* Window 3 hole */
         translate([length/2-wall_thickness/2, 

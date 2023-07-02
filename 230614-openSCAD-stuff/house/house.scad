@@ -166,11 +166,10 @@ if (show_upper_level) {
         top_level_wall_color, top_level_wall_alpha);
 
     /* Upper level balcony railing */
-    /* color([255/255, 255/255, 255/255],0.8) translate([topfloor_length/2,0,first_foor_height]) cubewall(house_width, house_length-topfloor_length, wall_thickness, 100); */ 
     color([255/255, 255/255, 255/255],0.8) 
     translate([0,0,first_foor_height]) 
     cubewall(house_width, house_length,
-        wall_thickness, 100); 
+        wall_thickness, 94); 
     
     /* Upstairs toilet */
     upstairs_toilet_width = 280;
@@ -191,28 +190,28 @@ if (show_upper_level) {
         + topfloor_side_terrace_width, first_foor_height +floor_thickness/2]) rotate([0,0,270]) pumproom(pumproom_width, pumproom_length, wall_thickness, 260, top_level_wall_color,top_level_wall_alpha);
 }
 
-    /* House roof */
-    if (show_roof) {
-        color(roof_color, roof_alpha)
-        translate([0,0,
-            first_foor_height + upper_level_height])
-        rotate([0,0,180])
-        houseroof(house_width, house_length);
-    }
-    
-    /* Upper level ceiling */
-    if (show_roof || show_top_ceiling) {
-        translate([topfloor_length/2
-            - house_length/2 
-            + topfloor_back_terrace_width/2, 
-            topfloor_side_terrace_width/2, 
-            first_foor_height
-            + upper_level_height]) 
-        color(concrete_ceiling_color, concrete_ceiling_alpha) 
-        basefloor(house_width - topfloor_side_terrace_width,
-            topfloor_length - topfloor_back_terrace_width,
-            floor_thickness); 
-    }
+/* House roof */
+if (show_roof) {
+    color(roof_color, roof_alpha)
+    translate([0,0,
+        first_foor_height + upper_level_height])
+    rotate([0,0,180])
+    houseroof(house_width, house_length);
+}
+
+/* Upper level ceiling */
+if (show_roof || show_top_ceiling) {
+    translate([topfloor_length/2
+        - house_length/2 
+        + topfloor_back_terrace_width/2, 
+        topfloor_side_terrace_width/2, 
+        first_foor_height
+        + upper_level_height]) 
+    color(concrete_ceiling_color, concrete_ceiling_alpha) 
+    basefloor(house_width - topfloor_side_terrace_width,
+        topfloor_length - topfloor_back_terrace_width,
+        floor_thickness); 
+}
 
 /* Terrace floor with legs */
 terrace_width = 400;
@@ -220,23 +219,50 @@ terrace_length = 1200;
 terrace_fence_height = 100;
 terrace_height = 300;
 terrace_pos = house_width/2+terrace_width/2 - 1.0*wall_thickness;
-translate([0, terrace_pos, 0]) {color([120/255, 55/255, 55/255],1.0) feet(terrace_width,terrace_length,feet_height, terrace_height);
+translate([0, terrace_pos, 0]) 
+{
+    color([120/255, 55/255, 55/255],1.0) 
+    feet(terrace_width,terrace_length,feet_height, terrace_height);
     
-// Terrace floor
-color(base_level_floor_color,base_level_floor_alpha)  basefloor(terrace_width, terrace_length,floor_thickness);} 
+    // Terrace floor
+    color(base_level_floor_color,base_level_floor_alpha) 
+    basefloor(terrace_width, terrace_length, floor_thickness);
+} 
 
-// Terrace toilet
+/* Terrace toilet */
 terrace_toilet_width = 250;
 terrace_toilet_length = 200;
-translate([-house_length/2+terrace_toilet_length/2, house_width/2+terrace_width/2 + (terrace_width-terrace_toilet_width-2*wall_thickness)/2, floor_thickness/2]) rotate([0,0,180]) toilet(false, terrace_toilet_width, terrace_toilet_length, wall_thickness, 260, base_level_wall_color,base_level_wall_alpha);
+translate([-house_length/2+terrace_toilet_length/2, 
+   house_width/2 + terrace_width/2 
+   + (terrace_width - terrace_toilet_width - 2*wall_thickness)/2, 
+   floor_thickness/2]) 
+rotate([0,0,180]) 
+toilet(false, 
+   terrace_toilet_width, 
+   terrace_toilet_length, 
+   wall_thickness, 260, 
+   base_level_wall_color,
+   base_level_wall_alpha);
 
-// Terrace storage room
+/* Terrace storage room */
 storageroom_width = terrace_width - terrace_toilet_width + wall_thickness;
 storageroom_length = terrace_toilet_length;
-translate([-house_length/2 + storageroom_length/2, terrace_pos - storageroom_width/2 - 2.5*wall_thickness, floor_thickness/2]) rotate([0,0,180]) pumproom(storageroom_width, storageroom_length, wall_thickness, 260, base_level_wall_color,base_level_wall_alpha);
+translate([-house_length/2 + storageroom_length/2, 
+    terrace_pos - storageroom_width/2 - 2.5*wall_thickness, 
+    floor_thickness/2]) 
+rotate([0,0,180]) 
+pumproom(storageroom_width, storageroom_length, 
+    wall_thickness, 260, 
+    base_level_wall_color, base_level_wall_alpha);
 
 /* Terrace */
-translate([terrace_toilet_length/2, terrace_pos, 0]) terrace(terrace_width, terrace_length - terrace_toilet_length, wall_thickness, terrace_fence_height, base_level_wall_color, base_level_wall_alpha);
+translate([terrace_toilet_length/2, 
+    terrace_pos, 
+    floor_thickness/2]) 
+terrace(terrace_width, 
+    terrace_length - terrace_toilet_length, 
+    wall_thickness, terrace_fence_height, 
+    base_level_wall_color, base_level_wall_alpha);
 
 /* Terrace roof */
 if (show_roof) {

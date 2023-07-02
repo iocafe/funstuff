@@ -1,5 +1,5 @@
 
-module basicdoor(width=95.3, height=213.2, wall_thickness=15, right_handed = true, open_angle = 0) 
+module basicdoor(width=95.3, height=213.2, wall_thickness=15, right_handed = false, open_angle = 30) 
 {
     profile_width = 12;
     door_thickness = 4.0;
@@ -44,7 +44,7 @@ module basicdoor(width=95.3, height=213.2, wall_thickness=15, right_handed = tru
         cube([profile_width, door_thickness, l], center=true);
          
          /* Door knob */
-         translate([open_w/2 - 6.0, 0, 0])
+         translate([right_handed ? open_w/2 - 6.0 : -open_w/2 + 6.0, 0, 0])
          color([218/255,172/255,96/255])
          doorknob(door_thickness);
     }

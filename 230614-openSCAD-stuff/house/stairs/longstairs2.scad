@@ -10,7 +10,7 @@ module longstairs2(length = 400, height = 260, width = 140, n_steps=14)
     extend_step = 5;
     balcony_size = 106;
     balcony_thickness = beam_width + stair_thickness;
-    railing_height = 100;
+    railing_height = 94;
     railing_bar_radius = 1.3;
     railing_pos = width/2 + 6;
     railing_w = 12;

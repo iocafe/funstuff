@@ -31,6 +31,11 @@ module masterbedroomwalls(width=450, length=400, wall_thickness=15, wall_height=
     arc_window_height = 153;
     arc_window_x_pos = -150;
     
+    /* Sliding door to swimming pool terrace */
+    sliding_door_width = 240;
+    sliding_door_height = 210;
+    sliding_door_x_pos = -50;
+    
     difference() {
         union() {
             translate([0,-width/2+wall_thickness/2, wall_height/2]) 
@@ -42,8 +47,11 @@ module masterbedroomwalls(width=450, length=400, wall_thickness=15, wall_height=
             cube([length, 0.1, wall_height],center=true);
         }
     
-        // Door 
-            translate([side_door_x_pos,-width/2+wall_thickness/2, wall_height/2-door_y_pos]) cube([door_width, wall_thickness+1, door_height],center=true);
+        /*
+        translate([side_door_x_pos,
+            -width/2+wall_thickness/2, 
+            wall_height/2 - door_y_pos]) 
+        cube([door_width, wall_thickness+1, door_height],center=true); */
     }
 
     difference() {
@@ -70,8 +78,15 @@ module masterbedroomwalls(width=450, length=400, wall_thickness=15, wall_height=
     
     difference() {
         union() {
-            translate([length/2-wall_thickness/2, 0, wall_height/2]) color(wall_color,wall_alpha) cube([wall_thickness, width, wall_height],center=true);
-            translate([length/2-wall_thickness, 0, wall_height/2]) color(paint_the_room,wall_alpha) cube([0.1, width, wall_height],center=true);
+            translate([length/2 - wall_thickness/2,
+                0, wall_height/2]) 
+            color(wall_color,wall_alpha) 
+            cube([wall_thickness, width, wall_height],center=true);
+            
+            translate([length/2 - wall_thickness, 
+                0, wall_height/2]) 
+            color(paint_the_room,wall_alpha) 
+            cube([0.1, width, wall_height],center=true);
         }
         
         /* Door 2 hole */
@@ -82,6 +97,16 @@ module masterbedroomwalls(width=450, length=400, wall_thickness=15, wall_height=
         cube([wall_thickness+1, 
             door_width, door_height], 
             center=true);
+      
+        /* Hole for sliding door */
+        translate([length/2 - wall_thickness/2, 
+            sliding_door_x_pos, 
+            wall_height/2 - door_y_pos])
+        color(wall_color, wall_alpha)
+        cube([wall_thickness+1, 
+            sliding_door_width, sliding_door_height], 
+            center=true);
+        
     }     
     
     /* Door 2 */
@@ -90,6 +115,14 @@ module masterbedroomwalls(width=450, length=400, wall_thickness=15, wall_height=
         wall_height/2 - door_y_pos]) 
     rotate([0,0,-90])
     basicdoor(door_width, door_height, wall_thickness, false, 45);   
+
+    /* Sliding door */
+    translate([length/2 - wall_thickness/2,
+        sliding_door_x_pos, 
+        wall_height/2 /* - sliding_door_y_pos] */]) 
+    rotate([0,0,-90])
+    slidingdoor(sliding_door_width, sliding_door_height, wall_thickness); 
+
 
     difference() {
         union() {

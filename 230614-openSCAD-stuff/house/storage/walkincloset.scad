@@ -9,10 +9,9 @@ module walkincloset(width=330, length=60, wall_thickness=15, wall_height=260,wal
     /* Position the door so that bottom of opening is 5 cm above floor level */
     door_y_pos = (wall_height-door_height)/2 - 5;
     
-    /* Position the doors horizontally off the center. */
-    door_x_pos = 5;
-    door2_x_pos = -120;
-
+    /* Position the door horizontally off the center. */
+    door_x_pos = 30;
+    
     difference() {
          /* Wall */
         translate([0, -width/2 
@@ -32,15 +31,15 @@ module walkincloset(width=330, length=60, wall_thickness=15, wall_height=260,wal
     
        /* Door hole  */
         translate([length/2-wall_thickness/2, 
-            door2_x_pos,
+            door_x_pos,
             wall_height/2 - door_y_pos]) 
         color(wall_color, wall_alpha)
         cube([wall_thickness+1, door_width, door_height], center=true);
     }
     
-        /* Door 2 */
+    /* Door */
     translate([length/2-wall_thickness/2, 
-            door2_x_pos,
+            door_x_pos,
             wall_height/2 - door_y_pos]) 
     rotate([0,0,90])
         basicdoor(door_width, door_height, wall_thickness, true, 45);

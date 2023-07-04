@@ -7,8 +7,8 @@ module slidingdoor(width=240, height=210, wall_thickness=15)
     frame_profile_width = 4;
     frame_profile_depth = wall_thickness;
     
-    translate([0, 
-        -(frame_profile_depth-door_thickness)/2, height/2])
+    //translate([0, 
+    //    -(frame_profile_depth-door_thickness)/2, height/2])
     union() {
              
         /* Outer frame fixed to concrete wall. */

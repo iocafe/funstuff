@@ -16,7 +16,7 @@ module toilet2(is_upper_level=true, width=250, length=200, wall_thickness=15, wa
     door_y_pos = (wall_height-door_height)/2 - 5;
         
     // Position the door horizontally off the center.
-    door_x_pos = -width/5;
+    door_x_pos = is_upper_level ? width/5 : -width/5;
     side_door_x_pos = -width/10;
 
     /* Position the window */
@@ -101,11 +101,11 @@ module toilet2(is_upper_level=true, width=250, length=200, wall_thickness=15, wa
         }
 
         /* Door hole */
-        if (!is_upper_level) {
+        // if (!is_upper_level) {
            translate([-length/2+wall_thickness/2, 
                 door_x_pos, wall_height/2-door_y_pos])
            cube([wall_thickness+1, door_width, door_height],center=true);
-        }
+        //}
 
         /* n_holes2 = 7;
         for (x = [0: n_holes2-1]) {
@@ -120,11 +120,11 @@ module toilet2(is_upper_level=true, width=250, length=200, wall_thickness=15, wa
     }
 
     /* Door */
-    if (!is_upper_level) {
+    //if (!is_upper_level) {
         translate([-length/2+wall_thickness/2, door_x_pos, wall_height/2-door_y_pos])
         rotate([0,0,-90])
-        basicdoor(door_width, door_height, wall_thickness, true, 45);
-    }
+        basicdoor(door_width, door_height, wall_thickness, false, 45);
+    //}
 
     translate([0, -(width-rised_width)/2, rise_floor/2]) cube([length, rised_width, rise_floor],center=true);
     

@@ -1,4 +1,5 @@
 use <../doors/basicdoor.scad>
+use <../doors/slidingdoor.scad>
 use <../doors/arcdoorhole.scad> 
 
 module masterbedroomwalls(width=450, length=400, wall_thickness=15, wall_height=260,wall_color=[255/255, 255/255, 255/255],wall_alpha=1.0)

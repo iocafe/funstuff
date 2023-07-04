@@ -14,8 +14,11 @@ use <stairs/longstairs.scad>
 use <stairs/longstairs2.scad>
 use <stairs/stairbox.scad>
 
+module house()
+{
+
 /* Modify these true/false settings to view different levels of building, etc. */
-show_upper_level = true;
+show_upper_level = false;
 show_roof = false;
 show_top_ceiling = false;
 all_opaque = true;
@@ -305,3 +308,6 @@ if (show_roof) {
 
 /*    translate([-360,200,290]) cube([450, 10, 10], center=true);
 translate([-400,225,290]) cube([10, 310, 10], center=true); */
+}
+
+house();

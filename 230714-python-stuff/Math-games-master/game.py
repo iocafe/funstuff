@@ -4,8 +4,8 @@
 import pygame, random
 from menu import Menu
 
-SCREEN_WIDTH = 640
-SCREEN_HEIGHT = 480
+SCREEN_WIDTH = 1024
+SCREEN_HEIGHT = 768
 
 # Colors
 BLACK = (0,0,0)
@@ -45,6 +45,8 @@ class Game(object):
         # load sounds effects
         self.sound_1 = pygame.mixer.Sound("item1.ogg")
         self.sound_2 = pygame.mixer.Sound("item2.ogg")
+
+        self.explosion = Explosion()                    
 
     def get_button_list(self):
         """ Return a list with four buttons """
@@ -123,8 +125,8 @@ class Game(object):
 
     def addition(self):
         """ These will set num1,num2,result for addition """
-        a = random.randint(0,100)
-        b = random.randint(0,100)
+        a = random.randint(0,30)
+        b = random.randint(0,20)
         self.problem["num1"] = a
         self.problem["num2"] = b
         self.problem["result"] = a + b
@@ -132,8 +134,8 @@ class Game(object):
 
     def subtraction(self):
         """ These will set num1,num2,result for subtraction """
-        a = random.randint(0,100)
-        b = random.randint(0,100)
+        a = random.randint(0,60)
+        b = random.randint(0,60)
         if a > b:
             self.problem["num1"] = a
             self.problem["num2"] = b
@@ -171,10 +173,12 @@ class Game(object):
                 if button.get_number() == self.problem["result"]:
                     # set color to green when correct
                     button.set_color(GREEN)
+
                     # increase score
                     self.score += 5
                     # Play sound effect
                     self.sound_1.play()
+                    self.explosion.trigger(button.getCenter())
                 else:
                     # set color to red when incorrect
                     button.set_color(RED)
@@ -280,8 +284,8 @@ class Game(object):
             time_wait = True
         else:
             # Create labels for the each number
-            label_1 = self.font.render(str(self.problem["num1"]),True,BLACK)
-            label_2 = self.font.render(str(self.problem["num2"])+" = ?",True,BLACK)
+            label_1 = self.font.render(str(self.problem["num1"]),True,WHITE)
+            label_2 = self.font.render(str(self.problem["num2"])+" = ?",True,WHITE)
             # t_w: total width
             t_w = label_1.get_width() + label_2.get_width() + 64 # 64: length of symbol
             posX = (SCREEN_WIDTH / 2) - (t_w / 2) 
@@ -296,6 +300,8 @@ class Game(object):
             # display the score
             score_label = self.score_font.render("Score: "+str(self.score),True,BLACK)
             screen.blit(score_label,(10,10))
+
+            self.explosion.draw(screen)
             
         # --- Go ahead and update the screen with what we've drawn
         pygame.display.flip()
@@ -328,7 +334,7 @@ class Button(object):
         self.number = number
         self.background_color = WHITE
 
-    def updatePos(self):
+    def update_pos(self):
         if (self.dx > 0):
             self.vx = self.vx - 1 
         else:
@@ -342,8 +348,16 @@ class Button(object):
         self.dy = self.dy + self.vy 
         self.rect = pygame.Rect(self.x+self.dx,self.y+self.dy,self.width,self.height)
          
+    def getCenter(self):
+        width = self.text.get_width() 
+        height = self.text.get_height()
+        # Calculate the posX and posY
+        posX = self.rect.centerx - (width / 2)
+        posY = self.rect.centery - (height / 2)
+        return (posX, posY)
+    
     def draw(self,screen):
-        self.updatePos()
+        self.update_pos()
 
         """ This method will draw the button to the screen """
         # First fill the screen with the background color
@@ -351,13 +365,14 @@ class Button(object):
         # Draw the edges of the button
         pygame.draw.rect(screen,BLACK,self.rect,3)
         # Get the width and height of the text surface
-        width = self.text.get_width() 
-        height = self.text.get_height()
+        # width = self.text.get_width() 
+        # height = self.text.get_height()
         # Calculate the posX and posY
-        posX = self.rect.centerx - (width / 2)
-        posY = self.rect.centery - (height / 2)
+        # posX = self.rect.centerx - (width / 2)
+        # posY = self.rect.centery - (height / 2)
         # Draw the image into the screen
-        screen.blit(self.text,(posX,posY))
+        # screen.blit(self.text,(posX,posY))
+        screen.blit(self.text, self.getCenter());
 
     def isPressed(self):
         """ Return true if the mouse is on the button """
@@ -374,3 +389,45 @@ class Button(object):
     def get_number(self):
         """ Return the number of the button."""
         return self.number
+
+
+class Explosion(object):
+    def __init__(self):
+        self.step = 0
+        # self.number = number
+        # self.background_color = WHITE
+        self.explosionImg = pygame.image.load('explosion.png')
+        self.start_step = 8
+
+    def trigger(self, pos):
+        self.x = pos[0]
+        self.y = pos[1]
+        self.step = self.start_step
+        self.size = 0.2
+        self.angle = random.randint(0,359)
+
+    # self.rect = pygame.Rect(self.x+self.dx,self.y+self.dy,self.width,self.height) 
+    def updateSize(self):
+        self.size = 1.8 * self.size
+         
+    def draw(self,screen):
+        # Show explosion until step is zero and decrement step
+        if (self.step == 0):
+            return
+        self.step = self.step - 1
+        if (self.step + 1 == self.start_step):
+            return
+        
+        scaledImg = pygame.transform.rotozoom(self.explosionImg, self.angle, self.size)
+            
+        # Get the width and height of the text surface
+        width = scaledImg.get_width() 
+        height = scaledImg.get_height()
+        # Calculate the posX and posY
+        posX = self.x - (width / 2) 
+        posY =  self.y - (height / 2)
+        # Draw the image into the screen
+        screen.blit(scaledImg,(posX,posY))
+        # screen.blit(self.explosionImg,(posX,posY))
+
+        self.updateSize()

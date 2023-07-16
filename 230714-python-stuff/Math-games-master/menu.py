@@ -3,8 +3,8 @@
 
 import pygame
 
-SCREEN_WIDTH = 640
-SCREEN_HEIGHT = 480
+SCREEN_WIDTH = 1024
+SCREEN_HEIGHT = 768
 
 class Menu(object):
     state = -1

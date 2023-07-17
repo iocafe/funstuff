@@ -283,6 +283,8 @@ class Game(object):
             # set time_wait True to wait 3 seconds
             time_wait = True
         else:
+            self.draw_visialization(screen)
+
             # Create labels for the each number
             label_1 = self.font.render(str(self.problem["num1"]),True,WHITE)
             label_2 = self.font.render(str(self.problem["num2"])+" = ?",True,WHITE)
@@ -309,7 +311,7 @@ class Game(object):
         # --- what we have drawn before it change to another frame
         if self.reset_problem:
             # wait 1 second
-            pygame.time.wait(1000)
+            pygame.time.wait(100)
             self.set_problem()
             # Increase count by 1
             self.count += 1
@@ -317,6 +319,75 @@ class Game(object):
         elif time_wait:
             # wait three seconds
             pygame.time.wait(3000)
+
+    def draw_visialization(self,screen):
+        if self.operation == "multiplication":
+            self.draw_multiplication_visialization(screen)
+
+        if self.operation == "addition":
+            self.draw_addition_visialization(screen)
+
+    def draw_multiplication_visialization(self,screen):
+
+        w = self.problem["num1"]
+        h = self.problem["num2"]
+        square_w = 64
+        square_h = square_w
+        wx = square_w * w
+        wy = square_h * h
+        if wx > SCREEN_WIDTH - 30:
+            square_w = int((SCREEN_WIDTH - 30) / w)
+            wx = square_w * w
+        if wy > SCREEN_HEIGHT - 100:
+            square_h = int((SCREEN_HEIGHT - 100) / h)
+            wy = square_h * h
+
+        x1 = SCREEN_WIDTH/2 - wx/2
+        y1 = SCREEN_HEIGHT/2 - wy/2 + 50
+        x2 = x1 + wx
+        y2 = y1 + wy
+
+        for y in range(0, h+1):
+            yy = y * square_h + y1
+            pygame.draw.line(screen, (255, 0, 0), (x1, yy), (x2, yy))
+
+        for x in range(0, w+1):
+            xx = x * square_w + x1
+            pygame.draw.line(screen, (255, 0, 0), (xx, y1), (xx, y2))
+
+    def draw_addition_visialization(self,screen):
+
+        n1 = self.problem["num1"]
+        n2 = self.problem["num2"]
+        result = n1 + n2
+        w = 10
+        h = int((result+w-1)/w)
+        square_w = 64
+        square_h = square_w
+        wx = square_w * w
+        wy = square_h * h
+        if wx > SCREEN_WIDTH - 30:
+            square_w = int((SCREEN_WIDTH - 30) / w)
+            wx = square_w * w
+        if wy > SCREEN_HEIGHT - 100:
+            square_h = int((SCREEN_HEIGHT - 100) / h)
+            wy = square_h * h
+
+        x1 = int(SCREEN_WIDTH/2 - wx/2)
+        y1 = int(SCREEN_HEIGHT/2 - wy/2 + 50)
+        
+        for i in range(0, result):
+            y = int(i/w)
+            x = i - y * w
+            xx = x * square_w + x1
+
+            yy = y * square_h + y1
+            r = pygame.Rect(xx, yy, square_w, square_h)
+            c = (0, 64, 255)
+            if i>=n1:
+                c = (255, 0, 0)
+            pygame.draw.rect(screen, c, r, 2)
+
 
 class Button(object):
     def __init__(self,x,y,width,height,number):
@@ -364,14 +435,7 @@ class Button(object):
         pygame.draw.rect(screen,self.background_color,self.rect)
         # Draw the edges of the button
         pygame.draw.rect(screen,BLACK,self.rect,3)
-        # Get the width and height of the text surface
-        # width = self.text.get_width() 
-        # height = self.text.get_height()
-        # Calculate the posX and posY
-        # posX = self.rect.centerx - (width / 2)
-        # posY = self.rect.centery - (height / 2)
-        # Draw the image into the screen
-        # screen.blit(self.text,(posX,posY))
+
         screen.blit(self.text, self.getCenter());
 
     def isPressed(self):

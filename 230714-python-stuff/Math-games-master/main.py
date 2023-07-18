@@ -13,7 +13,7 @@ def main():
     # Set the width and height of the screen [width, height]
     screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
     # Set the current window caption
-    pygame.display.set_caption("Math Games")
+    pygame.display.set_caption("TacDogMathematics")
     #Loop until the user clicks the close button.
     done = False
     # Used to manage how fast the screen updates

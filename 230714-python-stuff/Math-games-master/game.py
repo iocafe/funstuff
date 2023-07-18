@@ -12,6 +12,7 @@ BLACK = (0,0,0)
 WHITE = (255,255,255)
 GREEN = (0,255,0)
 RED = (255,0,0)
+ORANGE = (255, 128, 0)
 
 class Game(object):
     def __init__(self):
@@ -54,8 +55,8 @@ class Game(object):
         # assign one of the buttons with the right answer
         choice = random.randint(1,4)
         # define the width and height
-        width = 100
-        height = 100
+        width = 128
+        height = 128
         # t_w: total width
         t_w = width * 2 + 50
         posX = (SCREEN_WIDTH / 2) - (t_w /2)
@@ -102,16 +103,25 @@ class Game(object):
     def get_symbols(self):
         """ Return a dictionary with all the operation symbols """
         symbols = {}
-        sprite_sheet = pygame.image.load("symbols.png").convert()
+        """sprite_sheet = pygame.image.load("symbols.png").convert()
         image = self.get_image(sprite_sheet,0,0,64,64)
         symbols["addition"] = image
         image = self.get_image(sprite_sheet,64,0,64,64)
         symbols["subtraction"] = image
-        image = self.get_image(sprite_sheet,128,0,64,64)
-        symbols["multiplication"] = image
+        #image = self.get_image(sprite_sheet,128,0,64,64)
+        #symbols["multiplication"] = image
         image = self.get_image(sprite_sheet,192,0,64,64)
+        symbols["division"] = image """
+
+        image = self.font.render("+",True, ORANGE)
+        symbols["addition"] = image
+        image = self.font.render("-",True, ORANGE)
+        symbols["subtraction"] = image
+        image = self.font.render("x",True, ORANGE)
+        symbols["multiplication"] = image
+        image = self.font.render("/",True, ORANGE)
         symbols["division"] = image
-        
+
         return symbols
 
     def get_image(self,sprite_sheet,x,y,width,height):
@@ -286,14 +296,17 @@ class Game(object):
             self.draw_visialization(screen)
 
             # Create labels for the each number
-            label_1 = self.font.render(str(self.problem["num1"]),True,WHITE)
-            label_2 = self.font.render(str(self.problem["num2"])+" = ?",True,WHITE)
+            label_1 = self.font.render(str(self.problem["num1"]),True, ORANGE)
+            label_2 = self.font.render(str(self.problem["num2"])+" = ?",True,ORANGE)
             # t_w: total width
             t_w = label_1.get_width() + label_2.get_width() + 64 # 64: length of symbol
             posX = (SCREEN_WIDTH / 2) - (t_w / 2) 
             screen.blit(label_1,(posX,50))
             # print the symbol into the screen
-            screen.blit(self.symbols[self.operation],(posX + label_1.get_width(),40))
+            image = self.symbols[self.operation]
+            screen.blit(self.symbols[self.operation],
+                        (posX + label_1.get_width() + 32 - image.get_width()/2,
+                                                      48 - image.get_height()/20))
             
             screen.blit(label_2,(posX + label_1.get_width() + 64,50))
             # Go to through every button and draw it
@@ -316,6 +329,8 @@ class Game(object):
             # Increase count by 1
             self.count += 1
             self.reset_problem = False
+            for b in self.button_list:
+                b.load_image()
         elif time_wait:
             # wait three seconds
             pygame.time.wait(3000)
@@ -393,17 +408,22 @@ class Button(object):
     def __init__(self,x,y,width,height,number):
         self.x = x
         self.y = y
-        self.dx = 0;
-        self.dy = 0;
+        self.dx = 0
+        self.dy = 0
         self.width = width
         self.height = height
-        self.vx = random.randint(-20,20)
-        self.vy = random.randint(-20,20)
+        self.vx = random.randint(-40,40)
+        self.vy = random.randint(-30,30)
         self.rect = pygame.Rect(x,y,width,height)
-        self.font = pygame.font.Font(None,40)
-        self.text = self.font.render(str(number),True,BLACK)
+        self.font = pygame.font.Font(None,50)
+        self.text = self.font.render(str(number),True, (0,64,0))
         self.number = number
         self.background_color = WHITE
+        self.load_image()
+
+    def load_image(self):
+        self.image = pygame.image.load('buttonpics/img' + str(random.randint(1, 10)) + '.jpg')
+        self.start_step = 8
 
     def update_pos(self):
         if (self.dx > 0):
@@ -420,23 +440,31 @@ class Button(object):
         self.rect = pygame.Rect(self.x+self.dx,self.y+self.dy,self.width,self.height)
          
     def getCenter(self):
-        width = self.text.get_width() 
-        height = self.text.get_height()
+        #width = self.text.get_width() 
+        #height = self.text.get_height()
         # Calculate the posX and posY
-        posX = self.rect.centerx - (width / 2)
-        posY = self.rect.centery - (height / 2)
-        return (posX, posY)
+        #posX = self.rect.centerx - (width / 2)
+        #posY = self.rect.centery - (height / 2)
+        #return (posX, posY)
+        return (self.rect.centerx, self.rect.centery)
     
     def draw(self,screen):
         self.update_pos()
 
         """ This method will draw the button to the screen """
         # First fill the screen with the background color
-        pygame.draw.rect(screen,self.background_color,self.rect)
+        # pygame.draw.rect(screen,self.background_color,self.rect)
         # Draw the edges of the button
-        pygame.draw.rect(screen,BLACK,self.rect,3)
+        # pygame.draw.rect(screen,BLACK,self.rect,3)
 
-        screen.blit(self.text, self.getCenter());
+        screen.blit(self.image, self.rect);
+        
+        width = self.text.get_width() 
+        height = self.text.get_height()
+        r = pygame.Rect(self.rect.left, self.rect.top, width, height)
+        pygame.draw.rect(screen,WHITE,r,0)
+        
+        screen.blit(self.text, self.rect.topleft);
 
     def isPressed(self):
         """ Return true if the mouse is on the button """

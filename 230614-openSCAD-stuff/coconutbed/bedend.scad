@@ -1,11 +1,24 @@
 use <bedleg.scad> 
 extra_leg_spacing = 1.5;
+bighole_diam = 6.0;
+bighole_spacing = 0.3;
 
 module bedend(matress_width = 152.4, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_h = 4.8, groove_depth = 1.5) 
 {
     translate([cw_w/2,0,0])
         color([0.71,0.40,0.11])
+        difference() 
+    {
         cube([cw_w, matress_width, cw_h],center=true);
+        
+        translate([0,matress_width/2 - cw_w - bighole_diam/2+bighole_spacing,0])
+        rotate([0,90,0]) 
+        cylinder(h=cw_w+0.2,r=bighole_diam/2,center = true);
+
+        translate([0,-matress_width/2 + cw_w + bighole_diam/2 - bighole_spacing,0])
+        rotate([0,90,0]) 
+        cylinder(h=cw_w+0.2,r=bighole_diam/2,center = true);
+    }
     
     translate([-jw_w/2,0,-cw_h/2-jw_h/2+jw_h-groove_depth+cw_w]) 
         cube([jw_w, matress_width-2*cw_h-2*extra_leg_spacing, jw_h],center=true);

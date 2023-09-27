@@ -4,8 +4,8 @@ use <bedsupport.scad>
 use <playwood.scad> 
 
 
-explode = true;
-show_playwood = true;
+explode = false;
+show_playwood = false;
 
 matress_length = 75 * 2.54;
 matress_width = 60 * 2.54;

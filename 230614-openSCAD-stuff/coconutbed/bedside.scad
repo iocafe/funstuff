@@ -31,13 +31,17 @@ module bedside(matress_length = 190.5, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_
         translate([-matress_length/2 - cw_w/2,cw_w/2+washer_thinkness,0]) bolt(-90,cw_w);
         translate([matress_length/2 + cw_w/2,cw_w/2+washer_thinkness,0]) bolt(-90,cw_w);
         
-        translate([0, cw_w/2+0.2, 0]) rotate([90,0,180]) {
+        translate([0, cw_w/2, 0]) rotate([90,0,180]) {
             hdim(matress_length/2 + cw_w/2, matress_length/2 + cw_w, 0, 2);
+            hdim(-matress_length/2 - cw_w, matress_length/2 + cw_w, 0, 20);
             hdim(matress_length/2 - cw_w - cw_h/2, matress_length/2 + cw_w, -jw_h/14, 8);
         }
         
-        translate([0, 10+0.2, 0]) rotate([90,90,180]) {
-            hdim(00, cw_h/2, jw_h/10, 6);
+        translate([0, cw_w/2, 0]) rotate([90,90,180]) {
+            hdim(cw_h/2-jw_h+groove_depth-cw_w/2, cw_h/2, jw_h/100, 3);
+        }
+        translate([matress_length/2 - cw_w - cw_h/2, cw_w/2, 0]) rotate([90,90,180]) {
+            hdim(cw_h/2-jw_h, cw_h/2, jw_h/100, 3);
         }
         
         translate([-matress_length/2 + cw_w + cw_h/2,

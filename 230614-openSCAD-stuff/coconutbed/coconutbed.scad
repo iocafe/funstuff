@@ -2,10 +2,12 @@ use <bedside.scad>
 use <bedend.scad> 
 use <bedsupport.scad> 
 use <playwood.scad> 
+use <mattresssupport.scad> 
 
 
 explode = false;
 show_playwood = false;
+show_wood_support = false;
 
 matress_length = 75 * 2.54;
 matress_width = 60 * 2.54;
@@ -33,13 +35,13 @@ module coconutbed()
         bedend(matress_width, cw_w, cw_h, jw_w, jw_h, groove_depth); 
 
     translate([0, 0, explode ? 60 : 0]) 
-        bedsupport(matress_length,matress_width, cw_w, cw_h, jw_w, jw_h, groove_depth); 
+        bedsupport(matress_length,matress_width, cw_w, cw_h, jw_w, jw_h, groove_depth, true); 
     
     translate([matress_length/4, 0, explode ? 60 : 0]) 
-        bedsupport(matress_length,matress_width, cw_w, cw_h, jw_w, jw_h, groove_depth);
+        bedsupport(matress_length,matress_width, cw_w, cw_h, jw_w, jw_h, groove_depth, false);
  
     translate([-matress_length/4, 0, explode ? 60 : 0]) 
-        bedsupport(matress_length,matress_width, cw_w, cw_h, jw_w, jw_h, groove_depth);
+        bedsupport(matress_length,matress_width, cw_w, cw_h, jw_w, jw_h, groove_depth, false);
 
     if (show_playwood)
     {
@@ -49,6 +51,12 @@ module coconutbed()
         translate([matress_length/4, 0, explode ? 140 : 0]) 
             rotate([0,0,180])
             playwood(matress_length, matress_width); 
+    }
+    
+    if (show_wood_support) 
+    {
+        translate([0, 0, explode ? 160 : 0]) 
+            mattresssupport(matress_length, matress_width); 
     }
 }
 

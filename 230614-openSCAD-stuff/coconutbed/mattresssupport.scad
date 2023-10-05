@@ -1,4 +1,5 @@
 use <smallscrew.scad> 
+use <hdim.scad> 
 wood_thickness = 0.9 * 2.54;
 wood_width = 1.9 * 2.54;
 wood_spacing = 1.95 * 2.54;
@@ -64,6 +65,10 @@ module mattresssupport(mattress_length=190, mattress_width = 152.4)
                 wood_thickness/2+0.1])
             smallscrew();
         }
+        
+   translate([0, -mattress_width/2, wood_thickness]) 
+   rotate([0,0,0]) 
+   hdim(-mattress_length/2+spacing, mattress_length/2-spacing, 0, 13);
 }
 
 mattresssupport();

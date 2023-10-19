@@ -1,7 +1,7 @@
 use <bedleg.scad> 
 use <hdim.scad> 
 extra_leg_spacing = 1.5;
-bighole_diam = 6.0;
+bighole_diam = 5.0;
 bighole_spacing = 0.3;
 leglength=28;
 
@@ -15,11 +15,11 @@ module bedend(mattress_width = 152.4, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_h
         
         translate([0,mattress_width/2 - cw_w - bighole_diam/2+bighole_spacing,0])
         rotate([0,90,0]) 
-        cylinder(h=cw_w+0.2,r=bighole_diam/2,center = true);
+        cylinder(h=cw_w+0.2,r=bighole_diam/2,center = true, $fn = 16);
 
         translate([0,-mattress_width/2 + cw_w + bighole_diam/2 - bighole_spacing,0])
         rotate([0,90,0]) 
-        cylinder(h=cw_w+0.2,r=bighole_diam/2,center = true);
+        cylinder(h=cw_w+0.2,r=bighole_diam/2,center = true, $fn = 16);
     }
     
     translate([-cw_w-cw_h, 

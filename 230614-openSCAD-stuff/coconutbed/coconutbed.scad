@@ -5,16 +5,19 @@ use <playwood.scad>
 use <mattresssupport.scad> 
 
 
-explode = false;
+explode = true;
 show_playwood = false;
 show_wood_support = false;
+large_bed = false;
 
-matress_length = 75 * 2.54;
-matress_width = 60 * 2.54;
-cw_w = 5.08;
-cw_h = 15.24;
-jw_w = 4.8;
-jw_h = 4.8;
+/* small bed ~ 75" x 54", large bed ~ 75" 50"  */
+matress_length = large_bed ? 191.3 : 190.2;  
+matress_width = large_bed ? 152.5 : 137.8;
+
+cw_w = large_bed ? 4.1 : 4.5;
+cw_h = large_bed ? 6.8*2.54 : 6.2 * 2.54;
+jw_w = 4.7;
+jw_h = 4.7;
 groove_depth = 1.5;
 
 

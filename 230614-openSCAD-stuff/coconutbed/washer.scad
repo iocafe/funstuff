@@ -1,9 +1,7 @@
-module washer(rotation=0) 
+module washer(rotation=0, thickness = 0.08) 
 {
     diameter = 3.1;
-    thickness = 0.08;
     hole = 1.25;
- 
     
     rotate([0,90,rotation]) 
     color([0.0,0.8,1.0])

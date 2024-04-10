@@ -3,7 +3,7 @@ use <windowblind.scad>
 use <windowgrid.scad>
 use <hinge.scad>
 
-module windowpack(height=60, width=50, lprofile_width=2.54, lprofile_thickness=0.3,open_angle = 45, explode=false) 
+module windowpack(height=60, width=50, lprofile_width=2.54, lprofile_thickness=0.3,open_angle = 100, explode=false) 
 {
     hinge_separation = 0.6;
     hinge_pos_adjust = 0.3;

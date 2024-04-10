@@ -23,7 +23,7 @@ module windowblind(height=60, width=50, lprofile_width=2.54, lprofile_thickness=
     rotate([0,90,0])
     lprofile(height, lprofile_width, lprofile_thickness, true) ;
 
-    color([0.8, 0.8, 0.0])
+    color([0.8, 0.8, 0.0, 0.7])
     translate([0,lprofile_thickness+playwood_thickness/2,height/2])
     cube([playwood_width, playwood_thickness, playwood_height], center = true);
 }

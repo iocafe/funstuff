@@ -1,15 +1,19 @@
-use <roofwindow.scad>
+use <windowpack.scad>
 use <playwood.scad>
 
 
-module wall(wall_height=110,window_width=100, window_height=60, window_top=10, window_frame_thickness=10, playwood_thickness = 1.5, roof_angle=20) 
+module wall(wall_height=110,window_width=80, window_height=60, window_top=10, window_frame_thickness=10, playwood_thickness = 1.5, roof_angle=20, explode=false) 
 {
+    open_angle = 45;
     wall_width=window_width;
-    frame_profile_width = 4;
-
-    translate([0, 0, -window_top]) 
+    lprofile_width=2.54;
+    lprofile_thickness=0.3;
+    
+    translate([0, 0, -window_top-window_height]) 
     color([0.5,0.3,0.3])
-    roofwindow(window_width, window_height, window_frame_thickness,frame_profile_width);
+    windowpack(window_height, window_width,  
+        lprofile_width, lprofile_thickness,
+        open_angle, explode); 
 
     translate([-wall_width/2,playwood_thickness,0]) 
     rotate([0,0,270])

@@ -17,7 +17,7 @@ module corner(corner_diam = 40, corner_height = 100, cut_depth=3, playwood_thick
     
     
     translate([x1, delta/2, 0])
-    vertical2x2(h1, wood_2x2_width, roof_angle);
+    vertical2x2(h1, wood_2x2_width, roof_angle,cut_depth2, cut_depth2);
     
     translate([x2, delta/2, 0])
     vertical2x2(h1, wood_2x2_width, roof_angle);
@@ -41,8 +41,6 @@ module corner(corner_diam = 40, corner_height = 100, cut_depth=3, playwood_thick
     translate([0,corner_diam,0])
     rotate([0,0,270])
     playwood(corner_diam, corner_height - (corner_diam)*tan(roof_angle),  playwood_thickness, 0); 
-
-    // playwood(corner_diam, corner_height, playwood_thickness, roof_angle); 
 }
 
 

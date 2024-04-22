@@ -17,6 +17,7 @@ module longwall(roof_angle=13.5,
     playwood_thickness = 2.54 * 0.75;
     n_vertical_bars = 20;
     wood2x2size = 4;
+    nro_hinges = 6;
     
     corner_cut_depth = 3.5;
     playwood_allowance = 0.2;
@@ -28,7 +29,7 @@ module longwall(roof_angle=13.5,
     translate([0,0,-window_h - over_window_h])
     windowpack(window_h, box_width-2*corner4x4size, 
         lprofile_width, lprofile_thickness,
-        open_angle, n_vertical_bars, explode);
+        open_angle, n_vertical_bars, nro_hinges, explode);
     
     translate([(box_width-corner4x4size)/2,0,0])
     vertical2x2(box_height, corner4x4size, roof_angle, 0, 0,

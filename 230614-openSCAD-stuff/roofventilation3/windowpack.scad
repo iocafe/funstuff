@@ -3,12 +3,11 @@ use <windowblind.scad>
 use <windowgrid.scad>
 use <hinge.scad>
 
-module windowpack(height=60, width=50, lprofile_width=2.54, lprofile_thickness=0.3,open_angle = 100, n_vertical_bars = 10, explode=false) 
+module windowpack(height=60, width=50, lprofile_width=2.54, lprofile_thickness=0.3,open_angle = 100, n_vertical_bars = 10, nro_hinges = 6, explode=false) 
 {
     hinge_separation = 0.6;
     hinge_pos_adjust = 0.3;
     explo_dist = explode ? 14 : 0;
-    nro_hinges = 6;
     
     windowgrid(height, width, lprofile_width, lprofile_thickness, n_vertical_bars, explode); 
     

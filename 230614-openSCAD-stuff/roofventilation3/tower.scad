@@ -6,6 +6,7 @@ use <shortwall.scad>
 module tower() 
 {
     explode = false;
+    show_roof = true;
     window_open_angle = 92;
     
     box_height = 80;
@@ -18,18 +19,16 @@ module tower()
     lprofile_thickness=0.3;
     playwood_thickness = 2.54 * 0.75;
     metal_thickness = 1;
+    expd = explode ? 120 : 0;
     
-    roof_pos = (box_width/2 + corner_diam) * tan(roof_angle);
-    translate([0,0, roof_pos + (explode ? 250 : 0)]) 
-    roof(box_length, box_width, overlap, roof_angle, metal_thickness, explode); 
-   
-    translate([0,-box_width/2,0]) 
+    
+    translate([0,-box_width/2 - expd,0]) 
     longwall(roof_angle, box_height, box_length, 
         lprofile_width, lprofile_thickness, 
         playwood_thickness,
         window_open_angle, corner_diam, explode); 
 
-    translate([0,box_width/2,0]) 
+    translate([0,box_width/2 + expd,0]) 
     rotate([0,0,180])
     longwall(roof_angle, box_height, box_length, 
         lprofile_width, lprofile_thickness, 
@@ -49,6 +48,18 @@ module tower()
         lprofile_width, lprofile_thickness, 
         playwood_thickness,
         window_open_angle, explode); 
+        
+    // Safety top playwood
+    translate([0,0, playwood_thickness/2])
+    color([0.8, 0.8, 0.0, 0.4])
+    cube([box_length, box_width, playwood_thickness], center=true);
+
+    // Roof
+    roof_pos = (box_width/2 + corner_diam) * tan(roof_angle);
+    if (show_roof) {
+        translate([0,0, roof_pos + (explode ? 250 : 0)]) 
+        roof(box_length, box_width, overlap, roof_angle, metal_thickness, explode); 
+    }
 }
 
 

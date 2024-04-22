@@ -14,8 +14,9 @@ module shortwall(roof_angle=13.5,
     under_window_h = 10;
     over_window_h = 10;
     playwood_thickness = 2.54 * 0.75;
-    n_vertical_bars = 8;
+    n_vertical_bars = 6;
     wood2x2size = 4;
+    nro_hinges = 3;
     
     corner_cut_depth = 3.5;
     playwood_allowance = 0.2;
@@ -27,16 +28,8 @@ module shortwall(roof_angle=13.5,
     translate([0,0,-window_h - over_window_h])
     windowpack(window_h, box_width-2*corner4x4size, 
         lprofile_width, lprofile_thickness,
-        open_angle, n_vertical_bars, explode);
-    
-    translate([(box_width-corner4x4size)/2,0,0])
-    vertical2x2(box_height, corner4x4size, roof_angle, 0, 0,
-        corner_cut_depth-playwood_thickness); 
-
-    translate([(-box_width+corner4x4size)/2,0,0])
-    vertical2x2(box_height, corner4x4size, roof_angle, 
-        corner_cut_depth-playwood_thickness); 
-    
+        open_angle, n_vertical_bars, nro_hinges, explode);
+       
      color([0.9,0.9,0.9,0.6])
     translate([0,0,-box_height+under_window_h/2])
     cube([box_width-2*corner_cut_depth-2*playwood_allowance,

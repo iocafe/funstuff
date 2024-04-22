@@ -37,7 +37,6 @@ module roofpiece(bottom_d, top_d, width, roof_angle, metal_thickness, explode)
 
 module roofpiece2(bottom_d, top_d, width, roof_angle, metal_thickness, diam, explode) 
 {
-    roofpiece(bottom_d, top_d, width, roof_angle, metal_thickness, explode);
 
     roofing_w = width / cos(roof_angle);
     expl_d = explode ? 35 : 0;
@@ -84,6 +83,7 @@ module roofpiece2(bottom_d, top_d, width, roof_angle, metal_thickness, diam, exp
     
     metalcorners(bottom_d, top_d, width, roof_angle, metal_thickness, false,explode); 
     
+    roofpiece(bottom_d, top_d, width, roof_angle, metal_thickness, explode);
 }
 
 

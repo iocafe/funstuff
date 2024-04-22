@@ -1,4 +1,4 @@
-module roof(box_length=140, box_width=90, overlap=100, roof_angle=20, metal_thickness = 1, explode=true) 
+module roof(box_length=140, box_width=90, overlap=100, roof_angle=20, metal_thickness = 1, explode=false) 
 {
     length = box_length + 2 * overlap;
     width = box_width + 2 * overlap;
@@ -41,6 +41,7 @@ module roofpiece2(bottom_d, top_d, width, roof_angle, metal_thickness, diam, exp
 
     roofing_w = width / cos(roof_angle);
     expl_d = explode ? 35 : 0;
+    expl_d2 = 0.3 * expl_d;
   
     use_w = roofing_w - 2.5 * diam;
     n = 4;
@@ -65,12 +66,12 @@ module roofpiece2(bottom_d, top_d, width, roof_angle, metal_thickness, diam, exp
     di = bottom_d - top_d - mv * diam;
     edge = sqrt(use_w2*use_w2 + 0.25*di * di);
     rotate([-roof_angle,0,0])
-    translate([0.25*(top_d+bottom_d)-1.7*diam-mv2, 0.5*roofing_w-0.15*diam+mv3, 0])
+    translate([0.25*(top_d+bottom_d)-1.7*diam-mv2+expl_d2, 0.5*roofing_w-0.15*diam+mv3, 0])
     rotate([0,0,90-angle])
     roofsupport2(edge, diam, (top_d > 0.01) ? angle : -angle, -angle); 
 
     rotate([-roof_angle,0,0])
-    translate([-0.25*(top_d+bottom_d)+1.7*diam+mv2, 0.5*roofing_w-0.15*diam+mv3, 0])
+    translate([-0.25*(top_d+bottom_d)+1.7*diam+mv2-expl_d2, 0.5*roofing_w-0.15*diam+mv3, 0])
     rotate([0,0,90+angle])
     roofsupport2(edge, diam, (top_d > 0.01) ? -angle : angle, angle); 
     
@@ -106,7 +107,7 @@ module roofsupport2(length, diam, angle1, angle2)
 module playsupport(bottom_d, top_d, width, roof_angle, playwood_thickness, diam, isleft, explode) 
 {
     roofing_w = width / cos(roof_angle);
-    expl_d = explode ? (isleft ? 150 : -150) : 0;
+    expl_d = explode ? (isleft ? -90 : 90) : 0;
     expl_d2 = explode ? (isleft ? 10 : -10) : 0;
     play_width = 14 * sqrt(2);
     spacing = 3.5;

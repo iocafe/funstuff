@@ -1,13 +1,13 @@
 use <Lprofile.scad>
 use <gridrod.scad>
 
-module windowgrid(height=60, width=50, lprofile_width=2.54, lprofile_thickness=0.3,explode=true) 
+module windowgrid(height=60, width=50, lprofile_width=2.54, lprofile_thickness=0.3,n_vertical_bars = 10, explode=true) 
 {
     gridrod_width=1.0;
     gridrod_depth=1.0;
     
-    nro_vertical_bars = 4;
-    nro_horizontal_bars = 3;
+    nro_vertical_bars = n_vertical_bars;
+    nro_horizontal_bars = 2;
     explo_dist = explode ? 6 : 0;
     explo_dist2 = explode ? -10 : 0;
 

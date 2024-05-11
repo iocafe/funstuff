@@ -5,7 +5,7 @@ use <shortwall.scad>
 
 module tower() 
 {
-    explode = false;
+    explode = true;
     show_roof = true;
     window_open_angle = 92;
     

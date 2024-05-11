@@ -3,7 +3,7 @@ use <windowblind.scad>
 use <windowgrid.scad>
 use <hinge.scad>
 
-module windowpack(height=60, width=50, lprofile_width=2.54, lprofile_thickness=0.3,open_angle = 100, n_vertical_bars = 10, nro_hinges = 6, explode=false) 
+module windowpack(height=60, width=445, lprofile_width=2.54, lprofile_thickness=0.3,open_angle = 00, n_vertical_bars = 10, nro_hinges = 6, explode=false) 
 {
     hinge_separation = 0.6;
     hinge_pos_adjust = 0.3;
@@ -14,9 +14,14 @@ module windowpack(height=60, width=50, lprofile_width=2.54, lprofile_thickness=0
     rota_pos = height + hinge_separation*0.5;
     
     translate([0, -explo_dist, rota_pos])
-    rotate([-open_angle,0,0])
-    translate([0, -lprofile_width-hinge_separation, -rota_pos])
-    windowblind(height, width, lprofile_width, lprofile_thickness, explode); 
+    rotate([-open_angle,0,0]) 
+    translate([-width/4, -lprofile_width-hinge_separation, -rota_pos])
+    windowblind(height, width/2, lprofile_width, lprofile_thickness, explode); 
+    
+    translate([0, -explo_dist, rota_pos])
+    rotate([-open_angle,0,0]) 
+    translate([width/4, -lprofile_width-hinge_separation, -rota_pos])
+    windowblind(height, width/2, lprofile_width, lprofile_thickness, explode); 
     
     if (!explode)
     {

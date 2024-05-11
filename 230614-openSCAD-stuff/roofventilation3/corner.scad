@@ -4,7 +4,7 @@ use <hdim.scad>
 use <vdim.scad> 
 
 
-module corner(corner_diam = 40, corner_height = 100, cut_depth=3, playwood_thickness= 1.5, roof_angle=20, explode=true) 
+module corner(corner_diam = 40, corner_height = 100, cut_depth=3, playwood_thickness= 1.5, roof_angle=20, explode=false) 
 {
     wood_2x2_width = 4; 
     roof_angle = -roof_angle;

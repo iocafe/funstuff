@@ -1,17 +1,21 @@
-module shelf(shelf_w = 90, wood_w = 15, wood_t = 5, gap = 0.3, pipe_dx=8, pipe_dy=2, pipe_diam = 1.6,is_bottom_shelf=false)
+use <hdim.scad> 
+
+module shelf(shelf_w = 90, wood_w = 15, wood_t = 5, gap = 0.3, pipe_dx=8, pipe_dy=2, pipe_diam = 1.6,is_bottom_shelf=true, explode=true)
 {
-    translate([0, wood_w/2+gap/4, wood_t/2])
-        onewood(shelf_w, wood_w, wood_t, gap, pipe_dx, pipe_dy, pipe_diam, false);
+    wood_y = wood_w/2+gap/4 + (explode ? 10 : 0);
+    translate([0, wood_y, wood_t/2])
+        onewood(shelf_w, wood_w, wood_t, gap, pipe_dx, pipe_dy, pipe_diam, false, explode);
 
-    translate([0, -wood_w/2-gap/4, wood_t/2])
-        onewood(shelf_w, wood_w, wood_t, gap, pipe_dx, pipe_dy, pipe_diam, true);
+    translate([0, -wood_y, wood_t/2])
+        onewood(shelf_w, wood_w, wood_t, gap, pipe_dx, pipe_dy, pipe_diam, true, explode);
 
+    brace_z = explode ? -7 : 0;
     if (!is_bottom_shelf)
     {
-        translate([shelf_w/4+2, 0, 0]) 
+        translate([shelf_w/4+2, 0, brace_z]) 
         ironbrace(2*wood_w+gap);
         
-        translate([-shelf_w/4-2, 0, 0]) 
+        translate([-shelf_w/4-2, 0, brace_z]) 
         ironbrace(2*wood_w+gap);
     }
     
@@ -20,7 +24,7 @@ module shelf(shelf_w = 90, wood_w = 15, wood_t = 5, gap = 0.3, pipe_dx=8, pipe_d
         brace_w = 4;
         brace_t = 0.3;
         screw_hole_diam = 0.6;
-        translate([shelf_w/2-pipe_dx, wood_w+gap/2-3.5/2*brace_w-0.5, -brace_t/2]) difference()
+        translate([shelf_w/2-pipe_dx, wood_w+gap/2-3.5/2*brace_w-0.5, -brace_t/2+brace_z]) difference()
         {
             color([0.23,0.12,0.10, 1.0])
             cube([brace_w, 3.5*brace_w, brace_t], center=true);
@@ -32,10 +36,21 @@ module shelf(shelf_w = 90, wood_w = 15, wood_t = 5, gap = 0.3, pipe_dx=8, pipe_d
             translate([0,-brace_w, 0])
             cylinder(h=brace_t+0.5,r=screw_hole_diam/2,center = true, $fn = 16);
         }
+        
+        if (explode) 
+        {
+            hdim(shelf_w/4, shelf_w/2, -wood_y, 4.0+wood_w/2);
+            hdim(-shelf_w/2, shelf_w/2, wood_y+wood_w/2, -9.0); 
+            hdim(shelf_w/4-4, shelf_w/2, -wood_y-wood_w/2, 9.0); 
+            hdim(-shelf_w/2, -shelf_w/2+pipe_dx, -wood_y-wood_w/2, 6.0); 
+
+            translate([shelf_w/2-pipe_dx, wood_y+wood_w/2-pipe_dy/2, wood_t/2])
+            rotate([0,0,90]) hdim(-pipe_dy/2, pipe_dy/2, 0, pipe_dx+6.0); 
+        }
     }
 }        
 
-module onewood(shelf_w, wood_w, wood_t, gap, pipe_dx, pipe_dy, pipe_diam, is_front)
+module onewood(shelf_w, wood_w, wood_t, gap, pipe_dx, pipe_dy, pipe_diam, is_front, explode)
 {
     hole_y = is_front ? -wood_w/2+pipe_dy : wood_w/2-pipe_dy;
     right_hole_x = is_front ? shelf_w/4-pipe_dx/2 : shelf_w/2-pipe_dx;
@@ -58,6 +73,8 @@ module onewood(shelf_w, wood_w, wood_t, gap, pipe_dx, pipe_dy, pipe_diam, is_fro
             polygon(points=[[shelf_w/4, -wood_w/2-0.1],[shelf_w/2+0.1,wood_w/2],[shelf_w/2+0.1,-wood_w/2-0.1],[shelf_w/4, -wood_w/2-0.1]]);
         }
     }
+    
+    
 }   
 
 module ironbrace(shelf_depth)

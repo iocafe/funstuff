@@ -11,11 +11,11 @@ show_wood_support = false;
 large_bed = false;
 
 /* small bed ~ 75" x 54", large bed ~ 75" 50"  */
-matress_length = large_bed ? 191.3 : 190.2;  
-matress_width = large_bed ? 152.5 : 137.8;
+matress_length = 190.2;  
+matress_width = 80.8;
 
-cw_w = large_bed ? 4.1 : 4.5;
-cw_h = large_bed ? 6.8*2.54 : 6.2 * 2.54;
+cw_w = 4.5;
+cw_h = 6.2 * 2.54;
 jw_w = 4.7;
 jw_h = 4.7;
 groove_depth = 1.5;

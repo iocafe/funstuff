@@ -18,8 +18,8 @@ module house()
 {
 
 /* Modify these true/false settings to view different levels of building, etc. */
-show_upper_level = false;
-show_roof = false;
+show_upper_level = true;
+show_roof = true;
 show_top_ceiling = false;
 all_opaque = true;
 roof_opaque = false;

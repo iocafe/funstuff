@@ -5,6 +5,7 @@ use <foot.scad>
 
 module shoeshelf()
 {
+    explode = true;
     shelf_w = 90;
     shelf_h = 100;
     wood_w = 15;    // Coconut wood width
@@ -18,47 +19,54 @@ module shoeshelf()
     n_shelfs = 4;   // Number of shelfs above bottom shelf
     shelf_y_step = (pipe_length-wood_t)/n_shelfs;
     first_shelf_y = shelf_y_step;
+    hole_pos_y = first_shelf_y - 0.5; 
+    pipe_y = wood_w+gap/2-pipe_dy + (explode ? 40 : 0);
     
-    translate([shelf_w/2-pipe_dx,wood_w+gap/2-pipe_dy,0])
-    pipe(pipe_length, pipe_diam, first_shelf_y, shelf_y_step, n_shelfs);
+    translate([shelf_w/2-pipe_dx,pipe_y,0])
+    pipe(pipe_length, pipe_diam, hole_pos_y, shelf_y_step, n_shelfs);
     
-    translate([-shelf_w/2+pipe_dx,wood_w+gap/2-pipe_dy,0])
-    pipe(pipe_length, pipe_diam, first_shelf_y, shelf_y_step, n_shelfs);
+    translate([-shelf_w/2+pipe_dx,pipe_y,0])
+    pipe(pipe_length, pipe_diam, hole_pos_y, shelf_y_step, n_shelfs);
 
-    translate([-shelf_w/2+pipe_dx,-wood_w-gap/2+pipe_dy,0])
-    pipe(pipe_length, pipe_diam, first_shelf_y, shelf_y_step, n_shelfs);
+    translate([-shelf_w/2+pipe_dx,-pipe_y,0])
+    pipe(pipe_length, pipe_diam, hole_pos_y, shelf_y_step, n_shelfs);
     
-    translate([shelf_w/4-4,-wood_w-gap/2+pipe_dy,0])
-    pipe(pipe_length, pipe_diam, first_shelf_y, shelf_y_step, n_shelfs);
+    translate([shelf_w/4-4,-pipe_y,0])
+    pipe(pipe_length, pipe_diam, hole_pos_y, shelf_y_step, n_shelfs);
     
-    shelf(shelf_w, wood_w, wood_t, gap, pipe_dx, pipe_dy, pipe_diam, true);
+    shelf(shelf_w, wood_w, wood_t, gap, pipe_dx, pipe_dy, pipe_diam, true, explode);
+    
+    foot_z = explode ? -20 : 0;
 
-    translate([shelf_w/4-4,0,0])
+    translate([shelf_w/4-4,0,foot_z])
     foot(wood_w, wood_t, gap);
 
-    translate([-shelf_w/2+pipe_dx,0,0])
+    translate([-shelf_w/2+pipe_dx,0,foot_z])
     foot(wood_w, wood_t, gap);
     
     for (x = [0: n_shelfs-1]) {
         translate([0,0,x * shelf_y_step + first_shelf_y])
-        shelf(shelf_w, wood_w, wood_t, gap, pipe_dx, pipe_dy, pipe_diam, false);
+        shelf(shelf_w, wood_w, wood_t, gap, pipe_dx, pipe_dy, pipe_diam, false, explode);
     }
     
-    translate([shelf_w/4-4,wood_w/2+gap/4, wood_t+0.3])
-    rotate([0,90,0])
-    bolt(0, wood_t); 
-    
-    translate([shelf_w/4-4,-wood_w/2-gap/4, wood_t+0.3])
-    rotate([0,90,0])
-    bolt(0, wood_t); 
+    if (!explode) 
+    {
+        translate([shelf_w/4-4,wood_w/2+gap/4, wood_t+0.3])
+        rotate([0,90,0])
+        bolt(0, wood_t); 
 
-    translate([-shelf_w/2+pipe_dx,wood_w/2+gap/4, wood_t+0.3])
-    rotate([0,90,0])
-    bolt(0, wood_t); 
+        translate([shelf_w/4-4,-wood_w/2-gap/4, wood_t+0.3])
+        rotate([0,90,0])
+        bolt(0, wood_t); 
 
-    translate([-shelf_w/2+pipe_dx,-wood_w/2-gap/4, wood_t+0.3])
-    rotate([0,90,0])
-    bolt(0, wood_t); 
+        translate([-shelf_w/2+pipe_dx,wood_w/2+gap/4, wood_t+0.3])
+        rotate([0,90,0])
+        bolt(0, wood_t); 
+
+        translate([-shelf_w/2+pipe_dx,-wood_w/2-gap/4, wood_t+0.3])
+        rotate([0,90,0])
+        bolt(0, wood_t); 
+    }
     
     /* brace_w = 4;
     brace_t = 0.3;

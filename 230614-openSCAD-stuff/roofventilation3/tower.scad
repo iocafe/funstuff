@@ -5,14 +5,14 @@ use <shortwall.scad>
 
 module tower() 
 {
-    explode = true;
+    explode = false;
     show_roof = true;
     window_open_angle = 92;
     
     box_height = 80;
-    box_length = 460.0;
-    box_width = 169.5;
-    overlap = 80;
+    box_length = 460.0 - 10;
+    box_width = 169.5+10;
+    overlap = 67;
     roof_angle = 13.5;
     corner_diam = 40;
     lprofile_width=2.54;
@@ -55,10 +55,13 @@ module tower()
     cube([box_length, box_width, playwood_thickness], center=true);
 
     // Roof
-    roof_pos = (box_width/2 + corner_diam) * tan(roof_angle);
+    roof_pos = (box_width/2 + 2*corner_diam/3) * tan(roof_angle);
     if (show_roof) {
         translate([0,0, roof_pos + (explode ? 250 : 0)]) 
-        roof(box_length, box_width, overlap, roof_angle, metal_thickness, explode); 
+        roof(box_length, box_width, overlap, roof_angle, metal_thickness, explode);
+        translate([0,0, roof_pos + (explode ? 280 : 20)]) 
+        text(str(box_width/2 * tan(roof_angle)), size = 10, 
+                halign = "center",valign = "center"); 
     }
 }
 

@@ -6,8 +6,11 @@ use <bed/bed.scad>
 
 module dividerwall(shelf_w = 250, shelf_h = 210, wood_w = 15,    // Coconut wood width
     wood_t = 4.5,     // Coconut wood thickness
+    pipe_diam = 2.54,
     explode = false)
 {
+    bed_height = 35;
+    gap_washer = 1.5;
     matress_length = 190.2;
     matress_width = 80.8;
     bed_length = matress_length + 2*wood_t;
@@ -16,9 +19,9 @@ module dividerwall(shelf_w = 250, shelf_h = 210, wood_w = 15,    // Coconut wood
     translate([0,0,wood_w])
     dividerwall2(shelf_w, shelf_h, wood_w, wood_t,    explode);
     
-    translate([0,0,bed_width/2])
-    rotate([90,0,0])
-    coconutbed(matress_length, matress_width, wood_w, wood_t);
+    translate([0,0,bed_height - wood_t/2])
+    rotate([0,0,0])
+    coconutbed(matress_length, matress_width, wood_w, wood_t, pipe_diam, gap_washer, bed_height);
 }
 
 module dividerwall2(shelf_w = 250, shelf_h = 210, wood_w = 15,    // Coconut wood width

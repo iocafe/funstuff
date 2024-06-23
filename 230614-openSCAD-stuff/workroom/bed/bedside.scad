@@ -46,9 +46,10 @@ module bedside(matress_length = 190.5, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_
         }
         
         translate([-matress_length/2 + cw_w/2 /* + cw_h/2 */,
-            cw_w/2+washer_thinkness,-cw_h/2+jw_h]) longbolt(-90,cw_w);
+            cw_w/2+washer_thinkness,-cw_h/2+jw_h]) longbolt(-90);
+        
         translate([matress_length/2 - cw_w/2 /*- cw_h/2 */,
-            cw_w/2+washer_thinkness,-cw_h/2+jw_h]) longbolt(-90,cw_w);
+            cw_w/2+washer_thinkness,-cw_h/2+jw_h]) longbolt(-90);
     }
 
 // bolt(-90);

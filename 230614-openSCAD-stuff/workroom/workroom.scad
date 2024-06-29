@@ -1,5 +1,7 @@
 use <dividerwall.scad> 
+use <frontwall.scad> 
 use <fridge.scad> 
+use <laundrytable.scad>
 use <basicdoor.scad> 
 use <slidingwindow.scad>
 
@@ -17,16 +19,16 @@ module workroom()
     fridge_depth = 57;
     fridge_height = 148;
     fridge_door_angle = 45;
-    fridge_back_gap = 5;
-    fridge_side_gap = 1;
+    fridge_back_gap = 7;
+    fridge_side_gap = 2;
     
     pipe_diam = 2.54;
-    shelf_w = computer_room_length - fridge_depth;
     shelf_h = 210;
-    wood_w = 15;    // Coconut wood width
+    wood_w = 16;      // Coconut wood width
     wood_t = 4.5;     // Coconut wood thickness
+    gim_t = 4.2;      // Gimelina wood thickness
     explode = false;
-    shelf_depth = 2 * wood_w + 0.2;
+    shelf_depth = 2 * wood_w + 0.3;
     
     // Floor
     floor_thickness = 5;
@@ -35,12 +37,25 @@ module workroom()
     cube([room_length, room_width, floor_thickness]);
     
     // Divider wall
-    translate([shelf_w/2,computer_room_width-shelf_depth/2,0])
-    dividerwall(shelf_w, shelf_h, wood_w, wood_t, pipe_diam, explode);
+    translate([0,computer_room_width-shelf_depth/2,0])
+    dividerwall(computer_room_length, shelf_h, wood_w, wood_t, gim_t, pipe_diam, fridge_depth+fridge_back_gap,explode);
+
+    // Front wall
+    translate([computer_room_length-shelf_depth/2,computer_room_width,gim_t])
+    rotate([0,0,270])
+    frontwall(computer_room_width, shelf_h, wood_w, wood_t, gim_t, pipe_diam, fridge_width+fridge_side_gap,explode);
     
     // Fridge
-    translate([computer_room_length - fridge_depth, computer_room_width - fridge_width - fridge_side_gap, 0])
+    translate([computer_room_length - fridge_depth, computer_room_width - fridge_width, 0])
     fridge(fridge_width, fridge_depth, fridge_height, fridge_door_angle);
+   
+    // Layndry table
+    laundrytable_width = 330;
+    laundrytable_depth = 65.5;
+    laundrytable_height = 79;
+    translate([0,room_width,0])
+    rotate([0,0,-90])
+    laundrytable(laundrytable_width, laundrytable_depth, laundrytable_height);
     
     // Door between kitchen and work room
     translate([room_length+7.5,119,0])

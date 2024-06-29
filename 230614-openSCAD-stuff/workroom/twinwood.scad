@@ -24,7 +24,8 @@ module twinwood(wood_l = 120, wood_w = 16, wood_t = 4.5, gap = 0.3, n_braces = 3
 
 module tw_onewood(wood_l, wood_w, wood_t, gap, explode)
 {
-    color([0.75,0.48,0.19, 1.0])
+    red = rands(0.7,0.90,1)[0];
+    color([red,0.48,0.19, 1.0])
     translate([0,0,0])
     cube([wood_l, wood_w, wood_t], center=true);
 }   

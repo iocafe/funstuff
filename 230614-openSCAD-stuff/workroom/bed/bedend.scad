@@ -45,14 +45,16 @@ module bedend(mattress_width = 152.4, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_h
         hdim(-w/2, w/2, 0, 9);
     
     if (which_leg_to_hide) {
+        leg_angle = -(($t > 0.5) ? (180 - 180 * $t) : (180 * $t));
         translate([0,mattress_width/2,-cw_h/2+jw_h-groove_depth+cw_w]) 
             rotate([0,0,180]) 
-            bedleg(cw_w, cw_h, false, leglength);
+            bedleg(cw_w, cw_h, false, leglength, leg_angle);
     }
     
     if (!which_leg_to_hide) {
+        leg_angle = (($t > 0.5) ? (180 - 180 * $t) : (180 * $t));
         translate([0,-mattress_width/2,-cw_h/2+jw_h-groove_depth+cw_w]) 
-            bedleg(cw_w, cw_h, true, leglength);
+            bedleg(cw_w, cw_h, true, leglength, leg_angle);
     }
     translate([cw_w/2,-mattress_width/3, 0]) 
     rotate([90,-90,180]) 

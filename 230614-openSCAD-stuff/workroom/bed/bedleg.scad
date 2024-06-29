@@ -1,14 +1,19 @@
-module bedleg(cw_w = 5.08, cw_h = 15.24, mirror = true, leglength=28) 
+module bedleg(cw_w = 5.08, cw_h = 15.24, mirror = true, leglength=28,leg_angle=0) 
 {
-    if (mirror) 
+    translate([-cw_w/2,0, -cw_w/2]) 
+    rotate([0,leg_angle,0])
+    translate([cw_w/2,0, cw_w/2]) 
     {
-        translate([-cw_w,0,-leglength]) color([0.40,0.30,0.16,1.0])
-            oneleg(cw_w, cw_h, leglength);
-    }
-    else {
-        translate([0,0,-leglength]) color([0.40,0.30,0.16,1.0])
-            oneleg(cw_w, cw_h, leglength);
+        if (mirror) 
+        {
+            translate([-cw_w,0,-leglength]) color([0.40,0.30,0.16,1.0])
+                oneleg(cw_w, cw_h, leglength);
+        }
+        else {
+            translate([0,0,-leglength]) color([0.40,0.30,0.16,1.0])
+                oneleg(cw_w, cw_h, leglength);
 
+        } 
     }
 }
 

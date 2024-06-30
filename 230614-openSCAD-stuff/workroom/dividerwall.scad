@@ -25,7 +25,7 @@ module dividerwall(shelf_w = 330, shelf_h = 210, wood_w = 15,    // Coconut wood
     bed_angle = ($t > 0.5) ? (180 - 180 * $t) : (180 * $t);
     translate([bed_length/2+wood_t+gap_washer,0,bed_height - wood_t/2])
     rotate([bed_angle,0,0])
-    coconutbed(matress_length, matress_width, wood_w, wood_t, pipe_diam, gap_washer, bed_height);
+    coconutbed(matress_length, matress_width, wood_w, wood_t, pipe_diam, gap_washer, bed_height, explode);
 }
 
 module dividerwall2(shelf_w = 330, 

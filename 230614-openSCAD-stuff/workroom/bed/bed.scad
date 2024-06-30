@@ -5,8 +5,6 @@ use <playwood.scad>
 use <mattresssupport.scad> 
 use <bedpipe.scad> 
 
-
-explode = false;
 show_playwood = false;
 show_wood_support = false;
 large_bed = false;
@@ -22,12 +20,12 @@ jw_h = 4.7;
 groove_depth = 1.5;
 
 
-module coconutbed(matress_length = 190.2, matress_width = 80.8, wood_w = 6.2 * 2.54, wood_t = 4.5, pipe_diam = 2.54, gap_washer = 1.5, bed_height = 32) 
+module coconutbed(matress_length = 190.2, matress_width = 80.8, wood_w = 6.2 * 2.54, wood_t = 4.5, pipe_diam = 2.54, gap_washer = 1.5, bed_height = 32, explode = false) 
 {
     cw_w = wood_t;
     cw_h = wood_w;
 
-    translate([0,matress_width/2+wood_t/2,-wood_w/2+wood_t/2])
+    translate([0,matress_width/2+wood_t/2 + (explode ? 200 : 0),-wood_w/2+wood_t/2])
     {
         translate([0, matress_width/2 + (explode ? 45 : 0), 0]) 
             bedside(matress_length, cw_w, cw_h, jw_w, jw_h, groove_depth); 

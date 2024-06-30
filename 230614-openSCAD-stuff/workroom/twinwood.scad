@@ -8,6 +8,14 @@ module twinwood(wood_l = 120, wood_w = 16, wood_t = 4.5, gap = 0.3, n_braces = 3
 
     translate([0, -wood_y, wood_t/2])
         tw_onewood(wood_l, wood_w, wood_t, gap, explode);
+    
+    translate([-wood_l/5,0,0]) 
+    rotate([0,180,0])
+    text(str(0.1 * round(10*wood_l)), size = 10, 
+        halign = "center",valign = "center");
+    translate([-wood_l/5,0,wood_t]) 
+    text(str(0.1 * round(10*wood_l)), size = 10, 
+        halign = "center",valign = "center");
 
     first_brace = 10;
     brace_step = (wood_l-2*first_brace) / (n_braces-1);

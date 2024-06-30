@@ -5,7 +5,7 @@ bighole_diam = 5.0;
 bighole_spacing = 0.3;
 bighole_pos_coeff = 1.40; 
 
-module bedend(mattress_width = 152.4, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_h = 4.8, groove_depth = 1.5, bed_height = 30,
+module bedend(mattress_width = 80.8, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_h = 4.8, groove_depth = 1.5, bed_height = 32.6,
     which_leg_to_hide = false) 
 {
     leglength = bed_height - cw_h + jw_h - groove_depth + cw_w;
@@ -23,6 +23,18 @@ module bedend(mattress_width = 152.4, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_h
         translate([0,-mattress_width/2 + bighole_pos_coeff * cw_w + bighole_diam/2 - bighole_spacing,0])
         rotate([0,90,0]) 
         cylinder(h=cw_w+0.2,r=bighole_diam/2,center = true, $fn = 16);
+    }
+    
+    color([0.8,0.8,0.5,1.0])
+    {
+        translate([0,0,1.5]) 
+        rotate([90,0,-90])
+        text(str(0.1 * round(10*mattress_width)), size = 5, 
+            halign = "center",valign = "bottom"); 
+        translate([cw_w, 0,0]) 
+        rotate([90,0,90])
+        text(str(0.1 * round(10*mattress_width)), size = 6, 
+            halign = "center",valign = "center");
     }
     
     translate([-cw_w-cw_h, 

@@ -28,10 +28,17 @@ module bedsupport(matress_length=190, mattress_width = 152.4, cw_w = 5.08, cw_h 
             }
         }
     
-        /*translate([0,0,cw_w/2]) 
+        color([0.8,0.8,0.5,1.0])
+        {
+            translate([0,0,cw_w/2]) 
             rotate([0,0,90])
-            color([1,1,1])
-            text(str(mattress_width," cm"), size = 7, halign = "center",valign = "center");*/
+            text(str(0.1 * round(10*mattress_width)), size = 6, 
+                halign = "center",valign = "center"); 
+            translate([0, 0,-cw_w/2]) 
+            rotate([180,0,90])
+            text(str(0.1 * round(10*mattress_width)), size = 6, 
+                halign = "center",valign = "center");
+        }
         
         if (bighole)
         {

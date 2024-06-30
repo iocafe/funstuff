@@ -9,11 +9,13 @@ washer_thinkness = 0.08;
 
 module bedside(matress_length = 190.5, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_h = 4.8, groove_depth = 1.5) 
 {
+    wood_l = matress_length + 2*cw_w;
+    
     translate([0,cw_w/2,0]) {
         color([0.60,0.40,0.08])
         difference() 
         {
-            cube([matress_length + 2*cw_w, cw_w+0.05, cw_h],center=true);
+            cube([wood_l, cw_w+0.05, cw_h],center=true);
             
             translate([0,0,-cw_h/2+jw_h-groove_depth+cw_w/2])
             rotate([90,0,0]) 
@@ -26,6 +28,18 @@ module bedside(matress_length = 190.5, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_
             translate([matress_length/2 + cw_w/2, 0, 0])
             rotate([90,0,0]) 
             cylinder(h=cw_w+0.25,r=bolthole_diam/2, center = true);
+        }
+        
+        color([0.8,0.8,0.5,1.0])
+        {
+            translate([0,-cw_w/2,1.5]) 
+            rotate([90,0,0])
+            text(str(0.1 * round(10*wood_l)), size = 5, 
+                halign = "center",valign = "bottom"); 
+            translate([0, cw_w/2,0]) 
+            rotate([90,0,180])
+            text(str(0.1 * round(10*wood_l)), size = 6, 
+                halign = "center",valign = "center");
         }
         
         translate([0,cw_w/2+washer_thinkness,-cw_h/2+jw_h-groove_depth+cw_w/2]) bolt(-90,cw_w);

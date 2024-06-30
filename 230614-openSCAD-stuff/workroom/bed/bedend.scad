@@ -1,5 +1,5 @@
 use <bedleg.scad> 
-use <hdim.scad> 
+use <../hdim.scad> 
 extra_leg_spacing = -1.0;
 bighole_diam = 5.0;
 bighole_spacing = 0.3;

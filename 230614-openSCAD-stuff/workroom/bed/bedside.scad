@@ -1,6 +1,6 @@
 use <bolt.scad> 
 use <longbolt.scad> 
-use <hdim.scad> 
+use <../hdim.scad> 
 
 extra_groove_spacing = 1;
 extra_leg_spacing = 14.5;
@@ -52,11 +52,18 @@ module bedside(matress_length = 190.5, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_
             hdim(matress_length/2 - cw_w - cw_h/2, matress_length/2 + cw_w, -jw_h/14, 8);
         }
         
-        translate([0, cw_w/2, 0]) rotate([90,90,180]) {
-            hdim(cw_h/2-jw_h+groove_depth-cw_w/2, cw_h/2, jw_h/100, 3);
+        translate([0, 0.75*cw_w, cw_h/2]) rotate([90,90,180]) {
+            hdim(0, cw_h - (jw_h-groove_depth) - cw_w/2, -1, 3);
+        } 
+        
+        translate([matress_length/2 - cw_w/2, cw_w/2, cw_h/2])
+        rotate([90,90,0]) {
+            hdim(0, cw_h-jw_h, 0, 5);
         }
-        translate([matress_length/2 - cw_w - cw_h/2, cw_w/2, 0]) rotate([90,90,180]) {
-            hdim(cw_h/2-jw_h, cw_h/2, jw_h/100, 3);
+
+        translate([matress_length/2 + cw_w/2, cw_w/2, cw_h/2])
+        rotate([90,90,180]) {
+            hdim(0, cw_h/2, 0, 5);
         }
         
         translate([-matress_length/2 + cw_w/2 /* + cw_h/2 */,
@@ -64,6 +71,10 @@ module bedside(matress_length = 190.5, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_
         
         translate([matress_length/2 - cw_w/2 /*- cw_h/2 */,
             cw_w/2+washer_thinkness,-cw_h/2+jw_h]) longbolt(-90);
+        
+          translate([matress_length/2+cw_w, 0.75*cw_w, 0]) rotate([90,0,180]) {
+            hdim(0, 3*cw_w/2, -3, 9);
+        } 
     }
 
 // bolt(-90);

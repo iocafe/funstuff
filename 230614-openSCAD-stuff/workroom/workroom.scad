@@ -7,7 +7,7 @@ use <slidingwindow.scad>
 
 module workroom()
 {
-    explode = true;
+    explode = false;
     
     // Inside size of the room
     room_length = 420;

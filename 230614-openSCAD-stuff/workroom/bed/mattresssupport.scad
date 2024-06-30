@@ -1,5 +1,5 @@
 use <smallscrew.scad> 
-use <hdim.scad> 
+use <../hdim.scad> 
 wood_thickness = 0.9 * 2.54;
 wood_width = 1.9 * 2.54;
 wood_spacing = 1.95 * 2.54;

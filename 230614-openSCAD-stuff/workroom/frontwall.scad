@@ -3,6 +3,7 @@ use <pipe.scad>
 use <shelf.scad> 
 use <foot.scad> 
 use <twinwood.scad>
+use <twinwoodwithholes.scad>
 use <basicdoor.scad> 
 
 
@@ -46,25 +47,25 @@ module frontwall(shelf_w = 270,
     shelf_a_z = full_shelf_1_h + bedbox_h + wood_t;
     translate([fridgebox_width+wood_t,0,shelf_a_z/2 + wood_t])
     rotate([0,270,0])
-    twinwood(shelf_a_z, wood_w, wood_t, gap, 3 /*n_braces*/, explode);
+    twinwoodwithholes(shelf_a_z, wood_w, wood_t, gap, 3 /*n_braces*/, true, true, explode);
 
     shelf_b_z = shelf_a_z + wood_t + full_shelf_2_h;
 
     translate([fridgebox_width+bottom_wood_1_l,0,shelf_b_z/2 + wood_t])
     rotate([0,270,0])
-    twinwood(shelf_b_z, wood_w, wood_t, gap, 3 /*n_braces*/, explode);
+    twinwoodwithholes(shelf_b_z, wood_w, wood_t, gap, 3 /*n_braces*/, true, true, explode);
 
     translate([door_x2+wood_t,0,shelf_b_z/2 + wood_t])
     rotate([0,270,0])
-    twinwood(shelf_b_z, wood_w, wood_t, gap, 3 /*n_braces*/, explode);
+    twinwoodwithholes(shelf_b_z, wood_w, wood_t, gap, 3 /*n_braces*/, true, true, explode);
 
     translate([shelf_w,0,shelf_b_z/2 + wood_t])
     rotate([0,270,0])
-    twinwood(shelf_b_z, wood_w, wood_t, gap, 3 /*n_braces*/, explode);
+    twinwoodwithholes(shelf_b_z, wood_w, wood_t, gap, 3 /*n_braces*/, true, true, explode);
 
     mid_wood_l = door_x1 - wood_t;
     translate([mid_wood_l/2,0,shelf_a_z+wood_t])
-    twinwood(mid_wood_l, wood_w, wood_t, gap, 2 /*n_braces*/, explode);
+    twinwoodwithholes(mid_wood_l, wood_w, wood_t, gap, 2 /*n_braces*/, true, false, explode);
 
     translate([shelf_w/2,0,shelf_h-2*wood_t])
     twinwood(shelf_w, wood_w, wood_t, gap, 3 /*n_braces*/, explode);

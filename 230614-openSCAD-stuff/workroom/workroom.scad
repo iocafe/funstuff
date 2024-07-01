@@ -12,10 +12,12 @@ module workroom()
     // Inside size of the room
     room_length = 420;
     room_width = 440;
-
+    
     // Computer room size as measure OUTSIDE awllf wall of the room to inside concrete wall
     computer_room_length = 325; 
-    computer_room_width = 264;
+    computer_room_width = 262;
+    
+
     
     fridge_width = 54;
     fridge_depth = 57;
@@ -25,7 +27,6 @@ module workroom()
     fridge_side_gap = 2;
     
     pipe_diam = 2.54;
-    shelf_h = 210;
     wood_w = 16;      // Coconut wood width
     wood_t = 4.5;     // Coconut wood thickness
     gim_t = 4.2;      // Gimelina wood thickness
@@ -41,12 +42,13 @@ module workroom()
     
     // Divider wall
     translate([0,computer_room_width-shelf_depth/2,0])
-    dividerwall(computer_room_length, shelf_h, wood_w, wood_t, gim_t, pipe_diam, fridge_depth+fridge_back_gap,explode);
+
+    dividerwall(computer_room_length, wood_w, wood_t, gim_t, pipe_diam, fridge_depth+fridge_back_gap,explode);
 
     // Front wall
     translate([computer_room_length-shelf_depth/2,computer_room_width,gim_t])
     rotate([0,0,270])
-    frontwall(computer_room_width, shelf_h, wood_w, wood_t, gim_t, pipe_diam, fridge_width+fridge_side_gap,explode);
+    frontwall(computer_room_width, wood_w, wood_t, gim_t, pipe_diam, fridge_width+fridge_side_gap,explode);
     
     if (!explode)
     {
@@ -79,6 +81,10 @@ module workroom()
         rotate([0,0,90])
         slidingwindow(77,139);
     }
+    
+    translate([-0.05,-0.05,-0.05])
+    color([0,0,0.9,0.2])
+    cube([computer_room_length+0.1,computer_room_width+0.1,215.1]);
 }        
 
 workroom();

@@ -7,22 +7,23 @@ use <twinwoodwithholes.scad>
 use <bed/bed.scad> 
 use <hdim.scad>
 
-module dividerwall(shelf_w = 330, shelf_h = 210, wood_w = 16,    // Coconut wood width
+module dividerwall(shelf_w = 330, 
+    wood_w = 16,      // Coconut wood width
     wood_t = 4.5,     // Coconut wood thickness
-    gim_t = 4.2,// Gimelina wood thickness
+    gim_t = 4.2,      // Gimelina wood thickness
     pipe_diam = 2.54,
     fridgebox_depth = 80,
-    explode = true)
+    explode = false)
 {
     bed_height = 34;
     gap_washer = 1.5;
-    matress_length = 190.2;
-    matress_width = 80.8;
+    matress_length = 190.3;
+    matress_width = 94;
     bed_length = matress_length + 2*wood_t;
     bed_width = matress_width + 2*wood_t;
     
     translate([0,0,gim_t])
-    dividerwall2(shelf_w, shelf_h, bed_length+2*gap_washer, bed_width, wood_w, wood_t, gim_t, pipe_diam, fridgebox_depth, explode);
+    dividerwall2(shelf_w, bed_length+2*gap_washer, bed_width, wood_w, wood_t, gim_t, pipe_diam, fridgebox_depth, explode);
     
     bed_angle = ($t > 0.5) ? (180 - 180 * $t) : (180 * $t);
     //bed_angle = 0;
@@ -34,10 +35,9 @@ module dividerwall(shelf_w = 330, shelf_h = 210, wood_w = 16,    // Coconut wood
 }
 
 module dividerwall2(shelf_w = 330, 
-    shelf_h = 210, 
     bedbox_length = 225, 
     bed_width = 90, 
-    wood_w = 15,    // Coconut wood width
+    wood_w = 16,    // Coconut wood width
     wood_t = 4.5,     // Coconut wood thickness
     gim_t = 4.2,     // Gimelina wood thickness
     pipe_diam = 2.54,
@@ -46,7 +46,7 @@ module dividerwall2(shelf_w = 330,
 {
     gap = 0.3;      // Gap between wood planks of one shelf
     
-    bedbox_h = 120;
+    bedbox_h = 125;
     bottom_wood_l = shelf_w - fridgebox_depth;
     bedbox_x = bottom_wood_l/2; // + bedbox_length +2*wood_t;
     

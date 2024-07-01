@@ -7,7 +7,7 @@ extra_leg_spacing = 14.5;
 bolthole_diam = 1.30;
 washer_thinkness = 0.08;
 
-module bedside(matress_length = 190.5, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_h = 4.8, groove_depth = 1.5) 
+module bedside(matress_length = 190.3, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_h = 4.8, groove_depth = 1.5) 
 {
     wood_l = matress_length + 2*cw_w;
     

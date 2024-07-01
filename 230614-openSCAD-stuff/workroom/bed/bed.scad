@@ -7,20 +7,13 @@ use <bedpipe.scad>
 
 show_playwood = false;
 show_wood_support = false;
-large_bed = false;
 
-/* small bed ~ 75" x 54", large bed ~ 75" 50"  */
-matress_length = 190.2;  
-matress_width = 80.8;
-
-cw_w = 4.5;
-cw_h = 6.2 * 2.54;
-jw_w = 4.7;
-jw_h = 4.7;
-groove_depth = 1.5;
+jw_w = 4.4;
+jw_h = 4.4;
+groove_depth = 1.2;
 
 
-module coconutbed(matress_length = 190.2, matress_width = 80.8, wood_w = 6.2 * 2.54, wood_t = 4.5, pipe_diam = 2.54, gap_washer = 1.5, bed_height = 32, explode = false) 
+module coconutbed(matress_length = 190.3, matress_width = 94, wood_w = 6.2 * 2.54, wood_t = 4.5, pipe_diam = 2.54, gap_washer = 1.5, bed_height = 32, explode = false) 
 {
     cw_w = wood_t;
     cw_h = wood_w;

@@ -17,8 +17,6 @@ module workroom()
     computer_room_length = 325; 
     computer_room_width = 262;
     
-
-    
     fridge_width = 54;
     fridge_depth = 57;
     fridge_height = 148;
@@ -80,11 +78,11 @@ module workroom()
         translate([-7.5,147, 152])
         rotate([0,0,90])
         slidingwindow(77,139);
-    }
     
-    translate([-0.05,-0.05,-0.05])
-    color([0,0,0.9,0.2])
-    cube([computer_room_length+0.1,computer_room_width+0.1,215.1]);
+        translate([-0.05,-0.05,-0.05])
+        color([0,0,0.9,0.2])
+        cube([computer_room_length+0.1,computer_room_width+0.1,215.1]);
+    }
 }        
 
 workroom();

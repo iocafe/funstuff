@@ -4,10 +4,14 @@ use <fridge.scad>
 use <laundrytable.scad>
 use <basicdoor.scad> 
 use <slidingwindow.scad>
+use <computertable/computertable.scad>
+use <worktable/worktable.scad>
+use <printershelf/printershelf.scad>
 
 module workroom()
 {
     explode = false;
+    show_furniture = true;
     
     // Inside size of the room
     room_length = 420;
@@ -27,7 +31,7 @@ module workroom()
     pipe_diam = 2.54;
     wood_w = 16;      // Coconut wood width
     wood_t = 4.5;     // Coconut wood thickness
-    gim_t = 4.2;      // Gimelina wood thickness
+    gim_t = 4.3;      // Gimelina wood thickness
     shelf_depth = 2 * wood_w + 0.3;
     
     // Floor
@@ -78,10 +82,31 @@ module workroom()
         translate([-7.5,147, 152])
         rotate([0,0,90])
         slidingwindow(77,139);
+            
+        if (show_furniture) {
+            work_table_depth = 56;
+            
+            // Computer table
+            translate([computer_room_length - shelf_depth - 20, 0, 0])
+            rotate([0,2,90])
+            computertable(computer_room_length - shelf_depth - work_table_depth - 40/*width */, 56.0 /* depth */, 77 /* height */);
+
+            // Work table
+            translate([2, 2, 0])
+            rotate([0,0,0])
+            worktable(computer_room_width - shelf_depth - 40/*width */, work_table_depth /* depth */, 77 /* height */);
+
+            // Printer shelf
+            translate([work_table_depth + 62, computer_room_width - shelf_depth - 2, 0])
+            rotate([0,0,270])
+            printershelf(computer_room_width - shelf_depth - 100/*width */, 34.0 /* depth */, 77 /* height */, explode);
+        }
     
         translate([-0.05,-0.05,-0.05])
         color([0,0,0.9,0.2])
         cube([computer_room_length+0.1,computer_room_width+0.1,215.1]);
+        
+
     }
 }        
 

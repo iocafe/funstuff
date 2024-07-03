@@ -14,27 +14,27 @@ module laundrytable(width = 330, depth = 65.5, height = 79)
             halign = "left",valign = "top");
 
         translate([xmargin,ystart-1*row_step,height]) 
-        text("262 cm coco [1]", size = text_size, 
+        text("262 cm coco [2]", size = text_size, 
             halign = "left",valign = "top");
 
         translate([xmargin,ystart-2*row_step,height]) 
-        text("202 cm coco [3]", size = text_size, 
+        text("202 cm coco [6]", size = text_size, 
             halign = "left",valign = "top");
 
         translate([xmargin,ystart-3*row_step,height]) 
-        text("158.5 cm coco [1]", size = text_size, 
+        text("158.5 cm coco [2]", size = text_size, 
             halign = "left",valign = "top");
 
         translate([xmargin,ystart-4*row_step,height]) 
-        text("115.5 cm coco [1]", size = text_size, 
+        text("115.5 cm coco [2]", size = text_size, 
             halign = "left",valign = "top");
 
         translate([xmargin,ystart-5*row_step,height]) 
-        text("64 cm coco [2]", size = text_size, 
+        text("64 cm coco [4]", size = text_size, 
             halign = "left",valign = "top");
             
         translate([xmargin,ystart-6*row_step,height]) 
-        text("62 cm coco [2]", size = text_size, 
+        text("62 cm coco [4]", size = text_size, 
             halign = "left",valign = "top");
 
         ystart2 = ystart-8*row_step;
@@ -43,15 +43,15 @@ module laundrytable(width = 330, depth = 65.5, height = 79)
             halign = "left",valign = "top");
             
         translate([xmargin,ystart2-1*row_step,height]) 
-        text("292.7 cm coco [2]", size = text_size, 
+        text("292.7 cm coco [4]", size = text_size, 
             halign = "left",valign = "top");
             
         translate([xmargin,ystart2-2*row_step,height]) 
-        text("261 cm coco [2]", size = text_size, 
+        text("261 cm coco [4]", size = text_size, 
             halign = "left",valign = "top");
             
         translate([xmargin,ystart2-3*row_step,height]) 
-        text("125 cm coco [3]", size = text_size, 
+        text("125 cm coco [6]", size = text_size, 
             halign = "left",valign = "top");
             
         ystart3 = ystart2-5*row_step;

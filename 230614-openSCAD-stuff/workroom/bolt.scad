@@ -3,7 +3,7 @@ use <nut.scad>
 
 module bolt(rotation=0, cw_w=4.2) 
 {
-    length = 13;
+    length = 14; // workroom uses 1 cm longer bolts than before
     thickness = 1.2;
     hex_diameter = 2.0;
     hex_length = 0.7;

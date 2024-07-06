@@ -13,7 +13,7 @@ jw_h = 4.4;
 groove_depth = 1.2;
 
 
-module coconutbed(matress_length = 190.3, matress_width = 94, wood_w = 6.2 * 2.54, wood_t = 4.5, pipe_diam = 2.54, gap_washer = 1.5, bed_height = 32, explode = false) 
+module coconutbed(matress_length = 190.3, matress_width = 94, wood_w = 16, wood_t = 4.5, pipe_diam = 2.54, gap_washer = 1.5, bed_height = 32, explode = false) 
 {
     cw_w = wood_t;
     cw_h = wood_w;

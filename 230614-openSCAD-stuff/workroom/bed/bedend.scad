@@ -2,10 +2,10 @@ use <bedleg.scad>
 use <../hdim.scad> 
 extra_leg_spacing = -1.0;
 bighole_diam = 5.0;
-bighole_spacing = 0.3;
+bighole_spacing = -0.7;
 bighole_pos_coeff = 1.40; 
 
-module bedend(mattress_width = 94, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_h = 4.8, groove_depth = 1.5, bed_height = 32.6,
+module bedend(mattress_width = 94, cw_w = 4.6, cw_h = 16, jw_w=4.80, jw_h = 4.8, groove_depth = 1.5, bed_height = 32.6,
     which_leg_to_hide = false) 
 {
     leglength = bed_height - cw_h + jw_h - groove_depth + cw_w;

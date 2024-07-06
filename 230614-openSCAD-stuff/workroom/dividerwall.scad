@@ -1,6 +1,5 @@
 use <bolt.scad> 
 use <pipe.scad> 
-use <shelf.scad> 
 use <foot.scad> 
 use <twinwood.scad>
 use <twinwoodwithholes.scad>

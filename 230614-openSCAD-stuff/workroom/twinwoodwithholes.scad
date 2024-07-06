@@ -5,7 +5,7 @@ use <hdim.scad>
 bighole_diam = 5.5;
 bolthole_diam = 1.80;
 washer_thickness = 0.08;
-bighole_spacing = 6.0;
+bighole_spacing = 5.2;
 
 module twinwoodwithholes(wood_l = 120, wood_w = 16, wood_t = 4.5, gap = 0.3, n_braces = 3, hole1=true,hole2=true,explode=false, show_dims=false)
 {

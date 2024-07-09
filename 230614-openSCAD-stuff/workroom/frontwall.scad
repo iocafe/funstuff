@@ -6,6 +6,10 @@ use <twinwood.scad>
 use <twinwoodwithholes.scad>
 use <basicdoor.scad> 
 use <hdim.scad> 
+use <shelfplaywood.scad>
+
+show_shelf_playwood = true;
+shelf_playwood_thickness = 0.75 * 2.54;
 
 module frontwall(shelf_w = 270, 
     wood_w = 16,    // Coconut wood width
@@ -13,7 +17,7 @@ module frontwall(shelf_w = 270,
     gim_t = 4.2,// Gimelina wood thickness
     pipe_diam = 2.54,
     fridgebox_width = 70,
-    explode = true)
+    explode = false)
 {    
     gap = 0.3;
     door_x1 = 120;
@@ -23,7 +27,13 @@ module frontwall(shelf_w = 270,
     full_shelf_1_h = 29;
     full_shelf_2_h = 39;
     bedbox_h = 125;
+        
+    shelf_a_z = full_shelf_1_h + bedbox_h + wood_t;
+    shelf_a_zz = shelf_a_z + (explode?10:0);
 
+    shelf_b_z = shelf_a_z + wood_t + full_shelf_2_h;
+    shelf_b_zz = shelf_b_z + (explode?20:0);
+    
     bottom_wood_1_l = door_x1 - fridgebox_width;
     translate([fridgebox_width+bottom_wood_1_l/2,0,explode?-10:0])
     twinwood(bottom_wood_1_l, wood_w, wood_t, gap, 2 /*n_braces*/, explode);
@@ -31,7 +41,25 @@ module frontwall(shelf_w = 270,
     bottom_wood_2_l = shelf_w - door_x2;
     translate([door_x2+bottom_wood_2_l/2,0,explode?-10:0])
     twinwood(bottom_wood_2_l, wood_w, wood_t, gap, 2 /*n_braces*/, explode);
+
+    mid_shelf_z = 80;
+    translate([door_x2+bottom_wood_2_l/2,0,mid_shelf_z])
+    twinwoodwithholes(bottom_wood_2_l-2*wood_t, wood_w, wood_t, gap, 2 /*n_braces*/, true, true, explode);
     
+    if (show_shelf_playwood)
+    {
+        translate([door_x2+bottom_wood_2_l/2,-wood_w-gap/2-shelf_playwood_thickness,0])
+        shelfplaywood(bottom_wood_2_l, mid_shelf_z + wood_t, shelf_playwood_thickness);
+        
+        translate([door_x2+bottom_wood_2_l/2,wood_w+gap/2,mid_shelf_z])
+        shelfplaywood(bottom_wood_2_l, shelf_b_z - mid_shelf_z + 2*wood_t, shelf_playwood_thickness);
+        
+        translate([door_x1-bottom_wood_1_l/2,-wood_w-gap/2-shelf_playwood_thickness,0])
+        shelfplaywood(bottom_wood_1_l, shelf_a_z + 2*wood_t, shelf_playwood_thickness);
+        
+        translate([(mid_wood_l+wood_t)/2,wood_w+gap/2,shelf_a_z+wood_t])
+        shelfplaywood(mid_wood_l+wood_t, shelf_b_z - shelf_a_z + wood_t, shelf_playwood_thickness);
+    }
     foot_d = 10;
     foot_z = explode ? -20 : 0;
     translate([fridgebox_width+foot_d,0,foot_z])
@@ -43,15 +71,10 @@ module frontwall(shelf_w = 270,
     translate([shelf_w-foot_d,0,foot_z])
     foot(wood_w, gim_t, gap);
     
-    shelf_a_z = full_shelf_1_h + bedbox_h + wood_t;
-    shelf_a_zz = shelf_a_z + (explode?10:0);
-    
     translate([fridgebox_width+wood_t,0,shelf_a_z/2 + wood_t])
     rotate([0,270,0])
     twinwoodwithholes(shelf_a_z, wood_w, wood_t, gap, 3 /*n_braces*/, true, true, explode);
 
-    shelf_b_z = shelf_a_z + wood_t + full_shelf_2_h;
-    shelf_b_zz = shelf_b_z + (explode?20:0);
     
     translate([fridgebox_width+bottom_wood_1_l-wood_t,0,shelf_b_z/2 + wood_t])
     rotate([0,270,180])

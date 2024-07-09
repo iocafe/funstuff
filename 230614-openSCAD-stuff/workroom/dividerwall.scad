@@ -5,6 +5,10 @@ use <twinwood.scad>
 use <twinwoodwithholes.scad>
 use <bed/bed.scad> 
 use <hdim.scad>
+use <shelfplaywood.scad>
+
+show_shelf_playwood = true;
+shelf_playwood_thickness = 0.75 * 2.54;
 
 module dividerwall(shelf_w = 330, 
     wood_w = 16,      // Coconut wood width
@@ -144,6 +148,19 @@ module dividerwall2(shelf_w = 330,
     translate([0,pipe_y1,pipe_z_long])
     rotate([0,-90,-90])
     hdim(0, pipe_length_long, 0, 10.0);
+    
+    if (show_shelf_playwood)
+    {
+        translate([bottom_wood_l/2, -wood_w-gap/2,0])
+        shelfplaywood(bottom_wood_l, bedbox_h + 2*wood_t, shelf_playwood_thickness);
+
+        translate([bottom_wood_l/2, wood_w+gap/2,bedbox_h + wood_t])
+        shelfplaywood(bottom_wood_l, full_shelf_2_z - bedbox_h , shelf_playwood_thickness);
+
+        small_piece_w = full_shelf_lenth - bottom_wood_l +2 * wood_w+gap + shelf_playwood_thickness;
+        translate([bottom_wood_l+small_piece_w/2, wood_w+gap/2,full_shelf_1_z])
+        shelfplaywood(small_piece_w, full_shelf_2_z - full_shelf_1_z + wood_t, shelf_playwood_thickness);
+    }
 }        
 
 dividerwall();

@@ -10,7 +10,7 @@ use <printershelf/printershelf.scad>
 
 module workroom()
 {
-    explode = true;
+    explode = false;
     show_furniture = true;
     
     // Inside size of the room

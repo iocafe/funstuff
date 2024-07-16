@@ -12,6 +12,7 @@ module workroom()
 {
     explode = false;
     show_furniture = true;
+    show_floor = false;
     
     // Inside size of the room
     room_length = 420;
@@ -29,13 +30,13 @@ module workroom()
     fridge_side_gap = 2;
     
     pipe_diam = 2.54;
-    wood_w = 16;      // Coconut wood width
+    wood_w = 17;      // Coconut wood width
     wood_t = 4.5;     // Coconut wood thickness
     gim_t = 4.3;      // Gimelina wood thickness
     shelf_depth = 2 * wood_w + 0.3;
     
     // Floor
-    if (!explode) {
+    if (!explode && show_floor) {
         floor_thickness = 5;
         translate([0,0,-floor_thickness])
         color([0.9,0.9,0.75, 1.0])

@@ -46,6 +46,10 @@ module frontwall(shelf_w = 270,
     translate([door_x2+bottom_wood_2_l/2,0,mid_shelf_z])
     twinwoodwithholes(bottom_wood_2_l-2*wood_t, wood_w, wood_t, gap, 2 /*n_braces*/, true, true, explode);
     
+      translate([door_x2+bottom_wood_2_l+1,0,mid_shelf_z+wood_t/2])
+    rotate([90,90,-90])
+    hdim(0, mid_shelf_z+wood_t/2, 0, 19);
+    
     if (show_shelf_playwood)
     {
         translate([door_x2+bottom_wood_2_l/2,-wood_w-gap/2-shelf_playwood_thickness,0])

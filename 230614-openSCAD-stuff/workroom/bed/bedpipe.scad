@@ -14,7 +14,7 @@ module bedpipe(gap_washer = 1.5, fix_to_vertical_wood_l=4.5, pipe_diam=2.54)
 
         }
         color([0.9,0.9,0.9, 1.0])
-        translate([0,0,-pipe_length/2 + gap_washer/2 + fix_to_vertical_wood_l])
+        translate([0,0,-pipe_length/2 + gap_washer/2 + fix_to_vertical_wood_l + 0.1])
         difference() {
             cylinder(h=gap_washer,r=gap_washer_d/2,center = true, $fn = 22);
             cylinder(h=gap_washer+0.2,r=pipe_diam/2+0.05,center = true, $fn = 22); 

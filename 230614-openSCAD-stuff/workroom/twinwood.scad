@@ -3,7 +3,7 @@ use <ironbrace.scad>
 use <hdim.scad> 
 
 module twinwood(wood_l = 120, wood_w = 16, wood_t = 4.5, gap = 0.3, n_braces = 3, explode=false, show_brace_dims=false,
-    hole_1_x = -100, hole_2_x = -10000, hole_3_x = -10000,
+    hole_1_x = -10000, hole_2_x = -10000, hole_3_x = -10000,
     show_hole_pos = true)
 {
     bolthole_diam = 1.4;

@@ -16,7 +16,7 @@ fridge_back_gap = 7;
 module dividerwall(shelf_w = computer_room_length, 
     wood_w = 17,      // Coconut wood width
     wood_t = 4.5,     // Coconut wood thickness
-    gim_t = 4.3,      // Gimelina wood thickness
+    gim_t = 4.5,      // Gimelina wood thickness
     pipe_diam = 2.54,
     fridgebox_depth = fridge_depth + fridge_back_gap,
     explode = false)
@@ -26,14 +26,13 @@ module dividerwall(shelf_w = computer_room_length,
     matress_length = 190.3;
     matress_width = 94;
     bed_length = matress_length + 2*wood_t;
-    bed_width = matress_width + 2*wood_t;
     
     translate([0,0,gim_t])
-    dividerwall2(shelf_w, bed_length+2*gap_washer, bed_width, wood_w, wood_t, gim_t, pipe_diam, fridgebox_depth, explode);
+    dividerwall2(shelf_w, bed_length+2*gap_washer, wood_w, wood_t, gim_t, pipe_diam, fridgebox_depth, explode);
     
     bed_angle = ($t > 0.5) ? (180 - 180 * $t) : (180 * $t);
     //bed_angle = 0;
-    bed_delta_z = 4.0;
+    bed_delta_z = 3.0;
     //bed_delta_y = 3;
     bed_delta_y = -4.3;
     translate([bed_length/2+wood_t+gap_washer,bed_delta_y,bed_height - wood_t/2 - bed_delta_z])
@@ -43,10 +42,9 @@ module dividerwall(shelf_w = computer_room_length,
 
 module dividerwall2(shelf_w = 330, 
     bedbox_length = 225, 
-    bed_width = 90, 
-    wood_w = 16,    // Coconut wood width
+    wood_w = 17,    // Coconut wood width
     wood_t = 4.5,     // Coconut wood thickness
-    gim_t = 4.2,     // Gimelina wood thickness
+    gim_t = 4.5,     // Gimelina wood thickness
     pipe_diam = 2.54,
     fridgebox_depth = 80,
     explode = false)

@@ -7,7 +7,7 @@ extra_leg_spacing = 14.5;
 bolthole_diam = 1.30;
 washer_thinkness = 0.08;
 
-module bedside(matress_length = 190.3, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_h = 4.8, groove_depth = 1.5) 
+module bedside(matress_length = 190.3, cw_w = 4.5, cw_h = 17, jw_w=4.50, jw_h = 4.5, groove_depth = 1.5) 
 {
     wood_l = matress_length + 2*cw_w;
     
@@ -58,7 +58,7 @@ module bedside(matress_length = 190.3, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_
         
         translate([matress_length/2 - cw_w/2, cw_w/2, cw_h/2])
         rotate([90,90,0]) {
-            hdim(0, cw_h-jw_h, 0, 5);
+            hdim(0, cw_h-jw_h+1, 0, 5);
         }
 
         translate([matress_length/2 + cw_w/2, cw_w/2, cw_h/2])
@@ -67,18 +67,17 @@ module bedside(matress_length = 190.3, cw_w = 5.08, cw_h = 15.24, jw_w=4.80, jw_
         }
         
         translate([-matress_length/2 + cw_w/2 /* + cw_h/2 */,
-            cw_w/2+washer_thinkness,-cw_h/2+jw_h]) longbolt(-90);
+            cw_w/2+washer_thinkness,-cw_h/2+jw_h-1]) longbolt(-90);
         
         translate([matress_length/2 - cw_w/2 /*- cw_h/2 */,
-            cw_w/2+washer_thinkness,-cw_h/2+jw_h]) longbolt(-90);
+            cw_w/2+washer_thinkness,-cw_h/2+jw_h-1]) longbolt(-90);
         
           translate([matress_length/2+cw_w, 0.75*cw_w, 0]) rotate([90,0,180]) {
             hdim(0, 3*cw_w/2, -3, 9);
         } 
     }
 
-// bolt(-90);
-    
+  
     groove_w = cw_h+extra_groove_spacing;
     translate([0,-jw_w/2,-cw_h/2+jw_h/2]) 
     {

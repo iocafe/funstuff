@@ -7,7 +7,7 @@ use <bedpipe.scad>
 use <../hdim.scad> 
 
 show_playwood = false;
-show_matress = true;
+show_matress = false;
 show_wood_support = false;
 
 jw_w = 4.4;

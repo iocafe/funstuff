@@ -1,35 +1,6 @@
-// use <washer.scad> 
-
 fixing_plate_t = 0.2;
 hinge_cylinder_h = 1.3;
 hinge_cylinder_d = 4;
-
-
-/*
-    length = 13.5; // workroom uses 1 cm longer bolts than before
-    thickness = 1.2;
-    hex_diameter = 2.0;
-    hex_length = 0.7;
-    washer_thickness = 0.18;
-    bighole_pos_coeff = 1.4; 
- 
-    rotate([0,90,rotation]) color([0.4,0.4,0.8])
-    {
-        cylinder(h=length, r=thickness/2, $fn = 12);
-        
-        translate([0,0,-hex_length]) 
-            cylinder(h=hex_length, r=hex_diameter/2, $fn = 6);
-    
-        translate([0,0,cw_w + bighole_pos_coeff * cw_w+2*washer_thickness]) rotate([0,-90,0]) {
-            washer(0, washer_thickness);
-            nut(0);
-        }
-    }
-    
-    washer(rotation, washer_thickness);
-    
-}
-*/
 
 module wheel_assembly()
 {
@@ -95,6 +66,7 @@ module wheel(top_y)
     wheel_dz = 3.3;
     wheel_dx = 2.5;
 
+    color([0.75,0.75,0.75,1])
     translate([wheel_dx,0,top_y-wheel_dz])
     rotate([90,0,0])
     cylinder(d=wheel_d,h=wheel_t, center=true, $fn = 33);
@@ -105,11 +77,12 @@ module wheel_fixture(top_y)
     translate([0,0,top_y])
     rotate([-90,0,0])
     linear_extrude(3, center = true) 
-        polygon(points=[[-hinge_cylinder_d/2,0],
+        polygon(points=[[-1.3,0],
             [hinge_cylinder_d/2, 0],
             [2.5, 0.5],
-            [2.8, 5.3],
-            [1.8, 5.0]]);
+            [3.0, 5.1],
+            [1.8, 5.0],
+            [-1.3,0.6]]);
  
 }
 

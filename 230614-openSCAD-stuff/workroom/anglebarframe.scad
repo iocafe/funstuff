@@ -3,7 +3,7 @@ use <hdim.scad>
 bar_diam = 3.8;
 bar_t  = 0.3;
 
-module anglebarframe(length = 59, width = 210, explode=true)
+module anglebarframe(length = 60, width = 210, explode=false)
 {
     d = explode ? 20 : 0;
     c1 = [0.5,0.28,0.19, 1.0];

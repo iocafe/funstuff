@@ -1,5 +1,5 @@
 use <../hdim.scad> 
-
+use <wheel.scad> 
 
 bar_t  = 0.3;
 
@@ -8,6 +8,13 @@ module tableleg(height = 73.9, width = 56, bar_diam = 3.8, dimensions=true, expl
     d = explode ? 20 : 0;
     c1 = [0.5,0.28,0.19, 1.0];
     c2 = [0.8,0.30,0.29, 1.0];
+    
+    wheel_delta = 6;
+    wheel_center = 3;
+    translate([wheel_delta, wheel_center, 0])
+    wheel_assembly();
+    translate([width-wheel_delta, wheel_center, 0])
+    wheel_assembly();
     
     translate([width,0,0])
     rotate([0,90,90])

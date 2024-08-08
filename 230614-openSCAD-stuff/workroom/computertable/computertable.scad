@@ -7,7 +7,7 @@ leg_dist = 53;
 wheel_assy_h = 7.3;
 plywood_t = 0.75 * 2.54;
 
-module computertable(width = 194.7, depth = 60, height = 77, explode=false)
+module computertable(width = 194.7, depth = 60, height = 77.8, explode=false)
 {
     above_wheel_assy = height - wheel_assy_h;
     translate([0,0,wheel_assy_h])
@@ -31,12 +31,16 @@ module computertable(width = 194.7, depth = 60, height = 77, explode=false)
         
         color([0.9,0.9,0.1,1.0])
         {
-            translate([xmargin,ystart,above_wheel_assy]) 
-            text("COMPUTER TABLE", size = text_size, 
-                halign = "left",valign = "top");
-           //text(str(width), size = text_size, 
-           //     halign = "left",valign = "top");
-
+            t1 = "COMPUTER TABLE"; 
+            t2 = str(width, "cm x ", depth, "cm");
+            translate([depth-xmargin,ystart,above_wheel_assy]) { 
+                text(t1, size = text_size, 
+                    halign = "right",valign = "top");
+                translate([0, -8, 0]) 
+                text(t2, size = text_size, 
+                    halign = "right",valign = "top");
+            }
+     
         } 
     }
 }        

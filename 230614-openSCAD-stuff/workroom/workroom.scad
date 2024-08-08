@@ -86,16 +86,17 @@ module workroom()
             
         if (show_furniture) {
             work_table_depth = 56;
+            table_height = 77.8;
             
             // Computer table
             translate([computer_room_length - shelf_depth - 20, 0, 0])
             rotate([0,2,90])
-            computertable(computer_room_length - shelf_depth - work_table_depth - 40/*width */, 60.0 /* depth */, 77 /* height */);
+            computertable(computer_room_length - shelf_depth - work_table_depth - 40/*width */, 60.0 /* depth */, table_height);
 
             // Work table
-            translate([2, 2, 0])
+            translate([2, 2+10, 0])
             rotate([0,0,0])
-            worktable(computer_room_width - shelf_depth - 45/*width */, work_table_depth /* depth */, 77 /* height */);
+            worktable(computer_room_width - shelf_depth - 98.7/*width */, work_table_depth /* depth */, table_height);
 
             // Printer shelf
             translate([work_table_depth + 62, computer_room_width - shelf_depth - 2, 0])

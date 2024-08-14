@@ -119,7 +119,7 @@ module computertable_top(width = 194.7, depth = 60, explode=false)
     hdim(0, p4, 5, 7);
    
     translate([hole_pos, width/2,0])
-    cable_support(width-20, hole_depth+3, depth = 10);
+    cable_support(width-100, hole_depth+3, depth = 10);
 }
 
 module cable_support(length = 80, width=14, depth = 10)

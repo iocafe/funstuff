@@ -1,5 +1,6 @@
 use <../anglebarframe.scad>
 use <../simpleplaywood.scad>
+use <../hdim.scad>
 use <legpair.scad>
 
 leg_dist_from_end = 8;
@@ -72,14 +73,14 @@ module computertable_top(width = 194.7, depth = 60, explode=false)
         translate([hole_pos, width/2+hole_move, -2])
         minkowski()
         {
-            cube([hole_depth-rounded_end_d, hole_w, 0.001], center = true);
+            cube([hole_depth-rounded_end_d, hole_w-rounded_end_d, 0.001], center = true);
             cylinder(d=rounded_end_d,h=5, center=true, $fn = 22);
         }
         
         translate([hole_pos, width/2-hole_move, -2])
         minkowski()
         {
-            cube([hole_depth-rounded_end_d, hole_w, 0.001], center = true);
+            cube([hole_depth-rounded_end_d, hole_w-rounded_end_d, 0.001], center = true);
             cylinder(d=rounded_end_d,h=5, center=true, $fn = 22);
         }
         
@@ -98,13 +99,33 @@ module computertable_top(width = 194.7, depth = 60, explode=false)
         } 
     }
     
+    hdim(0, hole_pos+hole_depth/2, 12, 20);
+    hdim(0, hole_pos-hole_depth/2, 12, 16);
+    
+    p1 = width/2-hole_move+hole_w/2;
+    translate([0,p1,0]) rotate([0,0,-90])
+    hdim(0, p1, 5, 22);
+    
+    p2 = width/2-hole_move-hole_w/2;
+    translate([0,p2,0]) rotate([0,0,-90])
+    hdim(0, p2, 5, 17);
+    
+    p3 = width/2-small_hole_move+small_hole_w/2;
+    translate([0,p3,0]) rotate([0,0,-90])
+    hdim(0, p3, 5, 12);
+ 
+    p4 = width/2-small_hole_move-small_hole_w/2;
+    translate([0,p4,0]) rotate([0,0,-90])
+    hdim(0, p4, 5, 7);
+   
     translate([hole_pos, width/2,0])
-    cable_support(2*hole_w+hole_move+5, hole_depth+3, depth = 10);
+    cable_support(width-20, hole_depth+3, depth = 10);
 }
 
 module cable_support(length = 80, width=14, depth = 10)
 {
     plywood_t = 0.75*2.54;
+    color([0.8,0.9,0.8,1])
     translate([0,0,-depth-3*plywood_t/2])
     cube([width+2*plywood_t, length, plywood_t], center = true);   
     translate([width/2+plywood_t/2,0,-depth/2-plywood_t])
@@ -112,6 +133,16 @@ module cable_support(length = 80, width=14, depth = 10)
     translate([-width/2-plywood_t/2,0,-depth/2-plywood_t])
     cube([plywood_t, length, depth], center = true);   
     
+    translate([-width/2-plywood_t,0,-depth-2.5*plywood_t])
+    hdim(0, width+2*plywood_t, 0, 8);
+
+    translate([width/2+plywood_t,0,-plywood_t])
+     rotate([0,90,0])
+    hdim(0, depth, 0, 8);
+    
+    translate([width/2+plywood_t,-length/2,-depth-2.5*-plywood_t])
+     rotate([0,0,90])
+    hdim(0, length, 0, 8);
 }
 
 // cable_support();

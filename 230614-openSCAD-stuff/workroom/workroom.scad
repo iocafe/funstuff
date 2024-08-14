@@ -4,7 +4,7 @@ use <fridge.scad>
 use <laundrytable.scad>
 use <basicdoor.scad> 
 use <slidingwindow.scad>
-use <computertable/computertable.scad>
+use <computertable2/computertable.scad>
 use <worktable/worktable.scad>
 use <printershelf/printershelf.scad>
 

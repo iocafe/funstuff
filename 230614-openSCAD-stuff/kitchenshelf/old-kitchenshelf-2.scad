@@ -3,7 +3,6 @@ use <pipe.scad>
 use <shelf.scad> 
 use <legcup.scad> 
 use <waterdispenser.scad>
-use <verticalwood.scad>
 
 module kitcenshelf()
 {
@@ -23,7 +22,7 @@ module kitcenshelf()
     short_pipe_length = shelf_h - leg;
     n_shelfs = 4;   // Number of shelfs above bottom shelf
     shelf_pos =  water_at_right ? [22,53,75,shelf_h - leg - wood_t] : [26,52,80,shelf_h - leg - wood_t];
-    shelf_cut = water_at_right ? [2,0,4,3] : [0,2,1,1];
+    shelf_cut = water_at_right ? [2,0,3,3] : [0,2,1,1];
     shelf_y_step = (pipe_length-wood_t)/n_shelfs;
     first_shelf_y = shelf_y_step;
     hole_pos_y = first_shelf_y - 0.5; 
@@ -40,17 +39,11 @@ module kitcenshelf()
         legcup();
     }
     
-    /* translate([dx2,pipe_y,-0.01])
+    translate([dx2,pipe_y,-0.01])
     pipe(short_pipe_length+0.02, pipe_diam, hole_pos_y, shelf_y_step, n_shelfs);
     
     translate([-dx2,pipe_y,-0.01])
-    pipe(short_pipe_length+0.02, pipe_diam, hole_pos_y, shelf_y_step, n_shelfs); */
-    
-    translate([-dx2,0,wood_t])
-    verticalpair(shelf_pos[1]-wood_t, wood_w, wood_t);
-    
-    translate([dx2,0,shelf_pos[1]+wood_t])
-    verticalpair(shelf_pos[3]-shelf_pos[1]-wood_t, wood_w, wood_t);
+    pipe(short_pipe_length+0.02, pipe_diam, hole_pos_y, shelf_y_step, n_shelfs);
     
     translate([-dx,pipe_y,pipe_z-0.01]) {
         pipe(pipe_length+0.02, pipe_diam, 
@@ -64,11 +57,11 @@ module kitcenshelf()
         legcup();
     }
 
-    /* translate([dx2,-pipe_y,-0.01])
+    translate([dx2,-pipe_y,-0.01])
     pipe(short_pipe_length+0.02, pipe_diam, hole_pos_y, shelf_y_step, n_shelfs);
 
     translate([-dx2,-pipe_y,-0.01])
-    pipe(short_pipe_length+0.02, pipe_diam, hole_pos_y, shelf_y_step, n_shelfs); */
+    pipe(short_pipe_length+0.02, pipe_diam, hole_pos_y, shelf_y_step, n_shelfs);
     
     translate([dx,-pipe_y,pipe_z-0.01]) {
         pipe(right_pipe_l+0.02, pipe_diam, 
@@ -95,14 +88,14 @@ module kitcenshelf()
             }
             else {
                 if (shelf_cut[x] == 2) {
-                    ww2 = shelf_w/2 + dx2 - wood_t/2;
+                    ww2 = shelf_w - dx + dx2;
                     translate([+shelf_w/2-ww2/2,0,0])
                     shelf(ww2, wood_w, wood_t, 
                         gap, pipe_dx, pipe_dy, pipe_diam, false, explode);
                 }
                 else {
-                    if (shelf_cut[x] >= 3) {
-                        ww2 = shelf_cut[x]==3 ? shelf_w - dx + dx2 : shelf_w/2 + dx2 - wood_t/2;
+                    if (shelf_cut[x] == 3) {
+                        ww2 = shelf_w - dx + dx2;
                         translate([-shelf_w/2+ww2/2,0,0])
                         shelf(ww2, wood_w, wood_t, 
                             gap, pipe_dx, pipe_dy, 

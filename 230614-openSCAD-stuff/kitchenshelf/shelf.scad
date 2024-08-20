@@ -65,16 +65,7 @@ module onewood(shelf_w, wood_w, wood_t, gap, pipe_dx, pipe_dy, pipe_diam, is_fro
 
         translate([-shelf_w/2+pipe_dx, hole_y,0])
         cylinder(h=wood_t+0.5,r=pipe_diam/2,center = true, $fn = 16);
-        /* if (is_front) 
-        {
-            translate([0,0,-wood_t/2-0.2])
-            color([0.51,0.38,0.19, 1.0])
-            linear_extrude(wood_t+0.4) 
-            polygon(points=[[shelf_w/4, -wood_w/2-0.1],[shelf_w/2+0.1,wood_w/2],[shelf_w/2+0.1,-wood_w/2-0.1],[shelf_w/4, -wood_w/2-0.1]]);
-        } */
     }
-    
-    
 }   
 
 module ironbrace(shelf_depth)

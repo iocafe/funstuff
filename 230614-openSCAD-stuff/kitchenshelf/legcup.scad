@@ -1,7 +1,7 @@
 module legcup()
 {
     diam = 10;
-    height = 5;
+    height = 3;
     wall = 0.8;
     
     difference()

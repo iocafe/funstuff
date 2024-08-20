@@ -15,8 +15,8 @@ module kitcenshelf()
     wood_w = 17;    // Coconut wood width
     wood_t = 4.5;     // Coconut wood thickness
     gap = 0.5;      // Gap between wood planks of one shelf
-    pipe_dx=6;      // Distance of pipe from end of the self
-    pipe_dy=3;
+    pipe_dx=5;      // Distance of pipe from end of the self
+    pipe_dy=4;
     pipe_diam = 2.54;
     
     pipe_length = shelf_h;
@@ -44,10 +44,10 @@ module kitcenshelf()
     }
    
     translate([-dx2,0,wood_t])
-    verticalpair(shelf_pos[1]-wood_t, wood_w, wood_t, gap);
+    verticalpair(shelf_pos[1]-wood_t, wood_w, wood_t, gap, 0, shelf_pos[0]-wood_t/2);
     
     translate([dx2,0,shelf_pos[1]+wood_t])
-    verticalpair(shelf_pos[3]-shelf_pos[1]-wood_t, wood_w, wood_t, gap);
+    verticalpair(shelf_pos[3]-shelf_pos[1]-wood_t, wood_w, wood_t, gap, shelf_pos[2]-shelf_pos[1]-wood_t/2, 0);
     
     translate([-dx,pipe_y,pipe_z-0.01]) {
         pipe(pipe_length+0.02, pipe_diam, 

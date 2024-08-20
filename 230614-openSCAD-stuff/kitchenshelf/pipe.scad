@@ -1,3 +1,5 @@
+use <hdim.scad>
+
 module pipe(pipe_length = 85, pipe_diam=1.2, first_shelf_y = 15,shelf_y_step = 15, n_shelfs = 3)
 {
     bolt_hole_diam = 0.6;
@@ -14,6 +16,9 @@ module pipe(pipe_length = 85, pipe_diam=1.2, first_shelf_y = 15,shelf_y_step = 1
             cylinder(h=pipe_diam+1.0,r=bolt_hole_diam/2,center = true, $fn = 16);
         }
     }
+    
+    rotate([0,90,0])
+    hdim(-pipe_length, 0, -2, 5);
 }   
 
 pipe();

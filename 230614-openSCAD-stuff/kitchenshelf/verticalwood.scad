@@ -37,15 +37,13 @@ module verticalwood(length = 60.4, wood_w = 15.24, wood_t = 4.5, bolt_left, bolt
     }
     
     if (bolt_left != 0) {
-        translate([-wood_t/2, 0, bolt_left])
-        // rotate([0, -90, 0])
-        bolt(0);
+        translate([wood_t/2, 0, bolt_left])
+        bolt(180);
     }
 
     if (bolt_right != 0) {
-        translate([wood_t/2, 0, bolt_right])
-        // rotate([0, -90, 0])
-        bolt(180);
+        translate([-wood_t/2, 0, bolt_right])
+        bolt(0);
     }
 }
 

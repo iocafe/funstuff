@@ -34,10 +34,10 @@ module verticalpair(length = 60.4, wood_w = 15.24, wood_t = 4.3, gap = 0.0, bolt
     
     txt2 = round_dec(length);
     text_size = 8;
-    translate([wood_t/2, 0, 0.95*length]) rotate([90,-90,90])
+    translate([wood_t/2, 0, 0.90*length]) rotate([90,-90,90])
     text(txt2, size = text_size, 
         halign = "right",valign = "center");
-    translate([-wood_t/2, 0, 0.95*length]) rotate([90,-90,-90])
+    translate([-wood_t/2, 0, 0.90*length]) rotate([90,-90,-90])
     text(txt2, size = text_size, 
         halign = "right",valign = "center");
 }

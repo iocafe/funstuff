@@ -9,7 +9,7 @@ use <hdim.scad>
 module kitcenshelf()
 {
     water_at_right = true;
-    explode = true;
+    explode = false;
     shelf_w = 182;
     shelf_h = 125;
     leg = 10;
@@ -52,7 +52,7 @@ module kitcenshelf()
    
     translate([dx,pipe_y,pipe_z-0.01]) {
         pipe(right_pipe_l+0.02, pipe_diam, 
-            pipe_hole_b, n_holes_b);
+            pipe_hole_b, n_holes_b, false);
         legcup();
     }
    
@@ -64,7 +64,7 @@ module kitcenshelf()
     
     translate([-dx,pipe_y,pipe_z-0.01]) {
         pipe(pipe_length+0.02, pipe_diam, 
-            pipe_hole_a, n_holes_a);
+            pipe_hole_a, n_holes_a, false);
         legcup();
     }
 

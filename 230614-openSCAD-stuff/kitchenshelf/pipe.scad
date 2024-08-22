@@ -1,6 +1,6 @@
 use <hdim.scad>
 
-module pipe(pipe_length = 85, pipe_diam=3.3, pipe_hole_pos=[10,20], n_holes = 2)
+module pipe(pipe_length = 85, pipe_diam=3.3, pipe_hole_pos=[10,20], n_holes = 2, show_dims=true)
 {
     bolt_hole_diam = 0.8;
     
@@ -17,13 +17,16 @@ module pipe(pipe_length = 85, pipe_diam=3.3, pipe_hole_pos=[10,20], n_holes = 2)
         }
     }
     
-    rotate([0,90,0])
-    hdim(-pipe_length, 0, -2, 22);
+    if (show_dims)
+    {
+        rotate([0,90,0])
+        hdim(-pipe_length, 0, -2, 22);
 
-    for (x = [0: n_holes-1]) {
-        //translate([0,0,pipe_hole_pos[x]])
-        rotate([0,-90,n_holes==4?-90:90])
-        hdim(0, pipe_hole_pos[x], 0, x*5 + 7);
+        for (x = [0: n_holes-1]) {
+            //translate([0,0,pipe_hole_pos[x]])
+            rotate([0,-90,n_holes==4?-90:90])
+            hdim(0, pipe_hole_pos[x], 0, x*5 + 7);
+        }
     }
 }   
 

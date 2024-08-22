@@ -4,20 +4,21 @@ use <shelf.scad>
 use <legcup.scad> 
 use <waterdispenser.scad>
 use <verticalwood.scad>
+use <hdim.scad>
 
 module kitcenshelf()
 {
     water_at_right = true;
-    explode = false;
+    explode = true;
     shelf_w = 182;
     shelf_h = 125;
     leg = 10;
-    wood_w = 17;    // Coconut wood width
-    wood_t = 4.5;     // Coconut wood thickness
-    gap = 0.5;      // Gap between wood planks of one shelf
-    pipe_dx=5;      // Distance of pipe from end of the self
+    wood_w = 12*2.54/2; // Coconut wood width
+    wood_t = 4.3;       // Coconut wood thickness
+    gap = 0.0;          // Gap between wood planks of one shelf
+    pipe_dx=5;          // Distance of pipe from end of the self
     pipe_dy=4;
-    pipe_diam = 2.54;
+    pipe_diam = 3.3; // 2.54;
     
     pipe_length = shelf_h;
     short_pipe_length = shelf_h - leg;
@@ -26,7 +27,6 @@ module kitcenshelf()
     shelf_cut = [2,0,4,3];
     shelf_y_step = (pipe_length-wood_t)/n_shelfs;
     first_shelf_y = shelf_y_step;
-    hole_pos_y = first_shelf_y - 0.5; 
     pipe_y = wood_w+gap/2-pipe_dy + (explode ? 40 : 0);
     pipe_z = -leg;
     
@@ -37,9 +37,22 @@ module kitcenshelf()
     bolt_down = [0, -dx2, 0, 0];
     bolt_up = [0, dx2, 0, 0];
     
+    pipe_bolt_carry_r = 0.65; // Radius of stopper end bolt hex end
+    start_a = leg - pipe_bolt_carry_r;
+    pipe_hole_a = [start_a, 
+        start_a + shelf_pos[1], 
+        start_a + shelf_pos[2],
+        start_a + shelf_pos[3]];
+    n_holes_a = 4;
+
+    pipe_hole_b = [start_a, 
+        start_a + shelf_pos[0], 
+        start_a + shelf_pos[1]];
+    n_holes_b = 3;
+   
     translate([dx,pipe_y,pipe_z-0.01]) {
         pipe(right_pipe_l+0.02, pipe_diam, 
-            hole_pos_y, shelf_y_step, n_shelfs);
+            pipe_hole_b, n_holes_b);
         legcup();
     }
    
@@ -51,19 +64,19 @@ module kitcenshelf()
     
     translate([-dx,pipe_y,pipe_z-0.01]) {
         pipe(pipe_length+0.02, pipe_diam, 
-            hole_pos_y, shelf_y_step, n_shelfs);
+            pipe_hole_a, n_holes_a);
         legcup();
     }
 
     translate([-dx,-pipe_y,pipe_z-0.01]) {
         pipe(pipe_length+0.02, pipe_diam, 
-            hole_pos_y, shelf_y_step, n_shelfs);
+            pipe_hole_a, n_holes_a);
         legcup();
     }
 
     translate([dx,-pipe_y,pipe_z-0.01]) {
         pipe(right_pipe_l+0.02, pipe_diam, 
-            hole_pos_y, shelf_y_step, n_shelfs);
+            pipe_hole_b, n_holes_b);
         legcup();
     }
     
@@ -99,6 +112,21 @@ module kitcenshelf()
             }
         }
     }
+    
+    
+    // Top shelf bolt position
+    translate([0, -wood_w/2, shelf_pos[n_shelfs-1]+wood_t])
+    hdim(dx2, shelf_w/2 -dx + dx2, 0, 3);
+    translate([dx2, 0, shelf_pos[n_shelfs-1]+wood_t])
+    rotate([0,0,90])
+    hdim(-wood_w/2, wood_w/2, 0, 3);
+
+    // Top shelf pipe hole position
+    translate([-shelf_w/2, -wood_w+pipe_dy, shelf_pos[n_shelfs-1]+wood_t])
+    hdim(0, pipe_dx, 0, 9);
+    translate([-shelf_w/2+pipe_dx, 0, shelf_pos[n_shelfs-1]+wood_t])
+    rotate([0,0,90])
+    hdim(-wood_w+pipe_dy, wood_w-pipe_dy, 0, 3);
     
     if (!explode) 
     {

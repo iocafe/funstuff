@@ -6,7 +6,7 @@ bighole_diam = 5.0;
 
 module bolt(rotation=0) 
 {
-    length = 13;
+    length = 2.54*5;
     thickness = 1.2;
     hex_diameter = 2.0;
     hex_length = 0.7;

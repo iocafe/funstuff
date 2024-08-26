@@ -5,7 +5,7 @@ socket_base_diam = 10.3;
 socket_base_height = 1.2;
 socket_height = 4;
 socket_neck_diam = 3.7;
-socket_step = 11;
+socket_step = 11.5;
 
 light_bulb_diam = 6;
 light_bulb_center_pos = 4.5;
@@ -15,8 +15,8 @@ light_bulb_top_diam = light_bulb_neck_diam+0.6;
 lid_bulp_hole_diam = socket_neck_diam + 0.6;
 
 box_w = 15;
-box_l = 48;
-box_h = 6.6;
+box_l = 50;
+box_h = 6.8;
 plywood_t = 1.9;
 
 module lightbox(nro_light_bulps = 4)
@@ -27,6 +27,9 @@ module lightbox(nro_light_bulps = 4)
     color([51/255, 34/255, 6/255, 0.9]) 
     translate([0,0,plywood_t/2])
     cube([box_l, box_w, plywood_t], center=true);
+    
+    hdim(-box_l/2, box_l/2, box_w/2, -2);
+    rotate([0,0,90]) hdim(-box_w/2, box_w/2, box_l/2, -5);
 
     socket_offs = -socket_step * (nro_light_bulps-1)/2;
     /* for (i = [0:nro_light_bulps-1])  
@@ -38,30 +41,48 @@ module lightbox(nro_light_bulps = 4)
         translate([socket_step*i+socket_offs, 0, plywood_t])
         socket();
     }
-    
-    translate([0,0, box_h-plywood_t/2+edelta])
-    lid(nro_light_bulps, socket_step, socket_offs);
-
+ 
     color([71/255, 44/255, 16/255, 0.8]) {
         translate([-box_l/2+plywood_t/2-edelta,0,box_h/2])
-        cube([plywood_t, box_w, box_h-2*plywood_t], center=true);
+        cube([plywood_t, box_w, box_h-2*plywood_t],
+            center=true);
         translate([box_l/2-plywood_t/2+edelta,0,box_h/2])
-        cube([plywood_t, box_w, box_h-2*plywood_t], center=true);
+        cube([plywood_t, box_w, box_h-2*plywood_t],
+            center=true);
     }
 
-    color([51/255, 44/255, 36/255, 0.9]) {
+    dim1 = (box_l - 2*plywood_t)/2;
+    translate([0, -edelta, box_h/2]) 
+    rotate([0,0,180]) hdim(-dim1, dim1, box_w/2, -5);
+    dim2 = (box_h - 2*plywood_t)/2;
+    translate([0, -edelta-box_w/2+plywood_t/2, box_h/2]) 
+    rotate([0,90,90]) hdim(-dim2, dim2, -dim1, 5);
+
+    color([91/255, 78/255, 66/255, 0.8]) {
         translate([0,box_w/2-plywood_t/2+edelta,box_h/2])
-        cube([box_l - 2*plywood_t, plywood_t, box_h-2*plywood_t], center=true);
+        cube([box_l - 2*plywood_t, plywood_t,
+            box_h-2*plywood_t], center=true);
         translate([0,-box_w/2+plywood_t/2-edelta,box_h/2])
-        cube([box_l - 2*plywood_t, plywood_t, box_h-2*plywood_t], center=true);
+        cube([box_l - 2*plywood_t, plywood_t, 
+            box_h-2*plywood_t], center=true);
     }
+    
+    translate([0,0,box_h/2])
+    rotate([0,0,90]) 
+    hdim(-box_w/2, box_w/2, -box_l/2-edelta, 7);
+    
+    translate([edelta+box_l/2-plywood_t/2, 0, box_h/2]) 
+    rotate([0,90,-90]) hdim(-dim2, dim2, 0, -4);
+ 
+    translate([0,0, box_h-plywood_t/2+3*edelta])
+    lid(nro_light_bulps, socket_step, socket_offs);
 }        
 
 module lid(nro_light_bulps = 4, socket_step = 11, socket_offs=-16.5)
 {
     explode = false;
 
-    color([51/255, 34/255, 6/255, 0.8]) 
+    color([51/255, 34/255, 6/255, 0.7]) 
     
     difference() {
         cube([box_l, box_w, plywood_t], center=true);
@@ -73,6 +94,19 @@ module lid(nro_light_bulps = 4, socket_step = 11, socket_offs=-16.5)
                 d = lid_bulp_hole_diam, center=true, $fn = 25);
         }
     }
+
+    translate([socket_step/2, 0, plywood_t/2])
+    hdim(-lid_bulp_hole_diam/2, 
+        lid_bulp_hole_diam/2, 0, -7);
+
+    end_dx = (box_l - (nro_light_bulps-1) * socket_step)/2;
+    translate([box_l/2, 0, plywood_t/2])
+    rotate([0,0,0])
+    hdim(-end_dx, 0, 0, -7);
+    translate([box_l/2, 0, plywood_t/2])
+    rotate([0,0,180])
+    hdim(0, end_dx+socket_step, 0, -7);
+
 }
 
 module socket()

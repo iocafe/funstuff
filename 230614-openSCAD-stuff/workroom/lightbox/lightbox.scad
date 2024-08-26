@@ -22,14 +22,19 @@ plywood_t = 1.9;
 module lightbox(nro_light_bulps = 4)
 {
     explode = false;
+    final_view = true;
     edelta = explode ? 12 : 0;
+    opaque10 = final_view ? 0 : 0.1;
     
-    color([51/255, 34/255, 6/255, 0.9]) 
+    color([51/255, 34/255, 6/255, 1-opaque10]) 
     translate([0,0,plywood_t/2])
     cube([box_l, box_w, plywood_t], center=true);
     
-    hdim(-box_l/2, box_l/2, box_w/2, -2);
-    rotate([0,0,90]) hdim(-box_w/2, box_w/2, box_l/2, -5);
+    if (!final_view) {
+        hdim(-box_l/2, box_l/2, box_w/2, -2);
+        rotate([0,0,90]) 
+        hdim(-box_w/2, box_w/2, box_l/2, -5);
+    }
 
     socket_offs = -socket_step * (nro_light_bulps-1)/2;
     /* for (i = [0:nro_light_bulps-1])  
@@ -42,7 +47,7 @@ module lightbox(nro_light_bulps = 4)
         socket();
     }
  
-    color([71/255, 44/255, 16/255, 0.8]) {
+    color([71/255, 44/255, 16/255, 1-2*opaque10]) {
         translate([-box_l/2+plywood_t/2-edelta,0,box_h/2])
         cube([plywood_t, box_w, box_h-2*plywood_t],
             center=true);
@@ -52,13 +57,18 @@ module lightbox(nro_light_bulps = 4)
     }
 
     dim1 = (box_l - 2*plywood_t)/2;
-    translate([0, -edelta, box_h/2]) 
-    rotate([0,0,180]) hdim(-dim1, dim1, box_w/2, -5);
     dim2 = (box_h - 2*plywood_t)/2;
-    translate([0, -edelta-box_w/2+plywood_t/2, box_h/2]) 
-    rotate([0,90,90]) hdim(-dim2, dim2, -dim1, 5);
-
-    color([91/255, 78/255, 66/255, 0.8]) {
+    if (!final_view) {
+        translate([0, -edelta, box_h/2]) 
+        rotate([0,0,180]) 
+        hdim(-dim1, dim1, box_w/2, -5);
+        
+        translate([0, -edelta-box_w/2+plywood_t/2,
+            box_h/2]) 
+        rotate([0,90,90]) 
+        hdim(-dim2, dim2, -dim1, 5);
+    }
+    color([91/255, 78/255, 66/255, 1-2*opaque10]) {
         translate([0,box_w/2-plywood_t/2+edelta,box_h/2])
         cube([box_l - 2*plywood_t, plywood_t,
             box_h-2*plywood_t], center=true);
@@ -67,22 +77,25 @@ module lightbox(nro_light_bulps = 4)
             box_h-2*plywood_t], center=true);
     }
     
-    translate([0,0,box_h/2])
-    rotate([0,0,90]) 
-    hdim(-box_w/2, box_w/2, -box_l/2-edelta, 7);
-    
-    translate([edelta+box_l/2-plywood_t/2, 0, box_h/2]) 
-    rotate([0,90,-90]) hdim(-dim2, dim2, 0, -4);
- 
+    if (!final_view) {
+        translate([0,0,box_h/2])
+        rotate([0,0,90]) 
+        hdim(-box_w/2, box_w/2, -box_l/2-edelta, 7);
+        
+        translate([edelta+box_l/2-plywood_t/2,
+            0, box_h/2]) 
+        rotate([0,90,-90]) hdim(-dim2, dim2, 0, -4);
+    }
     translate([0,0, box_h-plywood_t/2+3*edelta])
-    lid(nro_light_bulps, socket_step, socket_offs);
+    lid(nro_light_bulps, socket_step, socket_offs, final_view);
 }        
 
-module lid(nro_light_bulps = 4, socket_step = 11, socket_offs=-16.5)
+module lid(nro_light_bulps = 4, socket_step = 11, socket_offs=-16.5, final_view=false)
 {
     explode = false;
+    opaque10 = final_view ? 0 : 0.1;
 
-    color([51/255, 34/255, 6/255, 0.7]) 
+    color([51/255, 34/255, 6/255, 1-3*opaque10]) 
     
     difference() {
         cube([box_l, box_w, plywood_t], center=true);
@@ -95,18 +108,19 @@ module lid(nro_light_bulps = 4, socket_step = 11, socket_offs=-16.5)
         }
     }
 
-    translate([socket_step/2, 0, plywood_t/2])
-    hdim(-lid_bulp_hole_diam/2, 
-        lid_bulp_hole_diam/2, 0, -7);
+    if (!final_view) {
+        translate([socket_step/2, 0, plywood_t/2])
+        hdim(-lid_bulp_hole_diam/2, 
+            lid_bulp_hole_diam/2, 0, -7);
 
-    end_dx = (box_l - (nro_light_bulps-1) * socket_step)/2;
-    translate([box_l/2, 0, plywood_t/2])
-    rotate([0,0,0])
-    hdim(-end_dx, 0, 0, -7);
-    translate([box_l/2, 0, plywood_t/2])
-    rotate([0,0,180])
-    hdim(0, end_dx+socket_step, 0, -7);
-
+        end_dx = (box_l - (nro_light_bulps-1) * socket_step)/2;
+        translate([box_l/2, 0, plywood_t/2])
+        rotate([0,0,0])
+        hdim(-end_dx, 0, 0, -7);
+        translate([box_l/2, 0, plywood_t/2])
+        rotate([0,0,180])
+        hdim(0, end_dx+socket_step, 0, -7);
+    }
 }
 
 module socket()

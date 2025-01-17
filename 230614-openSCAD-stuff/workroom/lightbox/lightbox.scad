@@ -21,8 +21,8 @@ plywood_t = 1.9;
 
 module lightbox(nro_light_bulps = 4)
 {
-    explode = false;
-    final_view = true;
+    explode = true;
+    final_view = false;
     edelta = explode ? 12 : 0;
     opaque10 = final_view ? 0 : 0.1;
     
@@ -83,7 +83,7 @@ module lightbox(nro_light_bulps = 4)
         hdim(-box_w/2, box_w/2, -box_l/2-edelta, 7);
         
         translate([edelta+box_l/2-plywood_t/2,
-            0, box_h/2]) 
+        0, box_h/2]) 
         rotate([0,90,-90]) hdim(-dim2, dim2, 0, -4);
     }
     translate([0,0, box_h-plywood_t/2+3*edelta])
@@ -117,9 +117,18 @@ module lid(nro_light_bulps = 4, socket_step = 11, socket_offs=-16.5, final_view=
         translate([box_l/2, 0, plywood_t/2])
         rotate([0,0,0])
         hdim(-end_dx, 0, 0, -7);
+        
         translate([box_l/2, 0, plywood_t/2])
         rotate([0,0,180])
         hdim(0, end_dx+socket_step, 0, -7);
+
+        translate([box_l/2, 0, plywood_t/2])
+        rotate([0,0,180])
+        hdim(0, end_dx+2*socket_step, 0, 12);
+
+        translate([box_l/2, 0, plywood_t/2])
+        rotate([0,0,180])
+        hdim(0, end_dx+3*socket_step, 0, -12);
     }
 }
 

@@ -3,12 +3,10 @@ use <hdim.scad>
 bar_diam = 3.8;
 bar_t  = 0.3;
 
-module anglebarframe(length = 60, width = 210, explode=false)
+module anglebarframe(length = 60, width = 210, explode=false, c1 = [0.5,0.28,0.19, 1.0], c2 = [0.8,0.30,0.29, 1.0])
 {
     d = explode ? 20 : 0;
-    c1 = [0.5,0.28,0.19, 1.0];
-    c2 = [0.8,0.30,0.29, 1.0];
-    
+      
     rotate([0,180,0])
     {
     translate([-length,-d,0]) 

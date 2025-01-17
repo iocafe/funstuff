@@ -2,7 +2,7 @@ use <../twinwood.scad>
 use <../twinwoodwithholes.scad>
 use <../foot.scad> 
 
-module printershelf(width = 107, depth = 34, height = 77, explode = false)
+module printershelf(width = 145, depth = 34, height = 78, explode = false)
 {
     gap = 0.3;
     wood_w = depth/2 - gap;
@@ -24,7 +24,7 @@ module printershelf(width = 107, depth = 34, height = 77, explode = false)
     rotate([0,0,90])
     twinwood(width, wood_w, wood_t, gap, 2, explode);
     
-    translate([wood_w+gap/2, width/2, 2*wood_t+38])
+    translate([wood_w+gap/2, width/2, 2*wood_t+48])
     rotate([0,0,90])
     twinwoodwithholes(width-2*wood_t, wood_w, wood_t, gap, 2, true, true, explode);
   

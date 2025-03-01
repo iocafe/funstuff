@@ -3,7 +3,7 @@ separator_bar_w = 1.7;
 separator_bar_d = 6.3;
 
 glass_frame_w = 2.1;
-glass_frame_hor_bar_w = 2.3;
+glass_divider_w = 2.3;
 glass_frame_t = 0.12;
 glass_frame_d = 2.5;
 glass_frame_flap_w = 1.9;
@@ -11,15 +11,26 @@ glass_frame_flap_w = 1.9;
 nro_vertical_squares = 4;
 
 allowance = 0.3;
+hinge_dx = 1;
+hinge_dy = 3;
 window_frame_color1 = [0.4, 0.2, 0.2, 1.0];
 window_frame_color2 = [0.5, 0.3, 0.3, 1.0];
 window_frame_color3 = [0.3, 0.4, 0.3, 1.0];
 
-module window(width=70, height=110, nro_openings = 2, wall_thickness=15) 
+module window(width=70, height=110, nro_openings = 2, open_angle=45, wall_thickness=15) 
 {
     fixedgrid(width, height, nro_openings); 
     
-    // windowhatch(width, height); 
+    hatch_w = (width - (2*nro_openings-2)*separator_bar_w)/nro_openings - 2 * allowance;
+    hatch_h = height - 2 * allowance; 
+    step_x = (width+2*separator_bar_w) / nro_openings;
+    for (i = [0:nro_openings-1])
+    {
+        x = step_x * (i - nro_openings/2 + 0.5);
+
+        translate([x, 0, height/2]) 
+        windowhatch(hatch_w, hatch_h, open_angle, i); 
+    }
 }
 
 module fixedgrid(width, height, nro_openings) 
@@ -28,7 +39,6 @@ module fixedgrid(width, height, nro_openings)
     for (i = [nro_openings/-2+1:nro_openings/2-1])
     {
         x = step_x * i;
-        echo(x, step_x);
         color(window_frame_color1) 
         translate([x - separator_bar_w/2-0.02, 
             separator_bar_d/2, height/2]) 
@@ -52,8 +62,8 @@ module fixedgrid(width, height, nro_openings)
            center=true);
    }
    
-    step_y = (height+glass_frame_w) / nro_vertical_squares;
-    for (i = [nro_vertical_squares/-2+1:nro_vertical_squares/2-1])
+   step_y = (height+glass_frame_w) / nro_vertical_squares;
+   for (i = [nro_vertical_squares/-2+1:nro_vertical_squares/2-1])
    {
        y = step_y * i + height/2;
 
@@ -64,21 +74,42 @@ module fixedgrid(width, height, nro_openings)
    }   
 }
 
-module windowhatch(width=70, height=110) 
+module windowhatch(width=70, height=110, open_angle=0, step=0) 
 {
-    color("red")
-    //color(window_frame_color3)
-    translate([0, (glass_frame_d-glass_frame_t), 0])
-    genericframe(width, height, glass_frame_w, glass_frame_t);
-    
-    color(window_frame_color2)
-    translate([0, (glass_frame_d-glass_frame_t)/2, 0])
-    genericframe(width, height, glass_frame_t, glass_frame_d);
+    dx = step%2 == 0 ? width/2 + hinge_dx : -width/2 - hinge_dx;
+    dy = hinge_dy;
+    translate([-dx, -dy, 0])
+    rotate([0,0, step%2 == 0 ? -open_angle : open_angle])
+    translate([dx, dy, 0])
+    {
+        color(window_frame_color2)
+        translate([0, (glass_frame_d-glass_frame_t), 0])
+        genericframe(width, height, glass_frame_w, glass_frame_t);
+        
+        color(window_frame_color3)
+        translate([0, (glass_frame_d-glass_frame_t)/2, 0])
+        genericframe(width, height, glass_frame_t, glass_frame_d);
 
-    color("blue")
-    //color(window_frame_color2)
-    translate([0, glass_frame_t/-2, 0])
-    genericframe(width+2*glass_frame_flap_w, height+2*glass_frame_flap_w, glass_frame_flap_w, glass_frame_t);
+        color(window_frame_color2)
+        translate([0, glass_frame_t/-2, 0])
+        genericframe(width+2*glass_frame_flap_w, height+2*glass_frame_flap_w, glass_frame_flap_w, glass_frame_t);
+        
+        color(window_frame_color1) 
+        translate([0, (glass_frame_d-glass_frame_t), 0])
+        cube([glass_divider_w, glass_frame_t, 
+            height-2*glass_frame_w], center=true);
+        
+        step_y = (height+glass_frame_w) / nro_vertical_squares;
+        for (i = [nro_vertical_squares/-2+1:nro_vertical_squares/2-1])
+        {
+           y = step_y * i;
+
+           color(window_frame_color1) 
+           translate([0, (glass_frame_d-glass_frame_t), y]) 
+           cube([width-2*glass_frame_w, glass_frame_t, glass_divider_w],
+               center=true);
+       }   
+   }
 } 
 
 

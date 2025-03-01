@@ -1,8 +1,11 @@
 use <basicdoor.scad>
 use <frontdoor.scad>
 use <arcdoorhole.scad> 
-use <slidingwindow.scad>
+use <window.scad>
 use <hdim.scad>
+
+window_1_move = 140;
+window_2_move = 65;
 
 module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, wall_height=260)
 {
@@ -40,19 +43,44 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
         [c + painted_wall_t/sqrt(2), painted_wall_t],
         [painted_wall_t, c+ painted_wall_t/sqrt(2)]];
   
-    color(wall_color)
-        linear_extrude(wall_height)
-        difference() {
-            polygon(exteriorpoints);
-            polygon(interiorpoints);
-        }
+    difference() {
+        union() {
+            color(wall_color)
+            linear_extrude(wall_height, convexity = 10)
+            difference() {
+                polygon(exteriorpoints);
+                polygon(interiorpoints);
+            }
 
-    color(paint_the_rooms)
-        linear_extrude(wall_height)
-        difference() {
-            polygon(interiorpoints);
-            polygon(paintpoints);
+            color(paint_the_rooms)
+            linear_extrude(wall_height, convexity = 10)
+            difference() {
+                polygon(interiorpoints);
+                polygon(paintpoints);
+            }
         }
+        
+       
+        translate([house_sz[0], 
+            house_sz[1] - window_1_move, 0])
+        rotate([0,0,90])
+        wide_window_hole(wall_t);
+
+        translate([house_sz[0] - window_2_move, 
+            toilet_cut_d[1], 0])
+        //rotate([0,0,90])
+        std_window_hole(wall_t);
+    }
+    
+    translate([house_sz[0], 
+        house_sz[1] - window_1_move, 0])
+    rotate([0,0,90])
+    wide_window(wall_t,20);
+
+    translate([house_sz[0] - window_2_move, 
+        toilet_cut_d[1], 0])
+    //rotate([0,0,90])
+    std_window(wall_t,20);
     
     color(paint_the_rooms)
         translate([sz[0]-wall_t-bedroom_l, sz[1]/2,wall_height/2])

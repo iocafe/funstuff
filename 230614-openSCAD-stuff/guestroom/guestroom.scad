@@ -45,7 +45,6 @@ module guestroom()
     
     sala_w = house_sz[0] - bedroom_l - 2.5 * wall_thickness;
     
-
     // Fridge
     fridge_w = 55;
     fridge_d = 57;
@@ -53,8 +52,7 @@ module guestroom()
     translate([wall_thickness+sala_w-fridge_w/2-2,house_sz[1] - wall_thickness - fridge_d/2, fridge_h/2]) 
         color([73/255,113/255,178/255,1]) 
         cube([fridge_w,fridge_d,fridge_h], center=true);
-    
-    
+        
     // Sink and cooking table
     sinktab_w = sala_w-fridge_w-5;
     sinktab_d = 60;

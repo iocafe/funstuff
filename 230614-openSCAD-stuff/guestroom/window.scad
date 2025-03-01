@@ -1,3 +1,12 @@
+std_window_w = 70;
+std_window_h = 110;
+std_window_hatches = 2;
+std_window_pos = 90;
+
+wide_window_w = 140;
+wide_window_h = 110;
+wide_window_hatches = 4;
+
 small_bar_d = 0.8;
 separator_bar_w = 1.7;
 separator_bar_d = 6.3;
@@ -17,7 +26,38 @@ window_frame_color1 = [0.4, 0.2, 0.2, 1.0];
 window_frame_color2 = [0.5, 0.3, 0.3, 1.0];
 window_frame_color3 = [0.3, 0.4, 0.3, 1.0];
 
-module window(width=70, height=110, nro_openings = 2, open_angle=45, wall_thickness=15) 
+module std_window(wall_thickness=15, open_angle=0, window_pos = std_window_pos)
+{
+    translate([0,0,window_pos])
+    window(wall_thickness, open_angle, 
+         std_window_w, std_window_h, 
+        std_window_hatches);
+}
+
+module std_window_hole(wall_thickness=15, window_pos = std_window_pos)
+{
+    translate([0,wall_thickness/2,window_pos+std_window_h/2])
+    color("white")
+    cube([std_window_w, wall_thickness+1.0, std_window_h],center=true);
+}
+
+module wide_window(wall_thickness=15, open_angle=0, window_pos = std_window_pos)
+{
+    translate([0,0,window_pos])
+    window(wall_thickness, open_angle, 
+         wide_window_w, wide_window_h, 
+        wide_window_hatches);
+}
+
+module wide_window_hole(wall_thickness=15, window_pos = std_window_pos)
+{
+    translate([0,wall_thickness/2,window_pos+wide_window_h/2])
+    color("white")
+    cube([wide_window_w, wall_thickness+1.0, wide_window_h],center=true);
+}
+
+
+module window(wall_thickness=15, open_angle=0, width=std_window_w, height=std_window_h, nro_openings = std_window_hatches) 
 {
     fixedgrid(width, height, nro_openings); 
     
@@ -129,4 +169,4 @@ module genericframe(width=70, height=110, profile_width = 5, profile_depth = 8)
 }    
 
 // For testing
-window();
+wide_window();

@@ -1,8 +1,8 @@
 use <../hdim.scad> 
 
-box_l = 30; // Depth max 54
+box_l = 35; // Depth max 54
 box_w = 80; 
-box_h = 5;
+box_h = 8;
 plywood_t = 1.9;
 
 slider_t = 1; // thickness

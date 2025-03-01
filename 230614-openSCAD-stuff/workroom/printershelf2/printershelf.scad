@@ -31,7 +31,7 @@ module printershelf(width = 145, depth = 45, height = 77.8, explode=false)
     
     color([0.9,0.9,0.1,1.0])
     {
-        t1 = "WORK TABLE"; 
+        t1 = "PRINTER SHELF"; 
         t2 = str(width, "cm x ", depth, "cm");
         t3 = "plywood size";
         t4 = str(width-2*playwood_allowance, " x ", depth-2*playwood_allowance);
@@ -86,19 +86,9 @@ module printershelf(width = 145, depth = 45, height = 77.8, explode=false)
         }
     } 
 
-    /* d = width/3;
-    l = 1.41 * d;
-    translate([0, width-d-bar_diam, height-bar_diam])
-    rotate([90,45,90])
-    tl_anglebar(l, bar_diam, c);
-    
-    translate([0, d+bar_diam, height-bar_diam])
-    mirror([0,1,0])
-    rotate([90,45,90])
-    tl_anglebar(l, bar_diam, c); */
-    
-    translate([depth/2+6, width/2, height-bar_diam-5.5])
-    printershelfdrawer(open);
+   
+    translate([depth/2+6, width/2, height-bar_diam-8.5])
+    printershelfdrawer(false);
 }        
 
 printershelf();

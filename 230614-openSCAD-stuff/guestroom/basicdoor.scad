@@ -1,11 +1,17 @@
+basic_door_w = 75.3;
+basic_door_h = 213.2;
 
-module basicdoor(width=95.3, height=213.2, wall_thickness=15, right_handed = false, open_angle = 30) 
+
+module basicdoor(wall_thickness=15, right_handed = false, open_angle = 30, width=basic_door_w, height=basic_door_h) 
 {
     profile_width = 12;
     door_thickness = 4.0;
     frame_profile_width = 2.3;
     frame_profile_depth = wall_thickness;
     seal_profile_width = 1.0;
+    
+    translate([0,wall_thickness/2,height/2])
+    {
     
     /* Outer frame fixed to convrete wall. */
     color([0.3,0.0,0.1])
@@ -44,10 +50,19 @@ module basicdoor(width=95.3, height=213.2, wall_thickness=15, right_handed = fal
         cube([profile_width, door_thickness, l], center=true);
          
          /* Door knob */
-         translate([right_handed ? open_w/2 - 6.0 : -open_w/2 + 6.0, 0, 0])
+         translate([right_handed ? open_w/2 - 6.0 
+            : -open_w/2 + 6.0, 0, 0])
          color([218/255,172/255,96/255])
          doorknob(door_thickness);
     }
+    }
+}
+
+module basicdoorhole(wall_thickness=15, width=basic_door_w, height=basic_door_h) 
+{
+    color("White")
+    translate([0, wall_thickness/2, height/2])
+    cube([width, wall_thickness+4, height], center=true);
 }
 
 module basicdoorframe(draw_bottom=true,width=70, height=110, profile_width = 5, door_thickness = 8) 

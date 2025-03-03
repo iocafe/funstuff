@@ -1,5 +1,7 @@
 use <floor.scad> 
 use <walls.scad> 
+use <toiletseat.scad>
+use <bathroomsink.scad>
 
 house_sz = [495, 410];
 front_cut_diag = 70;
@@ -18,7 +20,7 @@ module chair()
     chair_back_h = 77;
     chair_back_t = 5;
     translate([0,0, chair_h/2])
-        color("brown") {
+        color("Peru") {
         cube([chair_w,chair_d,chair_h], center=true);
         translate([0,-(chair_d-chair_back_t)/2,chair_h/2+chair_back_h/2+2])
             cube([chair_w,chair_back_t,chair_back_h], center=true);
@@ -35,6 +37,7 @@ module guestroom()
     table_h = 75;
     translate([70,195, table_h/2]) 
         color([63/255,31/255,15/255,1]) 
+        // color("MediumSeaGreen")
         cube([120,70,table_h], center=true);
     
     // Chairs
@@ -50,7 +53,8 @@ module guestroom()
     fridge_d = 57;
     fridge_h = 146;
     translate([wall_thickness+sala_w-fridge_w/2-2,house_sz[1] - wall_thickness - fridge_d/2, fridge_h/2]) 
-        color([73/255,113/255,178/255,1]) 
+        // color([73/255,113/255,178/255,1]) 
+        color("Wheat")
         cube([fridge_w,fridge_d,fridge_h], center=true);
         
     // Sink and cooking table
@@ -62,7 +66,7 @@ module guestroom()
         house_sz[1] - wall_thickness - sinktab_d/2, 
         sinktab_h/2]) 
     {
-        color("brown") 
+        color("MediumSeaGreen") 
         cube([sinktab_w,sinktab_d,sinktab_h], center=true);
         translate([0,0,sinktab_h/2+tile_t/2])
         color("black") cube([sinktab_w+0.1,sinktab_d+0.1,tile_t+0.1], center=true);
@@ -75,21 +79,28 @@ module guestroom()
     translate([wall_thickness+cupboard_w/2,
         house_sz[1] - wall_thickness - cupboard_d/2, 
         cupboard_h/2+120]) 
-        color("brown") 
+        color("MediumSeaGreen") 
         cube([cupboard_w,cupboard_d,cupboard_h], center=true);
         
     
     // Bed
-    bed_h = 35;
-    translate([407,295, bed_h/2]) color("pink") cube([140,190,bed_h], center=true);
+    bed_h = 45;
+    translate([407,295, bed_h/2]) color("Aquamarine") cube([140,190,bed_h], center=true);
     
     // Cabinet for clothes
     cabinet_w = 130;
     cabinet_d = 35;
     cabinet_h = 220;
     translate([2*wall_thickness+sala_w+cabinet_d/2+2,house_sz[1] - wall_thickness - cabinet_w/2-1, cabinet_h/2]) 
-        color("brown") 
+        color("MediumSeaGreen")
         cube([cabinet_d,cabinet_w,cabinet_h], center=true);
+      
+    // Toilet seat
+    translate([house_sz[0] - toilet_cut_d[0] - 48, 144, 0])
+    toiletseat();
+    translate([house_sz[0] - toilet_cut_d[0] - wall_thickness, wall_thickness, 60])
+    rotate([0,0,90])
+    bathroomsink();
 
 
 }        

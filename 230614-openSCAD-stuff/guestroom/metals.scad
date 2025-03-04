@@ -104,7 +104,7 @@ module roof_slice(length=100, r = 2,alpha=20, thickn=0.06)
        roof_turn(length, bend_r, alpha, thickn); 
 }
 
-module roof_piece(length=300, width=105, c = "green") 
+module roof_piece(length=300, width=105, c = "DarkGreen") 
 {
     r = 3*2.54/4;
     alpha = 45;

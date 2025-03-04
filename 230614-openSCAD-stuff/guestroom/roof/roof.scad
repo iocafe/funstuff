@@ -1,25 +1,32 @@
 use <../metals.scad> 
 use <bolt.scad> 
 
-roof_overlap = 70;
+roof_overlap = 75;
+roof_center_overlap = 80;
+roof_longitunal_overlap = 60;
 roof_angle = 20;
-sink_roof = 20;
+sink_roof = 21;
 
 c_bar_width = 2.0 * 2.54;
 c_bar_height = 3 * 2.54;
 c_bar_thickn = 0.5;
 c_bar_color = "DarkGray";
 
+c_purlin_w = 2*2.54;
+c_purlin_h = 3*2.54;
+c_purlin_color = "DarkRed";
+
+
 bolt_material_and_washer_thickn = 1.2;
 part3_move = 20;
 
-module roof(house_width, truss_pos, n_truss)
+module roof(house_length, house_width, truss_pos, n_truss)
 {
     translate([0,0,-sink_roof])
-    roof2(house_width, truss_pos, n_truss);
+    roof2(house_length, house_width, truss_pos, n_truss);
 }
 
-module roof2(house_width, truss_pos, n_truss)
+module roof2(house_length, house_width, truss_pos, n_truss)
 {
     width = house_width + 2 * roof_overlap;
     
@@ -81,6 +88,18 @@ module roof2(house_width, truss_pos, n_truss)
         translate([0, -dd, -dd])
         rotate([0,0,180]) bolt();
     }
+    
+    purlins_length = truss_pos[n_truss-1] - truss_pos[0] 
+        + 2*c_bar_width
+        + 2*roof_longitunal_overlap;
+    
+    purlins_w = (width/2 +roof_center_overlap) / cos(roof_angle);
+    dxx = width/4 - roof_center_overlap/2;
+    dyy = dxx * tan(roof_angle) + sink_roof 
+        + (c_bar_height + c_purlin_h) / cos(roof_angle);
+    translate([-dxx, -house_length/2, dyy])
+    rotate([0,-roof_angle,0])
+    roof_c_purlins(purlins_length, purlins_w, 7);
 }
 
 module roof_truss(width = 400)
@@ -103,7 +122,7 @@ module roof_truss(width = 400)
     l1 = (width/2) / cos(roof_angle);
     rotated_c_bar(l1, roof_angle, false, width/2);
 
-    l2 = l1 + roof_overlap;
+    l2 = l1 + roof_center_overlap/cos(roof_angle);
     rotated_c_bar(l2, roof_angle, true, width/2, "SlateGrey");
     
     translate([-narrower_width/2 + 0.6*c_bar_height,
@@ -160,6 +179,22 @@ module rotated_c_bar(length, angle, flip, move_x, c = "DarkGrey")
     }
 }
 
+module roof_c_purlins(length, width, n)
+{
+    step = (width - c_purlin_w) / (n - 1);
+    for (i = [0:n-1]) {
+        translate([i * step - width/2+c_purlin_w, 0, c_purlin_h/2])
+        rotate([0,0,90])
+        c_purlin(length, c_purlin_color, 
+            c_purlin_w, c_purlin_h);
+    } 
+    
+    translate([width/2, 0, c_purlin_h])
+    rotate([0,0,90])
+    roof_piece(width, length);
+}
+
+
 truss_pos = [0, 100, 200];
 n_truss = 3;
-roof(400, truss_pos, n_truss);
+roof(200, 400, truss_pos, n_truss);

@@ -34,7 +34,7 @@ module guestroom()
             house_sz[0] - wall_thickness/2];
         translate([0, house_sz[1]/2, wall_height])
         rotate([0,0,90])
-        roof(house_sz[1], truss_pos, 5);
+        roof(house_sz[0], house_sz[1], truss_pos, 5);
     }
         
     floor(house_sz, front_cut_diag, toilet_cut_d,

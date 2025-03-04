@@ -1,38 +1,54 @@
 use <floor.scad> 
 use <walls.scad> 
+use <roof/roof.scad>
 use <toiletseat.scad>
 use <bathroomsink.scad>
 
-house_sz = [495, 410];
+show_roof = true;
+show_furniture = true;
+transparent_concrete = false; // In walls and floor
+
+bigger_house = false;
+house_sz = bigger_house ? [595, 410] : [495, 410];
+bedroom_l = bigger_house ? 310 : 240;
 front_cut_diag = 70;
-toilet_cut_d = [115, 145];
+toilet_cut_d = bigger_house ? [165, 165] : [115, 145];
 
-pillar_d = 40;
+wall_thickness = 15;
+wall_height = 260;
 
-wall_thickness=15;
-bedroom_l = 240;
+floor_thickness = 15;
 
-module chair()
-{
-    chair_w = 43;
-    chair_d = 44;
-    chair_h = 43;
-    chair_back_h = 77;
-    chair_back_t = 5;
-    translate([0,0, chair_h/2])
-        color("Peru") {
-        cube([chair_w,chair_d,chair_h], center=true);
-        translate([0,-(chair_d-chair_back_t)/2,chair_h/2+chair_back_h/2+2])
-            cube([chair_w,chair_back_t,chair_back_h], center=true);
-        }
-}
 
 module guestroom()
 {
-    floor(house_sz, front_cut_diag, toilet_cut_d);
+    if (show_furniture) {
+        furniture();
+    }
     
-    walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l);
+    if (show_roof) {
+        truss_pos = [wall_thickness/2, 
+            (house_sz[0] - bedroom_l - wall_thickness)/2,
+            house_sz[0] - bedroom_l - wall_thickness,
+            house_sz[0] - toilet_cut_d[0] - wall_thickness/2,
+            house_sz[0] - wall_thickness/2];
+        translate([0, house_sz[1]/2, wall_height])
+        rotate([0,0,90])
+        roof(house_sz[1], truss_pos, 5);
+    }
+        
+    floor(house_sz, front_cut_diag, toilet_cut_d,
+        floor_thickness, transparent_concrete);
     
+    walls(house_sz, front_cut_diag, toilet_cut_d, 
+        bedroom_l, wall_thickness, wall_height,
+        transparent_concrete);
+    
+
+}
+    
+module furniture()
+{
     // Table
     table_h = 75;
     translate([70,195, table_h/2]) 
@@ -101,8 +117,23 @@ module guestroom()
     translate([house_sz[0] - toilet_cut_d[0] - wall_thickness, wall_thickness, 60])
     rotate([0,0,90])
     bathroomsink();
-
-
 }        
 
+module chair()
+{
+    chair_w = 43;
+    chair_d = 44;
+    chair_h = 43;
+    chair_back_h = 77;
+    chair_back_t = 5;
+    
+    translate([0,0, chair_h/2])
+    color("Peru") {
+        cube([chair_w,chair_d,chair_h], center=true);
+    
+        translate([0,-(chair_d-chair_back_t)/2,
+            chair_h/2+chair_back_h/2+2])
+        cube([chair_w,chair_back_t,chair_back_h], center=true);
+    }
+}
 guestroom();

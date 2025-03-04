@@ -23,7 +23,11 @@ module anglebar2(length=100, c = "DimGray", thickn=0.5)
     anglebar(length, c, 2*2.54, thickn);
 }
 
-module c_bar(length=100, c = "DarkGray", width=1.5*2.54, height = 3*2.54,thickn=0.6) 
+// Name is C-Channel, even I used C-bar.
+// Channel Bar: 75mm x 50mm x 3mm, 6 m piece 1500-1700 pesos.
+// Channel Bar: 75mm x 50mm x 5mm, 6 m piece 2260 pesos.
+// Bigger sizes available.
+module c_bar(length=100, c = "DarkGray", width=1.5*2.54, height = 3*2.54,thickn=0.5) 
 {
     color(c) {
         translate([0,width/2,-height/2+thickn/2]) 
@@ -35,12 +39,17 @@ module c_bar(length=100, c = "DarkGray", width=1.5*2.54, height = 3*2.54,thickn=
     }
 }
 
-module c_bar3(length=100, c = "DarkGray", thickn=0.6) 
+module c_bar3(length=100, c = "DarkGray", thickn=0.5) 
 {
-    c_bar(length, c, 1.5*2.54, 3*2.54,thickn);
+    c_bar(length, c, 5, 7.5, thickn);
 } 
 
-module c_furling(length=100, c = "DarkGray", width=1.5*2.54, height = 3*2.54,thickn=0.2) 
+// C purlins come as 2"x3", 2"x4", 2"x6" and 2"x7", 
+// 6m long pieces. Metric sizes also available.
+// Steel thicknessess 1.2mm, 1.5mm or 2.0mm.
+// 1.5mm price is good (2"x3" lists 574 pesos), 
+// 1.2mm is not much cheaper and 2.0mm is expensive.
+module c_purlin(length=100, c = "DarkGray", width=2*2.54, height = 3*2.54,thickn=0.15) 
 {
     elbow = height/10;
     color(c) {
@@ -59,9 +68,9 @@ module c_furling(length=100, c = "DarkGray", width=1.5*2.54, height = 3*2.54,thi
     }
 }
 
-module c_furling3(length=100, c = "DarkGray", thickn=0.2) 
+module c_purlin3(length=100, c = "DarkGray", thickn=0.2) 
 {
-    c_furling(length, c, 1.5*2.54, 3*2.54,thickn); 
+    c_purlin(length, c, 1.5*2.54, 3*2.54,thickn); 
 }
 
 module roof_turn(length=100, bend_r = 2, alpha=25, thickn=0.06) 
@@ -116,4 +125,4 @@ module roof_piece(length=300, width=105, c = "green")
     }
 }
 
-roof_piece();
+c_purlin();

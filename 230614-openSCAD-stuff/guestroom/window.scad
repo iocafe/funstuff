@@ -1,17 +1,22 @@
-std_window_w = 70;
-std_window_h = 110;
+// If high_windows is false, the ready Thailand metal frame
+// size is used. If windows are made by ourselves, the
+// high_windows can be set to true to get bigger windows.
+high_windows = true;
+
+std_window_w = high_windows ? 75 : 70;
+std_window_h = high_windows ? 135 : 110;
 std_window_hatches = 2;
-std_window_pos = 90;
+std_window_pos = high_windows ? 75 : 90;
 std_nro_vertical_squares = 4;
 
-wide_window_w = 140;
-wide_window_h = 110;
+wide_window_w = 2 * std_window_w;
+wide_window_h = std_window_h;
 wide_window_hatches = 4;
 
-small_window_w = 50;
-small_window_h = 50;
+small_window_w = high_windows ? 60 : 50;
+small_window_h = small_window_w;
 small_window_hatches = 2;
-small_window_pos = 150;
+small_window_pos = std_window_pos + std_window_h - small_window_h;
 small_nro_vertical_squares = 2;
 
 small_bar_d = 0.8;
@@ -193,4 +198,4 @@ module genericframe(width=70, height=110, profile_width = 5, profile_depth = 8)
 }    
 
 // For testing
-wide_window();
+std_window(15, $t*179);

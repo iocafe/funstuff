@@ -4,15 +4,22 @@ use <roof/roof.scad>
 use <toiletseat.scad>
 use <bathroomsink.scad>
 
-show_roof = true;
+
 show_furniture = true;
-transparent_concrete = false; // In walls and floor
+
+// Transparent concrete in walls and floor allows to
+// see support structure, electrical connections and piping
+transparent_concrete = false;
+
+// Show roof: 0 = no, 1 = truss supports, 2=+furlings,
+// 3=+transparent roof metal, 4 = +opaque roof metal.
+show_roof = 2;
 
 bigger_house = false;
 house_sz = bigger_house ? [595, 410] : [495, 410];
 bedroom_l = bigger_house ? 310 : 240;
 front_cut_diag = 70;
-toilet_cut_d = bigger_house ? [165, 165] : [115, 145];
+toilet_cut_d = bigger_house ? [195, 165] : [115, 145];
 
 wall_thickness = 15;
 wall_height = 260;
@@ -26,7 +33,7 @@ module guestroom()
         furniture();
     }
     
-    if (show_roof) {
+    if (show_roof > 0.5) {
         truss_pos = [wall_thickness/2, 
             (house_sz[0] - bedroom_l - wall_thickness)/2,
             house_sz[0] - bedroom_l - wall_thickness,
@@ -34,7 +41,7 @@ module guestroom()
             house_sz[0] - wall_thickness/2];
         translate([0, house_sz[1]/2, wall_height])
         rotate([0,0,90])
-        roof(house_sz[0], house_sz[1], truss_pos, 5);
+        roof(house_sz[0], house_sz[1], truss_pos, 5, show_roof);
     }
         
     floor(house_sz, front_cut_diag, toilet_cut_d,

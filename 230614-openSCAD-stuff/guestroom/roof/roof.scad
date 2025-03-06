@@ -129,44 +129,13 @@ module roof2(house_length, house_width, toilet_cut_d, truss_pos, n_truss, show_r
             - roof_cut_overlap;
         cut_l = purlins_length
         - short_purlins_length; 
-        cut_h = house_width/2 * sin(roof_angle)
-            + c_purlin6_h + 30;
-
-        difference() 
-        {
-            union() {
-                translate([-dxx1, -house_length/2 
-                    + (roof_left_longitunal_overlap 
-                    - roof_right_longitunal_overlap)/2, dyy1])
-                rotate([0,-roof_angle,0])
-                c_purlins_and_roof_metal(purlins_length, 
-                    purlins_w1, 7, show_roof);
-            }
-            
-            translate([-house_width/2
-                - roof_overlap
-                - roof_metal_extra_overlap
-                + cut_w/2,
-                - house_length 
-                - roof_right_longitunal_overlap 
-                - roof_metal_extra_overlap 
-                + cut_l/2,
-                cut_h/2 - 15 /* experimental */])
-            color("DarkGreen")
-            cube([cut_w, cut_l, cut_h], center=true);
-        }
-
-        /* translate([-house_width/2 
-            - roof_overlap
-            - c_purlin6_w,
-            short_purling_center,
-            c_bar_height + c_purlin_h 
-                - (c_purlin_w+c_purlin_end_d+c_purlin6_w)
-                * tan(roof_angle) /* experimental ])
-        rotate([0,0,-90])
-        c_purlin6_angled(short_purlins_length + 2*c_purlin6_w,
-            left_45 = true, right_45 = true); */
-
+      
+        translate([-dxx1, -house_length/2 
+            + (roof_left_longitunal_overlap 
+            - roof_right_longitunal_overlap)/2, dyy1])
+        rotate([0,-roof_angle,0])
+        c_purlins_and_roof_metal(purlins_length, 
+            purlins_w1, 7, show_roof, cut_l, cut_w/cos(roof_angle));
         
         purlins_w2 = (width/2 - roof_center_vent
             - c_purlin_end_d) / cos(roof_angle);
@@ -282,49 +251,67 @@ module rotated_c_bar(length, angle, flip, move_x, c = "DarkGrey")
     }
 }
 
-module c_purlins_and_roof_metal(length, width, n, show_roof)
+module c_purlins_and_roof_metal(length, width, n, show_roof,
+    cut_l=0, cut_w=0)
 {
     step = (width - c_purlin_h) / (n - 1);
     for (i = [0:n-1]) {
-        translate([i * step - width/2 + c_purlin_w/2, 0, c_purlin_w])
+        pos = i * step - width/2 + c_purlin_w/2;
+        use_small = pos < -(width/2+roof_metal_extra_overlap-cut_w) && cut_w > 0;
+        le = use_small ? length - cut_l : length;
+        translate([pos, use_small?cut_l/2:0, c_purlin_w])
         rotate([-90,0,90])
-        c_purlin(length, c_purlin_color, 
+        c_purlin(le, c_purlin_color, 
             c_purlin_w, c_purlin_h);
     }
     
-    translate([0, length/2+c_purlin6_w, c_purlin_w])
+    l1 = width+2*c_purlin6_w;
+    p1 = length/2+c_purlin6_w;
+    
+    translate([0, p1, c_purlin_w])
     mirror([0,1,0])
-    c_purlin6_angled(width+2*c_purlin6_w, 
+    c_purlin6_angled(l1, 
         left_45 = true, left_roof_angle = roof_angle, 
         right_45 = true, right_roof_angle = -roof_angle);
 
-    translate([0, -length/2-c_purlin6_w, c_purlin_w])
-    c_purlin6_angled(width+2*c_purlin6_w, 
+    translate([cut_w > 0 ? cut_w/2:0, -p1, c_purlin_w])
+    c_purlin6_angled(cut_w > 0 ? l1-cut_w: l1, 
         left_45 = true, left_roof_angle = roof_angle, 
         right_45 = true, right_roof_angle = -roof_angle);
 
-    translate([width/2+c_purlin_w, 0, c_purlin_w-1.4])
+    l2 = length+2*c_purlin6_w;
+    p2 = width/2+c_purlin_w;
+    
+    translate([p2, 0, c_purlin_w-1.4])
     rotate([0,roof_angle, 0])
     rotate([0,0,90])
-    c_purlin6_angled(length+2*c_purlin6_w, 
+    c_purlin6_angled(l2, 
         left_45 = true, right_45 = true);
 
-    translate([-width/2-c_purlin_w, 0, c_purlin_w-0.4])
+    translate([-p2, cut_l > 0 ? cut_l/2 : 0, c_purlin_w-0.4])
     rotate([0,roof_angle, 0])
     rotate([0,0,-90])
-    c_purlin6_angled(length+2*c_purlin6_w, 
+    c_purlin6_angled(cut_l > 0 ? l2-cut_l : l2, 
         left_45 = true, right_45 = true);
 
     metal_color = (show_roof > 3.5) 
         ? [35/255, 114/255, 39/255, 1.0]
         : [35/255, 144/255, 39/255, 0.4];
     
-    if (show_roof > 2.5) {
+    if (show_roof > 2.5) difference() {
         translate([width/2+roof_metal_extra_overlap, 0, c_purlin_w])
         rotate([0,0,90])
         roof_piece(width+2*roof_metal_extra_overlap, 
             length + 2*roof_metal_extra_overlap, 
             metal_color);
+        
+        if (cut_l > 0.0) {
+            cut_h = c_purlin_h + c_bar_height;
+            move_x = -(width/2+roof_metal_extra_overlap-cut_w/2);
+            move_y = -(length/2+roof_metal_extra_overlap-cut_l/2);
+            translate([move_x,move_y,0])
+            cube([cut_w, cut_l, cut_h], center=true);
+        }
     }
 }
 

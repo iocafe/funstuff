@@ -27,7 +27,7 @@ module anglebar2(length=100, c = "DimGray", thickn=0.5)
 // Channel Bar: 75mm x 50mm x 3mm, 6 m piece 1500-1700 pesos.
 // Channel Bar: 75mm x 50mm x 5mm, 6 m piece 2260 pesos.
 // Bigger sizes available.
-module c_bar(length=100, c = "DarkGray", width=1.5*2.54, height = 3*2.54,thickn=0.5) 
+module c_bar(length=100, c = "DarkGray", width=2.0*2.54, height = 3*2.54,thickn=0.5) 
 {
     color(c) {
         translate([0,width/2,-height/2+thickn/2]) 
@@ -43,6 +43,43 @@ module c_bar3(length=100, c = "DarkGray", thickn=0.5)
 {
     c_bar(length, c, 5, 7.5, thickn);
 } 
+
+// Purlin with cuts for 45 degrees and roof angle
+module c_purlin_angled(
+    length=100, 
+    left_45 = false, left_roof_angle = 0, 
+    right_45 = false, right_roof_angle = 0, 
+    c = "Red", 
+    width=2.0*2.54, height = 6*2.54,
+    thickn=0.15) 
+{
+    add_len_left = height * tan(left_roof_angle);
+    add_len_right = height * tan(right_roof_angle);
+    add_len_tmp = add_len_left > add_len_right
+        ? add_len_left : add_len_right;
+    add_len = add_len_tmp < 0 ? 0 : add_len_tmp; 
+    
+    box_d = height * sqrt(2);
+    box_w = 4*width  + 0.2;
+       
+    difference()
+    {
+        translate([0,0,-height/2])
+        c_purlin(length + 2*add_len, c, width, height, thickn);
+
+        translate([length/2, 0, 0])
+        rotate([0, -right_roof_angle, 0])
+        rotate([0, 0, right_45?45:0])
+        translate([box_d/2, width/2, -height/2])
+        cube([box_d, box_w, box_d], center=true);
+
+        translate([-length/2, 0, 0])
+        rotate([0, left_roof_angle, 0])
+        rotate([0, 0, left_45?-45:0])
+        translate([-box_d/2, width/2, -height/2])
+        cube([box_d, box_w, box_d], center=true);
+    }
+}
 
 // C purlins come as 2"x3", 2"x4", 2"x6" and 2"x7", 
 // 6m long pieces. Metric sizes also available.
@@ -68,9 +105,28 @@ module c_purlin(length=100, c = "DarkGray", width=2*2.54, height = 3*2.54,thickn
     }
 }
 
-module c_purlin3(length=100, c = "DarkGray", thickn=0.2) 
+module c_purlin3(length=100, c = "DarkGray", thickn=0.15) 
 {
-    c_purlin(length, c, 1.5*2.54, 3*2.54,thickn); 
+    c_purlin(length, c, 2*2.54, 3*2.54,thickn); 
+}
+
+module c_purlin6(length=100, c = [17/255, 112/255, 83/255,1], thickn=0.15) 
+{
+    c_purlin(length, c, 2*2.54, 6*2.54,thickn); 
+}
+
+// Purlin with cuts for 45 degrees and roof angle
+module c_purlin6_angled(
+    length=100, 
+    left_45 = false, left_roof_angle = 0, 
+    right_45 = false, right_roof_angle = 0, 
+    c = "Red") 
+{
+    c_purlin_angled(length, 
+        left_45, left_roof_angle, 
+        right_45, right_roof_angle, 
+        c, 
+        2.0*2.54, 6*2.54, 0.15); 
 }
 
 module roof_turn(length=100, bend_r = 2, alpha=25, thickn=0.06) 
@@ -125,4 +181,7 @@ module roof_piece(length=300, width=105, c = "DarkGreen")
     }
 }
 
-c_purlin();
+c_purlin6_angled(
+    length=200, 
+    left_45 = true, left_roof_angle = 0, 
+    right_45 = true, right_roof_angle = 20);

@@ -32,9 +32,10 @@ bathroom_door_move = 105;
 module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, wall_height=260, transparent_concrete=false)
 {
     // Colors
-    // wall_color="Red";
     wall_color=transparent_concrete 
         ? [0.3,0.3,0.3,0.12] : [250/255, 150/255, 58/255, 1.0];
+    wall_color2=transparent_concrete 
+        ? [0.3,0.3,0.3,0.3] : [250/255, 150/255, 58/255, 1.0];
     paint_the_rooms = transparent_concrete 
         ? [0.3,0.3,0.3,0.3] : [255/255, 255/255, 255/255, 1.0];
     
@@ -128,7 +129,7 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
         translate([house_sz[0]-bedroom_l-0.50*wall_t,
             bedroom_door_move, 0])
         rotate([0,0,90])
-        basicdoor(wall_t, true); 
+        basicdoor(wall_t, true, 90,75.4); 
 
         translate([house_sz[0]-bedroom_l-0.50*wall_t,
             bathroom_door_move, 0])
@@ -166,7 +167,6 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
         rotate([0,0,90])
         basicdoorhole(wall_t, 65.3); 
     }
-    
 
     difference() {
         union() {
@@ -292,7 +292,8 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
             arc_door_move = front_cut_diag / sqrt(2);
             translate([arc_door_move, arc_door_move, 0])
             rotate([0,0,-45])
-            arc_window_hole(wall_t+44, arc_front_door_w, arc_door_h, 0);
+            arc_window_hole(wall_t+44, 
+                arc_front_door_w, arc_door_h, 0);
         }
 
         // ************ REGULAR WINDOWS IN KITCHEN
@@ -316,9 +317,69 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
             basicdoorhole(wall_t+20, front_door_w); 
         }
     }
+    
+    color(wall_color2)
+    translate([0,0, wall_height])
+    wall_extension(house_sz, front_cut_diag, toilet_cut_d, wall_t);
+ }
  
+ module wall_extension(house_sz, front_cut_diag, toilet_cut_d, wall_t, ext_height=100, roof_angle=20, extra_height=11)
+ {
+     difference()
+     {
+         union (){
+            tmp1 = house_sz[1]-toilet_cut_d[1];
+            translate([house_sz[0]-wall_t/2, 
+                toilet_cut_d[1] + tmp1/2, ext_height/2])
+            cube([wall_t, tmp1,
+                ext_height], center=true);
 
+            translate([(house_sz[0]-toilet_cut_d[0]) 
+                + toilet_cut_d[0]/2-wall_t/2, 
+                toilet_cut_d[1]+wall_t/2, ext_height/2])
+            cube([toilet_cut_d[0]-wall_t, wall_t,
+                ext_height], center=true);
+
+            translate([house_sz[0]-toilet_cut_d[0]-wall_t/2, 
+                toilet_cut_d[1]/2+wall_t/2, ext_height/2])
+            cube([wall_t, toilet_cut_d[1]+wall_t,
+                ext_height], center=true);
+                
+            tmp3 = front_cut_diag * sqrt(2);
+            tmp2 = house_sz[0] - toilet_cut_d[0] 
+                - wall_t - tmp3;
+                
+            tmp4 = house_sz[1]-tmp3;
+            translate([wall_t/2, tmp3 + tmp4/2, 
+                ext_height/2])
+            cube([wall_t, tmp4,
+                ext_height], center=true);
+
+            tmp5 = (front_cut_diag + wall_t/2) / sqrt(2);
+            tmp6 = 2 * front_cut_diag;
+            translate([tmp5, tmp5, 
+                ext_height/2])
+                rotate([0,0,45])
+            cube([wall_t, tmp6,
+                ext_height], center=true);
+        }
+            
+        diag = house_sz[1]/2 / cos(roof_angle) + 10;
+        
+        translate([0, 0, extra_height]) 
+        rotate([roof_angle, 0, 0])
+        translate([house_sz[0]/2, diag/2, ext_height/2]) 
+        cube([house_sz[0]+1, diag, 
+            ext_height/cos(roof_angle)], center=true);
+        
+        translate([0, house_sz[1], extra_height]) 
+        rotate([-roof_angle, 0, 0])
+        translate([house_sz[0]/2, -diag/2, ext_height/2]) 
+        cube([house_sz[0]+1, diag,
+            ext_height/cos(roof_angle)], center=true);
+    }
 }
 
+
 // For testing
-walls(house_sz = [495, 410], front_cut_diag = 60, toilet_cut_d = [115, 145],wall_t=15, wall_height=260, transparent_concrete=true);
+walls(house_sz = [495, 410], front_cut_diag = 60, toilet_cut_d = [115, 145],wall_t=15, wall_height=260, transparent_concrete=false);

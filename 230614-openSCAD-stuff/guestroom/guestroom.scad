@@ -13,7 +13,7 @@ transparent_concrete = false;
 
 // Show roof: 0 = no, 1 = truss supports, 2=+furlings,
 // 3=+transparent roof metal, 4 = +opaque roof metal.
-show_roof = 2;
+show_roof = 4;
 
 bigger_house = false;
 house_sz = bigger_house ? [595, 410] : [495, 410];
@@ -25,6 +25,9 @@ wall_thickness = 15;
 wall_height = 260;
 
 floor_thickness = 15;
+
+c_bar_height = 3 * 2.54;
+roof_angle = 20;
 
 
 module guestroom()
@@ -39,9 +42,10 @@ module guestroom()
             house_sz[0] - bedroom_l - wall_thickness,
             house_sz[0] - toilet_cut_d[0] - wall_thickness/2,
             house_sz[0] - wall_thickness/2];
-        translate([0, house_sz[1]/2, wall_height])
+        translate([0, house_sz[1]/2, wall_height -
+            c_bar_height/2 * cos(roof_angle)])
         rotate([0,0,90])
-        roof(house_sz[0], house_sz[1], truss_pos, 5, show_roof);
+        roof(house_sz[0], house_sz[1], toilet_cut_d, truss_pos, 5, show_roof);
     }
         
     floor(house_sz, front_cut_diag, toilet_cut_d,
@@ -50,8 +54,6 @@ module guestroom()
     walls(house_sz, front_cut_diag, toilet_cut_d, 
         bedroom_l, wall_thickness, wall_height,
         transparent_concrete);
-    
-
 }
     
 module furniture()
@@ -60,7 +62,6 @@ module furniture()
     table_h = 75;
     translate([70,195, table_h/2]) 
         color([63/255,31/255,15/255,1]) 
-        // color("MediumSeaGreen")
         cube([120,70,table_h], center=true);
     
     // Chairs
@@ -76,7 +77,6 @@ module furniture()
     fridge_d = 57;
     fridge_h = 146;
     translate([wall_thickness+sala_w-fridge_w/2-2,house_sz[1] - wall_thickness - fridge_d/2, fridge_h/2]) 
-        // color([73/255,113/255,178/255,1]) 
         color("Wheat")
         cube([fridge_w,fridge_d,fridge_h], center=true);
         

@@ -6,7 +6,7 @@ high_windows = true;
 std_window_w = high_windows ? 75 : 70;
 std_window_h = high_windows ? 135 : 110;
 std_window_hatches = 2;
-std_window_pos = high_windows ? 75 : 90;
+std_window_pos = high_windows ? 80 : 90;
 std_nro_vertical_squares = 4;
 
 wide_window_w = 2 * std_window_w;

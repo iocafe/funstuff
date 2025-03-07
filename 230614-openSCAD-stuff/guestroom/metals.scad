@@ -47,8 +47,8 @@ module c_bar3(length=100, c = "DarkGray", thickn=0.5)
 // Purlin with cuts for 45 degrees and roof angle
 module c_purlin_angled(
     length=100, 
-    left_45 = false, left_roof_angle = 0, 
-    right_45 = false, right_roof_angle = 0, 
+    left_45 = 0, left_roof_angle = 0, 
+    right_45 = 0, right_roof_angle = 0, 
     c = "Red", 
     width=2.0*2.54, height = 6*2.54,
     thickn=0.15) 
@@ -57,7 +57,10 @@ module c_purlin_angled(
     add_len_right = height * tan(right_roof_angle);
     add_len_tmp = add_len_left > add_len_right
         ? add_len_left : add_len_right;
-    add_len = add_len_tmp < 0 ? 0 : add_len_tmp; 
+    add_len_tmp2 = add_len_tmp < 0 ? 0 : add_len_tmp; 
+    add_len = ((left_45 < 0 || right_45 < 0) 
+        && add_len_tmp2 < width) 
+        ? width : add_len_tmp2;
     
     box_d = height * sqrt(2);
     box_w = 4*width  + 0.2;
@@ -69,13 +72,13 @@ module c_purlin_angled(
 
         translate([length/2, 0, 0])
         rotate([0, -right_roof_angle, 0])
-        rotate([0, 0, right_45?45:0])
+        rotate([0, 0, right_45])
         translate([box_d/2, width/2, -height/2])
         cube([box_d, box_w, box_d], center=true);
 
         translate([-length/2, 0, 0])
         rotate([0, left_roof_angle, 0])
-        rotate([0, 0, left_45?-45:0])
+        rotate([0, 0, -left_45])
         translate([-box_d/2, width/2, -height/2])
         cube([box_d, box_w, box_d], center=true);
     }
@@ -183,5 +186,5 @@ module roof_piece(length=300, width=105, c = "DarkGreen")
 
 c_purlin6_angled(
     length=200, 
-    left_45 = true, left_roof_angle = 0, 
-    right_45 = true, right_roof_angle = 20);
+    left_45 = 45, left_roof_angle = 0, 
+    right_45 = -45, right_roof_angle = 0);

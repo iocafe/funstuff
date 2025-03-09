@@ -16,7 +16,7 @@ c_bar_width = 2.0 * 2.54;
 c_bar_height = 3 * 2.54;
 c_bar_thickn = 0.5;
 c_bar_color = "DarkGray";
-c_bar_extra_length_for_p6_weld = c_bar_width-c_bar_thickn;
+c_bar_extra_length_for_p6_weld = c_bar_width-2*c_bar_thickn;
 c_bar_merge_weld_len = 30;
 
 c_purlin_w = 2*2.54;
@@ -63,7 +63,7 @@ module roof2(house_length, house_width, toilet_cut_d, truss_pos, n_truss, show_r
     dxx1 = width/4 - roof_center_overlap/2 - c_purlin_end_d/2;
     dyy1 = (dxx1+roof_center_overlap
         + c_purlin_end_d) * tan(roof_angle)
-        + (c_bar_height) / cos(roof_angle);
+        + c_bar_height / cos(roof_angle);
     
     cut_w = toilet_cut_d[1] 
         + roof_overlap
@@ -86,7 +86,8 @@ module roof2(house_length, house_width, toilet_cut_d, truss_pos, n_truss, show_r
 
     // Longitunal C bar at top center + bolts
     topbar_x = part3_move+c_bar_height/2;
-    translate([topbar_x, -truss_pos[0]-long_bar/2+c_bar_width, part3_up])
+    translate([topbar_x, 
+        -truss_pos[0]-long_bar/2+c_bar_width, part3_up])
     rotate([0,0,-90]) 
     c_bar(long_bar, "SlateGray", c_bar_width, 
         c_bar_height, c_bar_thickn);
@@ -99,7 +100,8 @@ module roof2(house_length, house_width, toilet_cut_d, truss_pos, n_truss, show_r
     }
     
     // Longitunal C bar at bottom center + bolts
-    translate([part3_move+c_bar_height/2,-truss_pos[0]-long_bar/2,
+    translate([part3_move+c_bar_height/2,
+        -truss_pos[0]-long_bar/2 + c_bar_width,
         1.5 * c_bar_height+sink_roof])
     rotate([0,0,-90]) 
     c_bar(long_bar, "SlateGray", c_bar_width,
@@ -200,21 +202,26 @@ module roof_truss(width = 400,
     rotate([0,90,0]) c_bar(part3, "Gray", c_bar_width, c_bar_height); 
 
     l1 = (width/2) / cos(roof_angle);
-    rotated_c_bar(l1
-        + 2*c_bar_extra_length_for_p6_weld, 
-        roof_angle, false, width/2);
+    translate([width/2, 0, width/2*tan(roof_angle)])
+    rotated_c_bar(l1+c_bar_extra_length_for_p6_weld, 
+        -roof_angle, false, width/2);
 
     l2 = l1 + roof_center_overlap/cos(roof_angle);
     if (is_last_truss) {
-        translate([0,
-            0, cut_w * sin(roof_angle)])
+        translate([-c_bar_extra_length_for_p6_weld-1.5,
+            0, cut_w * sin(roof_angle)
+            -sin(roof_angle) * c_bar_extra_length_for_p6_weld])
         rotated_c_bar(l2 - cut_w
             + 2 * c_bar_extra_length_for_p6_weld, 
-            roof_angle, true, width/2-cut_w * cos(roof_angle), "SlateGrey");
+            roof_angle, true, 
+            width/2-cut_w * cos(roof_angle), "SlateGrey");
     }
     else {
-        rotated_c_bar(l2
-            + 2 * c_bar_extra_length_for_p6_weld, 
+         translate([-c_bar_extra_length_for_p6_weld-1.5,
+                0, 
+                -sin(roof_angle) * c_bar_extra_length_for_p6_weld])
+         rotated_c_bar(l2
+            + 2*c_bar_extra_length_for_p6_weld, 
             roof_angle, true, width/2, "SlateGrey");
     }
     
@@ -255,8 +262,8 @@ module roof_truss(width = 400,
         part3-c_bar_height+sink_roof])
     rotate([0,0,90]) bolt();
 
-    top_bolt_y = width/2 * tan(roof_angle);
-    translate([0,
+    top_bolt_y = width/2 * tan(roof_angle)-1;
+    translate([2,
         -bolt_material_and_washer_thickn/2, top_bolt_y])
     rotate([0,0,90]) bolt();
 }
@@ -267,37 +274,32 @@ module rotated_c_bar(length, angle, flip, move_x, c = "DarkGrey")
     dz = c_bar_height/2;
     
     cube_sz = 3*c_bar_height+0.1;
-    cube_w = c_bar_width;
+    cube_w = c_bar_width+0.1;
     extra_for_cuts = c_bar_height;
 
-    if (flip) {
-        difference() {
-            translate([-move_x, 0, dz])
-            rotate([0,-angle,0])
+    /* if (flip) { */
+    translate([-move_x, 0, dz])
+    rotate([0,-angle,0])
+    {
+        difference()
+        {
             translate([dx, 0, -dz])
-            rotate([180,0,0])
+            rotate([flip?180:0,0,0])
+            
             c_bar(length+2*extra_for_cuts, 
                 c, c_bar_width, c_bar_height); 
      
-            translate([-move_x-cube_sz/2, -cube_w/2, 0]) 
+            translate([0, flip?0:c_bar_width, -c_bar_height/2]) 
+            rotate([0,angle,0])
+            translate([-cube_sz/2, -cube_w/2, 0]) 
             color("Black") 
             cube([cube_sz, cube_w+0.2, cube_sz], center=true);
 
-            translate([roof_center_overlap+cube_sz/2, 
-                -cube_w/2, length*sin(angle)]) 
-            color("Black") 
-            cube([cube_sz, cube_w+0.2, cube_sz], center=true);
-        }
-    }
-    else {
-        difference() {
-            translate([move_x, 0, dz])
+            translate([length, 
+                flip?0:c_bar_width, -c_bar_height/2]) 
             rotate([0,angle,0])
-            translate([-dx+0.5*extra_for_cuts*cos(angle), 0, -dz]) 
-            c_bar(length+extra_for_cuts, 
-                c, c_bar_width, c_bar_height); 
-     
-            translate([move_x+cube_sz/2, cube_w/2, 0]) 
+            translate([cube_sz/2, 
+                -c_bar_width/2, 0]) 
             color("Black") 
             cube([cube_sz, cube_w+0.2, cube_sz], center=true);
         }
@@ -307,9 +309,9 @@ module rotated_c_bar(length, angle, flip, move_x, c = "DarkGrey")
 module c_purlins_and_roof_metal(length, width, n, show_roof,
     cut_l=0, cut_w=0)
 {
-    step = (width - c_purlin_h) / (n - 1);
+    step = (width - 2*c_purlin_h) / (n - 1);
     for (i = [0:n-1]) {
-        pos = i * step - width/2 + c_purlin_w/2;
+        pos = i * step - width/2 + c_purlin_w/2+c_purlin_h/2;
         use_small = pos < -(width/2+roof_metal_extra_overlap-cut_w) && cut_w > 0;
         le = use_small ? length - cut_l : length;
         translate([pos, use_small?cut_l/2:0, c_purlin_w])
@@ -320,17 +322,22 @@ module c_purlins_and_roof_metal(length, width, n, show_roof,
     
     l1 = width+2*c_purlin6_w;
     p1 = length/2+c_purlin6_w;
+    p6_c = show_roof > 3.5 
+        ? [19/255, 52/255, 27/255,1] 
+        : [19/255, 52/255, 27/255,0.6];
     
     translate([0, p1, c_purlin_w])
     mirror([0,1,0])
     c_purlin6_angled(l1, 
         left_45 = 45, left_roof_angle = roof_angle, 
-        right_45 = 45, right_roof_angle = -roof_angle);
+        right_45 = 45, right_roof_angle = -roof_angle,
+        c=p6_c);
 
     translate([cut_w > 0 ? cut_w/2:0, -p1, c_purlin_w])
     c_purlin6_angled(cut_w > 0 ? l1-cut_w: l1, 
         left_45 = 45, left_roof_angle = roof_angle, 
-        right_45 = 45, right_roof_angle = -roof_angle);
+        right_45 = 45, right_roof_angle = -roof_angle,
+        c=p6_c);
 
     l2 = length+2*c_purlin6_w;
     p2 = width/2+c_purlin_w;
@@ -339,13 +346,15 @@ module c_purlins_and_roof_metal(length, width, n, show_roof,
     rotate([0,roof_angle, 0])
     rotate([0,0,90])
     c_purlin6_angled(l2, 
-        left_45 = 45, right_45 = 45);
+        left_45 = 45, right_45 = 45,
+        c=p6_c);
 
     translate([-p2, cut_l > 0 ? cut_l/2 : 0, c_purlin_w-0.4])
     rotate([0,roof_angle, 0])
     rotate([0,0,-90])
     c_purlin6_angled(cut_l > 0 ? l2-cut_l : l2, 
-        left_45 = 45, right_45 = 45);
+        left_45 = 45, right_45 = 45,
+        c=p6_c);
 
     if (cut_l > 0) {
         translate([-p2+cut_w,
@@ -354,12 +363,14 @@ module c_purlins_and_roof_metal(length, width, n, show_roof,
         rotate([0,roof_angle, 0])
         rotate([0,0,-90])
         c_purlin6_angled(cut_l, 
-            left_45 = -45, right_45 = 45);
+            left_45 = -45, right_45 = 45,
+        c=p6_c);
         
         translate([-l1/2 + cut_w/2, -p1+cut_l, c_purlin_w])
         c_purlin6_angled(cut_w, 
             left_45 = 45, left_roof_angle = roof_angle, 
-            right_45 = -45, right_roof_angle = -roof_angle);
+            right_45 = -45, right_roof_angle = -roof_angle,
+        c=p6_c);
     }
 
     metal_color = (show_roof > 3.5) 
@@ -387,3 +398,5 @@ toilet_cut_d = [85, 105];
 truss_pos = [10, 100, 200];
 n_truss = 3;
 roof(215, 400, toilet_cut_d, truss_pos, n_truss, 2);
+
+// rotated_c_bar(100, 30, true, 0, c = "DarkGrey");

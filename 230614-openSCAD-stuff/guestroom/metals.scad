@@ -123,7 +123,7 @@ module c_purlin6_angled(
     length=100, 
     left_45 = false, left_roof_angle = 0, 
     right_45 = false, right_roof_angle = 0, 
-    c = "Red") 
+    c = [19/255, 52/255, 27/255,0.8]) 
 {
     c_purlin_angled(length, 
         left_45, left_roof_angle, 

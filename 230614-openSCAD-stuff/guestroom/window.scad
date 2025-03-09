@@ -198,4 +198,4 @@ module genericframe(width=70, height=110, profile_width = 5, profile_depth = 8)
 }    
 
 // For testing
-std_window(15, $t*179);
+std_window(open_angle=$t*1790);

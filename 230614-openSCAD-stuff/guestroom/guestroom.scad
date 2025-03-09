@@ -9,11 +9,11 @@ show_furniture = true;
 
 // Transparent concrete in walls and floor allows to
 // see support structure, electrical connections and piping
-transparent_concrete = true;
+transparent_concrete = false;
 
 // Show roof: 0 = no, 1 = truss supports, 2=+furlings,
 // 3=+transparent roof metal, 4 = +opaque roof metal.
-show_roof = 4;
+show_roof = 3;
 
 bigger_house = false;
 house_sz = bigger_house ? [595, 410] : [495, 410];

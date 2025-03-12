@@ -1,17 +1,19 @@
 use <basicdoor.scad>
 use <frontdoor.scad>
 use <arcwindowhole.scad> 
-use <window.scad>
+use <kingwindow.scad>
 use <hdim.scad>
+
+// Animation mode, 0 = off, 1 = doors, 2 = windows, 3=doors+windows;
+animation_mode=3;
 
 use_arc_windows = true;
 one_big_arc_window = true;
-big_window_in_bedroom = false;
 
 window_1_move = 120;
 window_1a_move = 190;
 window_1b_move = 70;
-window_2_move = 65;
+window_2_move = 130;
 window_3_move = 75;
 window_4_move = 70;
 
@@ -71,36 +73,36 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
   
     if (transparent_concrete == false)
     {
-        if (big_window_in_bedroom) {
-            translate([house_sz[0], 
-                house_sz[1] - window_1_move, 0])
-            rotate([0,0,90])
-            wide_window(wall_t,20);
-        }
-        else {
-            translate([house_sz[0], 
-                house_sz[1] - window_1a_move, 0])
-            rotate([0,0,90])
-            std_window(wall_t,20);
+        ani_win = (animation_mode==2 || animation_mode==3);
+        w1a_open = ani_win ? (sin(2*360*$t) * 90 + 90) : 15;
+        w1b_open = ani_win ? (sin(3*360*$t-90) * 90 + 90) : 35;
+        w2_open = ani_win ? (sin(360*$t-90) * 90 + 90) : 45;
+        w3_open = ani_win ? (sin(4*360*$t-90) * 90 + 90) : 180;
+        w4_open = ani_win ? (sin(2*360*$t-90) * 90 + 90) : 180;
+      
+        translate([house_sz[0], 
+            house_sz[1] - window_1a_move, 0])
+        rotate([0,0,90])
+        std_king_window(wall_t, w1a_open);
 
-            translate([house_sz[0], 
-                house_sz[1] - window_1b_move, 0])
-            rotate([0,0,90])
-            std_window(wall_t,20);
-        }
+        translate([house_sz[0], 
+            house_sz[1] - window_1b_move, 0])
+        rotate([0,0,90])
+        std_king_window(wall_t,w1b_open);
         
         translate([house_sz[0] - window_2_move, 
-            toilet_cut_d[1], 0])
-        std_window(wall_t,20);
+            house_sz[1], 0])
+        rotate([0,0,180])
+        std_king_window(wall_t,w2_open);
         
         translate([house_sz[0] - toilet_cut_d[0], 
             window_3_move, 0])
         rotate([0,0,90])
-        small_window(wall_t, 180);
+        small_king_window(wall_t, w3_open);
      
         translate([house_sz[0] - toilet_cut_d[0] 
                 - window_4_move, 0, 0])
-            small_window(wall_t, 180);
+        small_king_window(wall_t, w4_open);
     }
 
 // ************ REGULAR WINDOWS IN KITCHEN
@@ -108,15 +110,15 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
         translate([0, 
             house_sz[1] - window_5_move, 0])
         rotate([0,0,-90])
-        std_window(wall_t, 180);
+        std_king_window(wall_t, 180);
 
-        translate([0, 
+        /* translate([0, 
             house_sz[1] - window_6_move, 0])
         rotate([0,0,-90])
-        wide_window(wall_t, 20);
+        wide_window(wall_t, 20); */
 
         translate([window_7_move, 0, 0])
-        std_window(wall_t, 45);
+        std_king_window(wall_t, 45);
         
         front_door_move = front_cut_diag / sqrt(2);
         translate([front_door_move, front_door_move, 0])
@@ -126,15 +128,19 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
         
     if (transparent_concrete == false)
     {
+        ani_door = (animation_mode==1 || animation_mode==3);
+        d1_open = ani_door ? (sin(2*360*$t) * 47 + 47) : 90;
+        d2_open = ani_door ? (sin(2*360*$t) * 47 + 47) : 80;
+
         translate([house_sz[0]-bedroom_l-0.50*wall_t,
             bedroom_door_move, 0])
         rotate([0,0,90])
-        basicdoor(wall_t, true, 90,75.4); 
+        basicdoor(wall_t, true, d1_open,75.4); 
 
         translate([house_sz[0]-bedroom_l-0.50*wall_t,
             bathroom_door_move, 0])
         rotate([0,0,90])
-        basicdoor(wall_t, false, 80, 65.3); 
+        basicdoor(wall_t, false, d2_open, 65.3); 
     }
     
     toilet_inside_w = bedroom_l - toilet_cut_d[0] - 0.5 * wall_t;
@@ -236,36 +242,29 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
             }
         }
         
-        if (big_window_in_bedroom) {
-            translate([house_sz[0], 
-                house_sz[1] - window_1_move, 0])
-            rotate([0,0,90])
-            wide_window_hole(wall_t);
-        }
-        else {
-            translate([house_sz[0], 
-                house_sz[1] - window_1a_move, 0])
-            rotate([0,0,90])
-            std_window_hole(wall_t);
+        translate([house_sz[0], 
+            house_sz[1] - window_1a_move, 0])
+        rotate([0,0,90])
+        std_king_window_hole(wall_t);
 
-            translate([house_sz[0], 
-                house_sz[1] - window_1b_move, 0])
-            rotate([0,0,90])
-            std_window_hole(wall_t);
-        }
+        translate([house_sz[0], 
+            house_sz[1] - window_1b_move, 0])
+        rotate([0,0,90])
+        std_king_window_hole(wall_t);
         
         translate([house_sz[0] - window_2_move, 
-            toilet_cut_d[1], 0])
-        std_window_hole(wall_t);
+            house_sz[1], 0])
+        rotate([0,0,180])
+        std_king_window_hole(wall_t);
         
         translate([house_sz[0] - toilet_cut_d[0], 
             window_3_move, 0])
         rotate([0,0,90])
-        small_window_hole(wall_t);
+        small_king_window_hole(wall_t);
         
         translate([house_sz[0] - toilet_cut_d[0] 
             - window_4_move, 0, 0])
-        small_window_hole(wall_t);
+        small_king_window_hole(wall_t);
         
         // ************ ARC WINDOWS IN KITCHEN
         if (use_arc_windows) {
@@ -301,7 +300,7 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
             translate([0, 
                 house_sz[1] - window_5_move, 0])
             rotate([0,0,-90])
-            std_window_hole(wall_t);
+            std_king_window_hole(wall_t);
 
             translate([0, 
                 house_sz[1] - window_6_move, 0])
@@ -309,7 +308,7 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
             wide_window_hole(wall_t);
 
             translate([window_7_move, 0, 0])
-            std_window_hole(wall_t);
+            std_king_window_hole(wall_t);
             
             front_door_move = front_cut_diag / sqrt(2);
             translate([front_door_move, front_door_move, 0])

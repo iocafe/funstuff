@@ -1,7 +1,7 @@
 // If high_windows is false, the ready Thailand metal frame
 // size is used. If windows are made by ourselves, the
 // high_windows can be set to true to get bigger windows.
-high_windows = true;
+high_windows = false;
 
 std_window_w = high_windows ? 75 : 70;
 std_window_h = high_windows ? 135 : 110;

@@ -302,10 +302,10 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
             rotate([0,0,-90])
             std_king_window_hole(wall_t);
 
-            translate([0, 
+            /* translate([0, 
                 house_sz[1] - window_6_move, 0])
             rotate([0,0,-90])
-            wide_window_hole(wall_t);
+            wide_window_hole(wall_t); */
 
             translate([window_7_move, 0, 0])
             std_king_window_hole(wall_t);

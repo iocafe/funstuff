@@ -6,14 +6,14 @@ module hdim(
   scaling = 1.0) 
 {
     dimline_overlap = scaling * 0.5;
-    dimline_width = scaling * 0.4;
+    dimline_width = scaling * 0.2;
     text_size = scaling * 4;
     tmp = 2*dimline_overlap+text_size/2;
     scaled_dl_len = scaling * dimline_lenght;
     text_pos = scaled_dl_len>0 ? tmp : -tmp; 
     dimline_abs = scaled_dl_len>0 ? scaled_dl_len : -scaled_dl_len;
     
-    color([146/255, 154/255, 255/255, 0.7])
+    color([146/255, 154/255, 255/255, 0.9])
     {
         translate([x1,y-scaled_dl_len/2,0]) 
             cube([dimline_width, 
@@ -36,10 +36,10 @@ module hdim(
         
     translate([(x1+x2)/2,y-scaled_dl_len-text_pos,0]) 
     {
-        color([106/255, 134/255, 245/255])
+        color("WhiteSmoke")
         cube([text_size * 5, 1.2*text_size, 0.8*scaling], center=true);
         
-        color([1,1,1,1])
+        color([0,0,0,1])
         {
             translate([0,0,0.4*scaling])
             linear_extrude(0.2*scaling)

@@ -18,11 +18,13 @@ module bolt(length = 2.54*1.0, material_thickness = 1.0,
             translate([0,0,-hex_length]) 
             cylinder(h=hex_length, r=hex_diameter/2, $fn = 6);
         
-            translate([0,0, material_thickness + 2*washer_thickness])
-            rotate([0,-90,0]) {
-                washer(0, washer_thickness, 
-                    hex_diameter*1.5, diameter+0.05);
-                nut(0, hex_diameter, hex_length, diameter);
+            if (material_thickness >= 0) {
+              translate([0,0, material_thickness + 2*washer_thickness])
+              rotate([0,-90,0]) {
+                  washer(0, washer_thickness, 
+                      hex_diameter*1.5, diameter+0.05);
+                  nut(0, hex_diameter, hex_length, diameter);
+              }
             }
         }
         

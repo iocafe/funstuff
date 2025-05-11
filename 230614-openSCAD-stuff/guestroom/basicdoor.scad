@@ -7,7 +7,8 @@ module basicdoor(wall_thickness=15, right_handed = false, open_angle = 30, width
     profile_width = 12;
     door_thickness = 4.0;
     frame_profile_width = 2.3;
-    frame_profile_depth = wall_thickness;
+    frame_extout = 0.5;
+    frame_profile_depth = wall_thickness + 2*frame_extout;
     seal_profile_width = 1.0;
     
     translate([0,wall_thickness/2,height/2])

@@ -1,3 +1,5 @@
+use <hdim.scad>
+
 module anglebar(length=100, c = "DimGray", width=1.5*2.54, thickn=0.4) 
 {
     color(c) {
@@ -37,6 +39,8 @@ module c_bar(length=100, c = "DarkGray", width=2.0*2.54, height = 3*2.54,thickn=
         translate([0, width/2,height/2 - thickn/2]) 
             cube([length, width, thickn], center = true);
     }
+    
+    hdim (-length/2, length/2, 10,20);
 }
 
 module c_bar3(length=100, c = "DarkGray", thickn=0.5) 
@@ -184,7 +188,9 @@ module roof_piece(length=300, width=105, c = "DarkGreen")
     }
 }
 
-c_purlin6_angled(
+c_bar();
+
+/* c_purlin6_angled(
     length=200, 
     left_45 = 45, left_roof_angle = 0, 
-    right_45 = -45, right_roof_angle = 0);
+    right_45 = -45, right_roof_angle = 0); */

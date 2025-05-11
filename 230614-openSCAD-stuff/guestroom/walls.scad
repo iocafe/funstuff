@@ -14,14 +14,14 @@ window_1_move = 120;
 window_1a_move = 190;
 window_1b_move = 70;
 window_2_move = 130;
-window_3_move = 75;
-window_4_move = 70;
+window_3_move = 90;
+window_4_move = 66;
 
 window_5_move = 80;
 window_6_move = 220;
 window_7_move = 160;
 
-arc_window_1_move = 170;
+arc_window_1_move = 155;
 arc_window_2_move = 175;
 arc_window_3_move = 305;
 
@@ -29,9 +29,9 @@ arc_front_door_w = 90;
 front_door_w = 95.4;
             
 bedroom_door_move = 210;
-bathroom_door_move = 105;
+bathroom_door_move = 60;
 
-module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, wall_height=260, transparent_concrete=false)
+module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t=11, wall_height=260, extra_height=11, roof_angle=20, transparent_concrete=false)
 {
     // Colors
     wall_color=transparent_concrete 
@@ -137,9 +137,9 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
         rotate([0,0,90])
         basicdoor(wall_t, true, d1_open,75.4); 
 
-        translate([house_sz[0]-bedroom_l-0.50*wall_t,
+        translate([house_sz[0]-bedroom_l-1.50*wall_t,
             bathroom_door_move, 0])
-        rotate([0,0,90])
+        rotate([0,0,-90])
         basicdoor(wall_t, false, d2_open, 65.3); 
     }
     
@@ -147,9 +147,9 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
     toilet_inside_d = toilet_cut_d[1] - wall_t;
         
     color(paint_the_rooms)
-        translate([sz[0]-(bedroom_l+wall_t)/2 
-            - (bedroom_l - toilet_cut_d[0])/2, toilet_cut_d[1]+painted_wall_t/2,wall_height/2])
-        cube([toilet_inside_w, wall_t, wall_height], center=true);
+    translate([sz[0]-toilet_cut_d[0] - toilet_inside_w/2-wall_t,
+      toilet_cut_d[1]+painted_wall_t/2,wall_height/2])
+      cube([toilet_inside_w, wall_t, wall_height], center=true);
         
     d1 = sz[0] - toilet_cut_d[0] - wall_t;
     hdim(d1 - toilet_inside_w, d1, (toilet_cut_d[1]+wall_t)/2);
@@ -157,6 +157,12 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
     translate([d1-toilet_inside_w/3,wall_t,0])
     rotate([0,0,90])
         hdim(0, toilet_inside_d, 0);
+    
+    sala_end = house_sz[0] - bedroom_l - 1.5*wall_t;
+    translate([0,house_sz[1]/2,0])
+    hdim(wall_t, sala_end, 0);
+    hdim(0, sala_end+wall_t/2, 0);
+    
       
     difference() {
         color(paint_the_rooms)
@@ -179,7 +185,7 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
             color(wall_color)
             {
                 if (true) {
-                    linear_extrude(wall_height, convexity = 10)
+                    linear_extrude(wall_height/*+extra_height-3*/, convexity = 10)
                     difference() {
                         polygon(exteriorpoints);
                         polygon(interiorpoints);
@@ -269,7 +275,7 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
         // ************ ARC WINDOWS IN KITCHEN
         if (use_arc_windows) {
             translate([arc_window_1_move, 0, 0])
-            arc_window_hole(wall_t);
+            arc_window_hole(wall_t,95);
 
             if (one_big_arc_window==false)
             {
@@ -319,7 +325,7 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
     
     color(wall_color2)
     translate([0,0, wall_height])
-    wall_extension(house_sz, front_cut_diag, toilet_cut_d, wall_t);
+    wall_extension(house_sz, front_cut_diag, toilet_cut_d, wall_t, 100, roof_angle, extra_height);
  }
  
  module wall_extension(house_sz, front_cut_diag, toilet_cut_d, wall_t, ext_height=100, roof_angle=20, extra_height=11)
@@ -381,4 +387,4 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 240,wall_t=15, 
 
 
 // For testing
-walls(house_sz = [495, 410], front_cut_diag = 60, toilet_cut_d = [115, 145],wall_t=15, wall_height=260, transparent_concrete=false);
+walls(house_sz = [515, 410], front_cut_diag = 60, toilet_cut_d = [177, 156], bedroom_l = 290, wall_t=11, wall_height=260, transparent_concrete=false);

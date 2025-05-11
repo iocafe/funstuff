@@ -963,7 +963,7 @@ module kinglock2(explode)
 // For testing
  // std_king_window(open_angle=90 /* $t*179,  */, explode=false);
 // king_window(open_angle= 0, explode=true);
-small_king_window(open_angle= 40, explode=false);
+small_king_window(open_angle= 90, explode=false);
 // windowhatch(width=70, height=130, explode=false);
 // windowhatch_sq(width=70, height=130, explode=false);
 //fixedgrid(explode=true);

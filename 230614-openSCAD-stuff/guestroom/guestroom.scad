@@ -1,5 +1,6 @@
 use <floor.scad> 
 use <walls.scad> 
+use <foundation/foundation.scad> 
 use <roof/roof.scad>
 use <toiletseat.scad>
 use <bathroomsink.scad>
@@ -9,19 +10,20 @@ show_furniture = true;
 
 // Transparent concrete in walls and floor allows to
 // see support structure, electrical connections and piping
-transparent_concrete = false;
+transparent_concrete = true;
+
+show_foundation_concrete = true;
 
 // Show roof: 0 = no, 1 = truss supports, 2=+furlings,
 // 3=+transparent roof metal, 4 = +opaque roof metal.
-show_roof = 3;
+show_roof = 0;
 
-bigger_house = false;
-house_sz = bigger_house ? [595, 410] : [495, 410];
-bedroom_l = bigger_house ? 310 : 240;
+house_sz = [515, 410];
+bedroom_l = 290;
 front_cut_diag = 70;
-toilet_cut_d = bigger_house ? [195, 165] : [115, 145];
+toilet_cut_d = [177, 156];
 
-wall_thickness = 15;
+wall_thickness = 11;
 wall_height = 260;
 
 floor_thickness = 15;
@@ -50,10 +52,14 @@ module guestroom()
         
     floor(house_sz, front_cut_diag, toilet_cut_d,
         floor_thickness, transparent_concrete);
+
+    foundation(house_sz, front_cut_diag, toilet_cut_d, 
+        bedroom_l, wall_thickness, wall_height, 11,
+        roof_angle, show_foundation_concrete);
     
     walls(house_sz, front_cut_diag, toilet_cut_d, 
-        bedroom_l, wall_thickness, wall_height,
-        transparent_concrete);
+        bedroom_l, wall_thickness, wall_height, 11,
+        roof_angle, transparent_concrete);
 }
     
 module furniture()
@@ -119,10 +125,11 @@ module furniture()
         cube([cabinet_d,cabinet_w,cabinet_h], center=true);
       
     // Toilet seat
-    translate([house_sz[0] - toilet_cut_d[0] - 48, 144, 0])
+    translate([house_sz[0] - toilet_cut_d[0] - 48, 154, 0])
     toiletseat();
-    translate([house_sz[0] - toilet_cut_d[0] - wall_thickness, wall_thickness, 60])
-    rotate([0,0,90])
+    //translate([house_sz[0] - toilet_cut_d[0] - wall_thickness, wall_thickness, 60])
+    translate([house_sz[0] - bedroom_l - 0.5*wall_thickness, toilet_cut_d[1]-20-wall_thickness, 60])
+    rotate([0,0,-90])
     bathroomsink();
 }        
 

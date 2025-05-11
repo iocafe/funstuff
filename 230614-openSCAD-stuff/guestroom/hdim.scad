@@ -6,7 +6,7 @@ module hdim(
   scaling = 1.0) 
 {
     dimline_overlap = scaling * 0.5;
-    dimline_width = scaling * 0.4;
+    dimline_width = scaling * 0.6;
     text_size = scaling * 4;
     tmp = 2*dimline_overlap+text_size/2;
     scaled_dl_len = scaling * dimline_lenght;

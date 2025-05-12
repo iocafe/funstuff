@@ -2,13 +2,14 @@ use <reinforcement.scad>
 use <../hdim.scad>
 
 reinforcement_indent = 2;
-n_reinforcement_loops = 20;
+reinforcement_step = 18;
 
 module verticalpillar(above_floor=260, below_floor=100, diam=16, show_concrete=true) 
 {
   l = above_floor+below_floor;
   d = diam - 2*reinforcement_indent;
- 
+  n_reinforcement_loops = round(l/reinforcement_step+1);
+  
   translate([0,0,l/2-below_floor])
   {
     pillar_reinforement(l, d, d, n_reinforcement_loops); 

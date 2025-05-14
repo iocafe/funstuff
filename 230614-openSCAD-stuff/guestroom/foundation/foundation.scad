@@ -4,10 +4,10 @@ use <../hdim.scad>
 
 show_horzontal_pillars = true;
 
-vertical_pillar_diam = 16;
+vertical_pillar_diam = 24;
 vp_r  = vertical_pillar_diam/2;
 horizontal_pillar_w = vertical_pillar_diam;
-horizontal_pillar_h=25;
+horizontal_pillar_h=30;
 up_horizontal_pillar_w = horizontal_pillar_w;
 above_floor=260;
 below_floor=100;

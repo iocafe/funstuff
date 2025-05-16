@@ -36,50 +36,52 @@ module pillar_reinforement_loop(diam1=10,diam2=20,c = "Red")
   reinforement_bar(lx, loop_rebarb_d, c);
 }
 
-module pillar_welded_lock(diam1=10,diam2=20,c = "Red") 
+module pillar_welded_lock(diam1=10,diam2=20,cement_edge_d=2, c = "Red") 
 {
   rebarb_d = pillar_corner_rebar_d;
   dx = diam1/2;
-  lx = diam1 - rebarb_d;
+  sdx = dx - rebarb_d;
+  lx = diam1 + 2 * cement_edge_d;
+  adx = (diam1 - rebarb_d)*sqrt(2);
   dy = diam2/2;
-  adx = lx*sqrt(2);
-  ly = diam2 - rebarb_d;
-  ady = ly*sqrt(2);
+  sdy = dy - rebarb_d;
+  ly = diam2 + 2 * cement_edge_d;
+  ady = (diam2 - rebarb_d)*sqrt(2);
   
-  translate([dx,0,0]) 
+  translate([sdx,0,0]) 
   rotate([90,0, 0])
   reinforement_bar(ly, rebarb_d, c);
 
-  translate([0,dy,0]) 
+  translate([0,sdy,0]) 
   rotate([90,0, 90])
   reinforement_bar(lx, rebarb_d, c);
     
-  translate([-dx,0,0]) 
+  translate([-sdx,0,0]) 
   rotate([90,0, 0])
   reinforement_bar(ly, rebarb_d, c);
 
-  translate([0,-dy,0]) 
+  translate([0,-sdy,0]) 
   rotate([90,0, 90])
   reinforement_bar(lx, rebarb_d, c);
 
-  translate([dx,0,ly/2+rebarb_d/2]) 
+  translate([dx,0,diam2/2]) 
   rotate([45, 0, 0])
   reinforement_bar(ady, rebarb_d, c);
 
-  translate([0,dy,lx/2+rebarb_d/2]) 
+  translate([0,dy,diam1/2]) 
   rotate([45, 0, 90])
   reinforement_bar(adx, rebarb_d, c);
 
-  translate([-dx,0,ly/2+rebarb_d/2]) 
+  translate([-dx,0,diam2/2]) 
   rotate([-45, 0, 0])
   reinforement_bar(ady, rebarb_d, c);
 
-  translate([0,-dy,lx/2+rebarb_d/2]) 
+  translate([0,-diam2/2,diam1/2]) 
   rotate([-45, 0, 90])
   reinforement_bar(adx, rebarb_d, c);
 }
 
-module pillar_reinforement(length=130, diam1=10, diam2=20, n_loops=6, c = "Red") 
+module pillar_reinforement(length=130, diam1=10, diam2=20, n_loops=6, cement_edge_d=3, c = "Red") 
 {
   dx = diam1/2;
   dy = diam2/2;
@@ -105,13 +107,13 @@ module pillar_reinforement(length=130, diam1=10, diam2=20, n_loops=6, c = "Red")
   }
 
   // Welded locks
-  pillar_welded_lock(diam1,diam2,c);
+  pillar_welded_lock(diam1,diam2,cement_edge_d,c);
   weld_end_d  = 10;
   translate([0,0,-length/2 + weld_end_d])
-  pillar_welded_lock(diam1,diam2,c);
+  pillar_welded_lock(diam1,diam2,cement_edge_d,c);
   translate([0,0,length/2 - weld_end_d])
   rotate([180,0,0])
-  pillar_welded_lock(diam1,diam2,c);
+  pillar_welded_lock(diam1,diam2,cement_edge_d,c);
 }
 
 

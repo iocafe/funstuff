@@ -1,6 +1,7 @@
 use <floor.scad> 
 use <walls.scad> 
 use <foundation/foundation.scad> 
+use <plumbing/plumbing.scad>
 use <roof/roof.scad>
 use <toiletseat.scad>
 use <bathroomsink.scad>
@@ -16,12 +17,12 @@ show_foundation_concrete = true;
 
 // Show roof: 0 = no, 1 = truss supports, 2=+furlings,
 // 3=+transparent roof metal, 4 = +opaque roof metal.
-show_roof = 2;
+show_roof = 0;
 
 house_sz = [515, 410];
 bedroom_l = 290;
 front_cut_diag = 70;
-toilet_cut_d = [177, 156];
+toilet_cut_d = [170, 139];
 
 wall_thickness = 11;
 wall_height = 260;
@@ -54,6 +55,10 @@ module guestroom()
         floor_thickness, transparent_concrete);
 
     foundation(house_sz, front_cut_diag, toilet_cut_d, 
+        bedroom_l, wall_thickness, wall_height, 11,
+        roof_angle, show_foundation_concrete);
+    
+    plumbing(house_sz, front_cut_diag, toilet_cut_d, 
         bedroom_l, wall_thickness, wall_height, 11,
         roof_angle, show_foundation_concrete);
     
@@ -114,21 +119,23 @@ module furniture()
     
     // Bed
     bed_h = 45;
-    translate([407,295, bed_h/2]) color("Aquamarine") cube([140,190,bed_h], center=true);
+    translate([417,285, bed_h/2]) 
+    color("Aquamarine") 
+    cube([150, 200,bed_h], center=true);
     
     // Cabinet for clothes
     cabinet_w = 130;
-    cabinet_d = 35;
+    cabinet_d = 45;
     cabinet_h = 220;
-    translate([2*wall_thickness+sala_w+cabinet_d/2+2,house_sz[1] - wall_thickness - cabinet_w/2-1, cabinet_h/2]) 
+    translate([2*wall_thickness+sala_w+cabinet_d/2+3,house_sz[1] - wall_thickness - cabinet_w/2-3, cabinet_h/2]) 
         color("MediumSeaGreen")
         cube([cabinet_d,cabinet_w,cabinet_h], center=true);
       
     // Toilet seat
-    translate([house_sz[0] - toilet_cut_d[0] - 48, 154, 0])
+    translate([house_sz[0] - toilet_cut_d[0] - 48, toilet_cut_d[1]-1, 0])
     toiletseat();
     //translate([house_sz[0] - toilet_cut_d[0] - wall_thickness, wall_thickness, 60])
-    translate([house_sz[0] - bedroom_l - 0.5*wall_thickness, toilet_cut_d[1]-20-wall_thickness, 60])
+    translate([house_sz[0] - bedroom_l - 0.5*wall_thickness, toilet_cut_d[1]-10, 60])
     rotate([0,0,-90])
     bathroomsink();
 }        

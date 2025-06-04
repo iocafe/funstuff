@@ -387,4 +387,4 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t=11, 
 
 
 // For testing
-walls(house_sz = [515, 410], front_cut_diag = 60, toilet_cut_d = [177, 156], bedroom_l = 290, wall_t=11, wall_height=260, transparent_concrete=false);
+walls(house_sz = [515, 410], front_cut_diag = 60, toilet_cut_d = [170, 139], bedroom_l = 290, wall_t=11, wall_height=260, transparent_concrete=false);

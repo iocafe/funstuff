@@ -11,6 +11,7 @@ horizontal_pillar_h=30;
 up_horizontal_pillar_w = horizontal_pillar_w;
 above_floor=260;
 below_floor=100;
+hor_pillar_floor_d = 30;
 
 module foundation(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t=11, wall_height=260, extra_height=11, roof_angle=20, show_concrete=false)
 {
@@ -71,7 +72,7 @@ module foundation(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t
 
   if (show_horzontal_pillars) {  
     for (i=[0,1]) {
-      up = i == 0 ? 0 : wall_height;
+      up = i == 0 ? -hor_pillar_floor_d : wall_height;
       hp_w = i == 0 ? horizontal_pillar_w : up_horizontal_pillar_w;
       hp_h = horizontal_pillar_h;
       
@@ -119,4 +120,4 @@ module foundation(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t
 
 
 // For testing
-foundation(house_sz = [515, 410], front_cut_diag = 60, toilet_cut_d = [177, 156], bedroom_l = 290, wall_t=11, wall_height=260, show_concrete=true);
+foundation(house_sz = [515, 410], front_cut_diag = 60, toilet_cut_d = [170, 139], bedroom_l = 290, wall_t=11, wall_height=260, show_concrete=true);

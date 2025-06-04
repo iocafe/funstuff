@@ -108,7 +108,7 @@ module pillar_reinforement(length=130, diam1=10, diam2=20, n_loops=6, cement_edg
 
   // Welded locks
   pillar_welded_lock(diam1,diam2,cement_edge_d,c);
-  weld_end_d  = 10;
+  weld_end_d  = 20;
   translate([0,0,-length/2 + weld_end_d])
   pillar_welded_lock(diam1,diam2,cement_edge_d,c);
   translate([0,0,length/2 - weld_end_d])

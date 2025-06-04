@@ -394,7 +394,7 @@ module c_purlins_and_roof_metal(length, width, n, show_roof,
     }
 }
 
-toilet_cut_d = [85, 105];
+toilet_cut_d = [160, 156];
 truss_pos = [10, 100, 200];
 n_truss = 3;
 roof(215, 410, toilet_cut_d, truss_pos, n_truss, 2);

@@ -27,7 +27,7 @@ roof_opaque = false;
 /* Generic house parameters */
 house_width = 800;
 house_length = 1200;
-floor_thickness=20;
+floor_thickness=10;
 wall_thickness=15;
 first_foor_height = 280;
 upper_level_height = 280;

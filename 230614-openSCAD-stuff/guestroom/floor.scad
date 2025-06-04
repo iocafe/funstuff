@@ -1,5 +1,5 @@
 
-module floor(house_sz, front_cut_diag, toilet_cut_d, floor_thickness=15, transparent_concrete=false)
+module floor(house_sz, front_cut_diag, toilet_cut_d, floor_thickness=10, transparent_concrete=false)
 {
     c = sqrt(2) * front_cut_diag;
     points = [ 
@@ -26,4 +26,4 @@ module floor(house_sz, front_cut_diag, toilet_cut_d, floor_thickness=15, transpa
     }
 }
 
-floor(house_sz = [495, 410], front_cut_diag = 60, toilet_cut_d = [115, 145], floor_thickness=15, transparent_concrete=true);
+floor(house_sz = [515, 410], front_cut_diag = 60, toilet_cut_d = [170, 139], floor_thickness=10, transparent_concrete=true);

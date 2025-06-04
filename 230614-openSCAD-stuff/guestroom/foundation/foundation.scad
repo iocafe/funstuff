@@ -2,7 +2,7 @@ use <verticalpillar.scad>
 use <horizontalpillar.scad>
 use <../hdim.scad>
 
-show_horzontal_pillars = true;
+show_horzontal_pillars = false;
 
 vertical_pillar_diam = 24;
 vp_r  = vertical_pillar_diam/2;
@@ -56,7 +56,7 @@ module foundation(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t
   translate([x8, y8, z])
   verticalpillar(above_floor, below_floor, vertical_pillar_diam, show_concrete);
   
-  dim_scaling = 1.3;
+  dim_scaling = 1.6;
   hdim(x1, x2, y1, -20, dim_scaling);
   hdim(x1, x3, y1, -32, dim_scaling);
   hdim(x1, x7, y7, -100, dim_scaling);

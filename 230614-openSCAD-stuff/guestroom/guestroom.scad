@@ -5,6 +5,7 @@ use <plumbing/plumbing.scad>
 use <roof/roof.scad>
 use <toiletseat.scad>
 use <bathroomsink.scad>
+// Top beam with match hollow block, metal C 8 cm wide, height 20
 
 
 show_furniture = true;
@@ -13,7 +14,7 @@ show_furniture = true;
 // see support structure, electrical connections and piping
 transparent_concrete = false;
 
-show_foundation_concrete = true;
+show_foundation_concrete = false;
 
 // Show roof: 0 = no, 1 = truss supports, 2=+furlings,
 // 3=+transparent roof metal, 4 = +opaque roof metal.
@@ -25,7 +26,7 @@ front_cut_diag = 70;
 toilet_cut_d = [170, 139];
 
 wall_thickness = 11;
-wall_height = 260;
+wall_height = 265;
 
 floor_thickness = 15;
 

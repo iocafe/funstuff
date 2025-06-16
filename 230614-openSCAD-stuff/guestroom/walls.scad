@@ -12,8 +12,10 @@ one_big_arc_window = true;
 
 window_1_move = 120;
 window_1a_move = 190;
-window_1b_move = 70;
-window_2_move = 130;
+// window_1b_move = 70;
+window_1b_move = 0; // zero = no window 1B
+window_2_move = 180;
+window_2b_move = 80;
 window_3_move = 90;
 window_4_move = 66;
 
@@ -31,7 +33,7 @@ front_door_w = 95.4;
 bedroom_door_move = 210;
 bathroom_door_move = 60;
 
-module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t=11, wall_height=260, extra_height=11, roof_angle=20, transparent_concrete=false)
+module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t=11, wall_height=265, extra_height=11, roof_angle=20, transparent_concrete=false)
 {
     // Colors
     wall_color=transparent_concrete 
@@ -85,15 +87,26 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t=11, 
         rotate([0,0,90])
         std_king_window(wall_t, w1a_open);
 
+    if (window_1b_move > 0) {
         translate([house_sz[0], 
             house_sz[1] - window_1b_move, 0])
         rotate([0,0,90])
         std_king_window(wall_t,w1b_open);
+    }
         
+    if (window_2_move > 0) {
         translate([house_sz[0] - window_2_move, 
             house_sz[1], 0])
         rotate([0,0,180])
-        std_king_window(wall_t,w2_open);
+        std_king_window(wall_t,w2_open); 
+    }
+
+    if (window_2b_move > 0) {
+        translate([house_sz[0] - window_2b_move, 
+            house_sz[1], 0])
+        rotate([0,0,180])
+        std_king_window(wall_t,w2_open); 
+    }
         
         translate([house_sz[0] - toilet_cut_d[0], 
             window_3_move, 0])
@@ -253,16 +266,28 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t=11, 
         rotate([0,0,90])
         std_king_window_hole(wall_t);
 
+    if (window_1b_move > 0) {
         translate([house_sz[0], 
             house_sz[1] - window_1b_move, 0])
         rotate([0,0,90])
         std_king_window_hole(wall_t);
-        
+    }
+     
+    if (window_2_move > 0)
+    {
         translate([house_sz[0] - window_2_move, 
             house_sz[1], 0])
         rotate([0,0,180])
         std_king_window_hole(wall_t);
-        
+    }
+
+    if (window_2b_move > 0)
+    {
+        translate([house_sz[0] - window_2b_move, 
+            house_sz[1], 0])
+        rotate([0,0,180])
+        std_king_window_hole(wall_t);
+    }    
         translate([house_sz[0] - toilet_cut_d[0], 
             window_3_move, 0])
         rotate([0,0,90])
@@ -387,4 +412,4 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t=11, 
 
 
 // For testing
-walls(house_sz = [515, 410], front_cut_diag = 60, toilet_cut_d = [170, 139], bedroom_l = 290, wall_t=11, wall_height=260, transparent_concrete=false);
+walls(house_sz = [515, 410], front_cut_diag = 60, toilet_cut_d = [170, 139], bedroom_l = 290, wall_t=11, wall_height=265, transparent_concrete=false);

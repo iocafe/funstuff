@@ -2,18 +2,18 @@ use <verticalpillar.scad>
 use <horizontalpillar.scad>
 use <../hdim.scad>
 
-show_horzontal_pillars = false;
+show_horzontal_pillars = true;
 
 vertical_pillar_diam = 24;
 vp_r  = vertical_pillar_diam/2;
 horizontal_pillar_w = vertical_pillar_diam;
 horizontal_pillar_h=30;
 up_horizontal_pillar_w = horizontal_pillar_w;
-above_floor=260;
+above_floor=265;
 below_floor=100;
 hor_pillar_floor_d = 30;
 
-module foundation(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t=11, wall_height=260, extra_height=11, roof_angle=20, show_concrete=false)
+module foundation(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t=11, wall_height=265, extra_height=11, roof_angle=20, show_concrete=false)
 {
   z = 0;
   
@@ -120,4 +120,4 @@ module foundation(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t
 
 
 // For testing
-foundation(house_sz = [515, 410], front_cut_diag = 60, toilet_cut_d = [170, 139], bedroom_l = 290, wall_t=11, wall_height=260, show_concrete=true);
+foundation(house_sz = [515, 410], front_cut_diag = 60, toilet_cut_d = [170, 139], bedroom_l = 290, wall_t=11, wall_height=265, show_concrete=true);

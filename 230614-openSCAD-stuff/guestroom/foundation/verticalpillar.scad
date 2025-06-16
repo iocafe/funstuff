@@ -5,7 +5,7 @@ reinforcement_indent = 5.2;
 finishing_thickness = 2;
 reinforcement_step = 15;
 
-module verticalpillar(above_floor=260, below_floor=100, diam=24, show_concrete=true) 
+module verticalpillar(above_floor=265, below_floor=100, diam=24, show_concrete=true) 
 {
   l = above_floor+below_floor;
   d = diam - 2*reinforcement_indent;

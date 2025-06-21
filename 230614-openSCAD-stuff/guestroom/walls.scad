@@ -31,7 +31,7 @@ arc_front_door_w = 90;
 front_door_w = 95.4;
             
 bedroom_door_move = 210;
-bathroom_door_move = 60;
+bathroom_door_move = 55;
 
 module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t=11, wall_height=265, extra_height=11, roof_angle=20, transparent_concrete=false)
 {
@@ -153,7 +153,7 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t=11, 
         translate([house_sz[0]-bedroom_l-1.50*wall_t,
             bathroom_door_move, 0])
         rotate([0,0,-90])
-        basicdoor(wall_t, false, d2_open, 65.3); 
+        basicdoor(wall_t, false, d2_open, 75.4); 
     }
     
     toilet_inside_w = bedroom_l - toilet_cut_d[0] - 0.5 * wall_t;

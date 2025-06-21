@@ -28,7 +28,7 @@ toilet_cut_d = [170, 139];
 wall_thickness = 11;
 wall_height = 265;
 
-floor_thickness = 15;
+floor_thickness = 10;
 
 c_bar_height = 3 * 2.54;
 roof_angle = 20;

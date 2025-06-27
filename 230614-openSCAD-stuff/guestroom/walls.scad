@@ -14,8 +14,8 @@ window_1_move = 120;
 window_1a_move = 190;
 // window_1b_move = 70;
 window_1b_move = 0; // zero = no window 1B
-window_2_move = 180;
-window_2b_move = 80;
+window_2_move = 180; // delta X: 75 cm from pillar
+window_2b_move = 80; // delta X: 30 cm from pillar
 window_3_move = 90;
 window_4_move = 66;
 
@@ -313,10 +313,10 @@ module walls(house_sz, front_cut_diag, toilet_cut_d, bedroom_l = 290,wall_t=11, 
                 arc_window_hole(wall_t);
             }
             else {
-                arc_window_23_move = 240;
+                arc_window_23_move = 230;
                 translate([0, arc_window_23_move, 0])
                 rotate([0,0,-90])
-                arc_window_hole(wall_t, 240);
+                arc_window_hole(wall_t, 215);
             }
             arc_door_h = 220;
             arc_door_move = front_cut_diag / sqrt(2);

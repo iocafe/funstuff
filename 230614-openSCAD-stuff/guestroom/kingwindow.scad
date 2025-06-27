@@ -13,7 +13,8 @@ king_use_square_bar_hatch = true;
 king_window_w = high_king_windows ? 70 : 70;
 king_window_h = high_king_windows ? 130 : 110;
 king_window_hatches = 2;
-king_window_pos = high_king_windows ? 78 : 90;
+// king_window_pos = high_king_windows ? 78 : 90;
+king_window_pos = high_king_windows ? 85 : 90;
 king_nro_vertical_squares = 4;
 
 small_king_window_w = high_king_windows ? 60 : 50;
@@ -961,9 +962,9 @@ module kinglock2(explode)
 
 
 // For testing
- // std_king_window(open_angle=90 /* $t*179,  */, explode=false);
-// king_window(open_angle= 0, explode=true);
-small_king_window(open_angle= 90, explode=false);
+ std_king_window(open_angle=90 /* $t*179,  */, explode=false);
+// king_window(open_angle= 0, explode=false);
+// small_king_window(open_angle= 90, explode=false);
 // windowhatch(width=70, height=130, explode=false);
 // windowhatch_sq(width=70, height=130, explode=false);
 //fixedgrid(explode=true);

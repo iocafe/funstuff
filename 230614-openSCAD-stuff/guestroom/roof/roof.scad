@@ -29,8 +29,7 @@ c_purlin_end_d = 3;
 c_purlin6_w = 2 * 2.54;
 c_purlin6_h = 6 * 2.54;
 
-bolt_material_and_washer_thickn = 1.2;
-part3_move = -20;
+part3_move = 0;
 
 // Show roof: 0 = no, 1 = truss supports, 2=+furlings, 3=+transparent roof metal, 4 = +opaque roof metal.
 module roof(house_length, house_width, toilet_cut_d, truss_pos, n_truss, show_roof)
@@ -93,13 +92,7 @@ module roof2(house_length, house_width, toilet_cut_d, truss_pos, n_truss, show_r
     rotate([0,0,-90]) 
     c_bar(long_bar, "SlateGray", c_bar_width, 
         c_bar_height, c_bar_thickn);
-    for (i=[0:n_truss-1])
-    {
-        translate([topbar_x + bolt_material_and_washer_thickn/2,
-            -truss_pos[i]+c_bar_width/2,
-            part3_up])
-        rotate([0,0,180]) bolt();
-    }
+
     
     // Longitunal C bar at bottom center + bolts
     translate([part3_move+c_bar_height/2,
@@ -108,13 +101,7 @@ module roof2(house_length, house_width, toilet_cut_d, truss_pos, n_truss, show_r
     rotate([0,0,-90]) 
     c_bar(long_bar, "SlateGray", c_bar_width,
         c_bar_height, c_bar_thickn); 
-    for (i=[0:n_truss-1])
-    {
-        translate([topbar_x + bolt_material_and_washer_thickn/2,
-            -truss_pos[i]+c_bar_width/2,
-            1.5 * c_bar_height + sink_roof])
-        rotate([0,0,180]) bolt();
-    }
+
 
     ll = part3_up - 1.5 * c_bar_height - sink_roof;
     diag_l = ll * sqrt(2);
@@ -162,7 +149,7 @@ module roof_truss(width = 400,
     is_first_truss=false, is_last_truss=false,
     cut_w = 0)
 {
-    split_bottom_bar_at = is_last_truss ? 0.47 : 0.31; /* 0 - 1.0 */
+    split_bottom_bar_at = is_last_truss ? 0.40 : 0.31; /* 0 - 1.0 */
     narrower = sink_roof / tan(roof_angle);
     narrower_width = width - 2 * narrower;
     if (is_first_truss) {
@@ -174,39 +161,52 @@ module roof_truss(width = 400,
         h1 = (width/2 + pos1) * tan(roof_angle) 
             - sink_roof + c_bar_height;
         pos_z = sink_roof+h1/2-c_bar_height/2;
-        pos_z_bolt = sink_roof+h1-c_bar_height;
         translate([pos1,0,pos_z])
         rotate([0,90,0])
-        c_bar(h1, "DarkSlateGray", c_bar_width, c_bar_height); 
+        c_bar(h1, "DarkSlateGray", c_bar_width,         c_bar_height); 
         
-        translate([pos1,
-            -bolt_material_and_washer_thickn/2, pos_z_bolt])
-        rotate([0,0,90]) bolt();
+        part4 = narrower_width/2  
+            //+ c_bar_merge_weld_len/2-
+        -pos1;
+        //-2*c_bar_width/sin(roof_angle);
+        translate([narrower_width/2-c_bar_width/sin(roof_angle),0,sink_roof])
+        rotate([0,0,180])
+        rotated_c_bar(part4, 
+            0, 90-roof_angle, 0, true, true,
+            0, "DarkSlateGray"); 
+   
     }
     else if (!is_last_truss) {
-        part1 = split_bottom_bar_at
-            * narrower_width  
-            + c_bar_merge_weld_len/2;
-        translate([(-narrower_width+part1)/2,0,sink_roof])
-        c_bar(part1, "DarkSlateGray", c_bar_width, c_bar_height); 
+        part1 = narrower_width  
+            + c_bar_merge_weld_len/2
+            - 2*c_bar_width/sin(roof_angle);
+        translate([-part1/2,0,sink_roof])
+        
+        rotated_c_bar(part1, 
+            0, 90-roof_angle, -90+roof_angle, true, true, 0, "DarkSlateGray"); 
     }
     
-    part2 = (1.0-split_bottom_bar_at)
-        * narrower_width 
-        + c_bar_merge_weld_len/2;
-    translate([(narrower_width-part2)/2,0,sink_roof])
-    rotate([180,0,0]) 
-    c_bar(part2, "SlateGray", c_bar_width, c_bar_height); 
+    else {
+        part2 = (1.0-split_bottom_bar_at)
+            * narrower_width; 
+        translate([0, 0,sink_roof])
+        rotate([180,180,0]) 
+        rotated_c_bar(part2, 
+            0, 90-roof_angle, 0, true, 
+            true, narrower_width/2 - 
+        c_bar_width/sin(roof_angle), "DarkSlateGray"); 
+    }
   
     part3 = (width/2+part3_move) * tan(roof_angle)
-        + 0.8 * c_bar_height - sink_roof;
-    translate([part3_move,0,part3/2 - 0.52*c_bar_height+sink_roof])
-    rotate([0,90,0]) c_bar(part3, "Gray", c_bar_width, c_bar_height); 
-
+        - 2 * c_bar_height - sink_roof;
+    translate([part3_move,0,/*part3/2 - 0.52**/ c_bar_height+sink_roof+c_bar_height/2])
+    rotate([0,-90,0])
+    pillar_c_bar(part3, roof_angle, !is_last_truss, "Gray");
+  
     l1 = (width/2) / cos(roof_angle);
     translate([width/2, 0, width/2*tan(roof_angle)])
     rotated_c_bar(l1+c_bar_extra_length_for_p6_weld, 
-        -roof_angle, 90-2*roof_angle, -roof_angle, false, width/2);
+        -roof_angle, 90-2*roof_angle, -roof_angle, !is_last_truss, !is_last_truss, width/2);
 
     l2 = l1 + roof_center_overlap/cos(roof_angle);
     if (is_last_truss) {
@@ -215,7 +215,7 @@ module roof_truss(width = 400,
             -sin(roof_angle) * c_bar_extra_length_for_p6_weld])
         rotated_c_bar(l2 - cut_w
             + 2 * c_bar_extra_length_for_p6_weld, 
-            roof_angle, roof_angle, roof_angle, true, 
+            roof_angle, roof_angle, roof_angle, !is_last_truss, !is_last_truss, 
             width/2-cut_w * cos(roof_angle), "SlateGrey");
     }
     else {
@@ -224,53 +224,11 @@ module roof_truss(width = 400,
                 -sin(roof_angle) * c_bar_extra_length_for_p6_weld])
          rotated_c_bar(l2
             + 2*c_bar_extra_length_for_p6_weld, 
-            roof_angle, roof_angle, roof_angle, true, width/2, "SlateGrey");
+            roof_angle, roof_angle, roof_angle, true, true, width/2, "SlateGrey");
     }
-    
-    /* translate([-narrower_width/2 + 0.6*c_bar_height,
-        -bolt_material_and_washer_thickn/2,
-        sink_roof + 0.2*c_bar_height])
-    rotate([0,0,90]) bolt();
-
-    translate([narrower_width/2 - 0.6*c_bar_height,
-        -bolt_material_and_washer_thickn/2,
-        sink_roof + 0.2*c_bar_height])
-    rotate([0,0,90]) bolt();
-
-    if (!is_last_truss) {
-        translate([-narrower_width/2 
-            + split_bottom_bar_at
-            * narrower_width 
-            - (c_bar_merge_weld_len/2-5),
-            -bolt_material_and_washer_thickn/2, sink_roof])
-        rotate([0,0,90]) bolt();
-    }
-    
-    if (!is_first_truss && !is_last_truss) {
-        translate([-narrower_width/2 
-            + split_bottom_bar_at
-            * narrower_width
-            + (c_bar_merge_weld_len/2-5),
-            -bolt_material_and_washer_thickn/2, sink_roof])
-        rotate([0,0,90]) bolt();
-    }
-
-    translate([part3_move,
-        -bolt_material_and_washer_thickn/2, sink_roof])
-    rotate([0,0,90]) bolt();
-    
-    translate([part3_move,
-        -bolt_material_and_washer_thickn/2, 
-        part3-c_bar_height+sink_roof])
-    rotate([0,0,90]) bolt();
-
-    top_bolt_y = width/2 * tan(roof_angle)-1;
-    translate([2,
-        -bolt_material_and_washer_thickn/2, top_bolt_y])
-    rotate([0,0,90]) bolt(); */
 }
 
-module rotated_c_bar(length, angle, endcut_1_angle, endcut_2_angle, flip, move_x, c = "DarkGrey")
+module rotated_c_bar(length, angle, endcut_1_angle, endcut_2_angle, change, flip, move_x, c = "DarkGrey")
 {
     dx = length/2;
     dz = c_bar_height/2;
@@ -279,11 +237,10 @@ module rotated_c_bar(length, angle, endcut_1_angle, endcut_2_angle, flip, move_x
     cube_w = c_bar_width+0.1;
     extra_for_cuts = c_bar_height;
 
-    /* if (flip) { */
-    translate([-move_x, 0, dz])
+    translate([-move_x, flip?c_bar_width/2:-c_bar_width/2, dz])
     rotate([0,-angle,0])
     {
-        //difference()
+        difference()
         {
             translate([dx, 0, -dz])
             rotate([flip?180:0,0,0])
@@ -305,6 +262,41 @@ module rotated_c_bar(length, angle, endcut_1_angle, endcut_2_angle, flip, move_x
             color("Black") 
             cube([cube_sz, cube_w+0.2, cube_sz], center=true);
         }
+    }
+}
+
+module pillar_c_bar(length, angle, flip, c = "DarkGrey")
+{
+    dx = length/2;
+    dz = c_bar_height/2;
+    
+    cube_sz = 3*c_bar_height+0.1;
+    cube_w = c_bar_width+0.1;
+    extra_for_cuts = c_bar_height;
+
+    rotate([flip?180:0, 0,0])
+    translate([0, -c_bar_width/2, dz])
+    difference()
+    {
+        translate([dx, 0, -dz])
+        rotate([0,0,0])
+        
+        c_bar(length+2*extra_for_cuts, 
+            c, c_bar_width, c_bar_height); 
+ 
+        translate([length, 0, -c_bar_height/2]) 
+        rotate([0,angle,0])
+        translate([cube_sz/2, c_bar_width/2, 0]) 
+        color("Black") 
+        cube([cube_sz, cube_w+0.2, cube_sz], center=true); 
+
+        translate([length, 
+            0, -c_bar_height/2]) 
+        rotate([0,-angle,0])
+        translate([cube_sz/2, 
+            c_bar_width/2, 0]) 
+        color("Black") 
+        cube([cube_sz, cube_w+0.2, cube_sz], center=true); 
     }
 }
 
@@ -402,18 +394,13 @@ front_cut_diag = 70;
 toilet_cut_d = [170, 139];
 wall_thickness = 11;
 
-// toilet_cut_d = [160, 156];
-// truss_pos = [10, 100, 200];
-
-truss_pos = [wall_thickness/2, 
-    (house_sz[0] - bedroom_l - wall_thickness)/2,
+truss_pos = [-1, 
+    (house_sz[0] - bedroom_l - wall_thickness-3)/2,
     house_sz[0] - bedroom_l - wall_thickness,
-    house_sz[0] - toilet_cut_d[0] - wall_thickness/2,
-    house_sz[0] - wall_thickness/2];
-  
+    house_sz[0] - toilet_cut_d[0] + 1,
+    house_sz[0]];
 
 n_truss = 5;
 
 roof(house_sz[0], house_sz[1], toilet_cut_d, truss_pos, n_truss, 1);
 
-// rotated_c_bar(100, 30, true, 0, c = "DarkGrey");

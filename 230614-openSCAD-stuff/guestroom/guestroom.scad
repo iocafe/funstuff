@@ -18,7 +18,7 @@ show_foundation_concrete = true;
 
 // Show roof: 0 = no, 1 = truss supports, 2=+furlings,
 // 3=+transparent roof metal, 4 = +opaque roof metal.
-show_roof = 2;
+show_roof = 1;
 
 house_sz = [515, 410];
 bedroom_l = 290;
@@ -41,11 +41,11 @@ module guestroom()
     }
     
     if (show_roof > 0.5) {
-        truss_pos = [wall_thickness/2, 
-            (house_sz[0] - bedroom_l - wall_thickness)/2,
+        truss_pos = [-1, 
+            (house_sz[0] - bedroom_l - wall_thickness-3)/2,
             house_sz[0] - bedroom_l - wall_thickness,
-            house_sz[0] - toilet_cut_d[0] - wall_thickness/2,
-            house_sz[0] - wall_thickness/2];
+            house_sz[0] - toilet_cut_d[0] + 1,
+            house_sz[0]];
         translate([0, house_sz[1]/2, wall_height -
             c_bar_height/2 * cos(roof_angle)])
         rotate([0,0,90])

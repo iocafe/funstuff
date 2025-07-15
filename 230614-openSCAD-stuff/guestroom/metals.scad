@@ -40,7 +40,7 @@ module c_bar(length=100, c = "DarkGray", width=2.0*2.54, height = 3*2.54,thickn=
             cube([length, width, thickn], center = true);
     }
     
-    hdim (-length/2, length/2, 10,20);
+    // hdim (-length/2, length/2, 10,20);
 }
 
 module c_bar3(length=100, c = "DarkGray", thickn=0.5) 

@@ -14,7 +14,7 @@ show_furniture = true;
 // see support structure, electrical connections and piping
 transparent_concrete = true;
 
-show_foundation_concrete = true;
+show_foundation_concrete = false;
 
 // Show roof: 0 = no, 1 = truss supports, 2=+furlings,
 // 3=+transparent roof metal, 4 = +opaque roof metal.
@@ -47,7 +47,7 @@ module guestroom()
             house_sz[0] - toilet_cut_d[0] + 1,
             house_sz[0]];
         translate([0, house_sz[1]/2, wall_height -
-            c_bar_height/2 * cos(roof_angle)])
+            0*c_bar_height * cos(roof_angle)])
         rotate([0,0,90])
         roof(house_sz[0], house_sz[1], toilet_cut_d, truss_pos, 5, show_roof);
     }

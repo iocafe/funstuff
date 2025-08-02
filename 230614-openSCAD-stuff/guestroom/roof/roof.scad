@@ -129,7 +129,7 @@ module roof2(house_length, house_width, toilet_cut_d, truss_pos, n_truss, show_r
             - roof_right_longitunal_overlap)/2, dyy1])
         rotate([0,-roof_angle,0])
         c_purlins_and_roof_metal(purlins_length, 
-            purlins_w1, 7, show_roof, cut_l, cut_w/cos(roof_angle));
+            purlins_w1, 8, show_roof, cut_l, cut_w/cos(roof_angle));
         
         purlins_w2 = (width/2 - roof_center_vent
             - c_purlin_end_d) / cos(roof_angle);
@@ -142,7 +142,7 @@ module roof2(house_length, house_width, toilet_cut_d, truss_pos, n_truss, show_r
              - roof_right_longitunal_overlap)/2, dyy2])
         rotate([0,-roof_angle,180])
         c_purlins_and_roof_metal(purlins_length, 
-            purlins_w2, 5, show_roof); 
+            purlins_w2, 6, show_roof); 
     }
 }
 

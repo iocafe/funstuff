@@ -14,11 +14,11 @@ show_furniture = true;
 // see support structure, electrical connections and piping
 transparent_concrete = false;
 
-show_foundation_concrete = false;
+show_foundation_concrete = true;
 
 // Show roof: 0 = no, 1 = truss supports, 2=+furlings,
 // 3=+transparent roof metal, 4 = +opaque roof metal.
-show_roof = 2;
+show_roof = 3;
 
 house_sz = [515, 410];
 bedroom_l = 290;

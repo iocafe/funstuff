@@ -4,7 +4,7 @@ default_bar_diam = 2.54;
 diamond_width = 20.3;
 diamond_height = 45;
 diamond_step = 20;
-default_frame_height = 2*diamond_height - diamond_step+2*default_bar_diam;
+default_frame_height = diamond_height + diamond_step;
 
 module framed_double_diamond(
     frame_width = diamond_width,

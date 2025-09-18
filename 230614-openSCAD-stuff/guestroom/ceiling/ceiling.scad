@@ -20,7 +20,7 @@ module bedroom_ceiling_corners(
 {
     d = explode ? 2.0*explode_d : 0;
     
-    pillar_intrude = 5;
+    pillar_intrude = 6;
     cut_angle = 22.5;
     cut_l = 2 * pillar_intrude;
     l = length - 2*cut_l;

@@ -1,3 +1,5 @@
 {
-    "idf.pythonInstallPath": "/usr/bin/python3"
+    "idf.pythonInstallPath": "/usr/bin/python3",
+    "idf.flashType": "UART",
+    "idf.port": "/dev/ttyUSB0"
 }

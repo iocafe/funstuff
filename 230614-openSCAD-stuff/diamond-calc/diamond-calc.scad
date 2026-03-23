@@ -45,10 +45,11 @@ module double_diamond(width = diamond_width,
     c1 = [0.5,0.28,0.19, 1.0], 
     c2 = [0.8,0.30,0.29, 1.0])
 {
+    
     translate([0,-step/2,0]) 
     diamond(width, height, bar_diam, c1, c2);
  
-    translate([0,step/2,0]) 
+    translate([0, step/2,0]) 
     diamond(width, height, bar_diam, c1, c2);
 
     rotate([0,0,90])

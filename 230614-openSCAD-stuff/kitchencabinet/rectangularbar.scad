@@ -133,7 +133,18 @@ module rectbar_helper(length = 50,
     }
 }   
 
+module rectbar_simple(length = 60, 
+    bar_w = default_bar_w,  /* Width */
+    bar_h = default_bar_h,  /* Height */
+    c = "orange")
+{
+    color(c) 
+    {
+        cube([length, bar_w, bar_h], center = true);
+    }
+}
 
-rectbar_frame();
+// rectbar_frame();
 // rectbar_single();
 // rectbar_helper();
+rectbar_simple();

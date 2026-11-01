@@ -26,6 +26,11 @@ fridgetop_bar_w = 2.5;
 fridgetop_bar_h = 2.50;
 fridgetop_bar_t  = 0.3;
 
+top_bar_w = 2.5;
+top_bar_h = 5.0;
+top_bar_t  = 0.3;
+electric_box_w = 98; /* Electric box width plus allowance 2cm on left of the box */
+
 pilar_corner_cut = 6.0;
 
 cabined_depth = ss_drying_depth + 2 * bottom_bar_w;
@@ -43,6 +48,7 @@ module kitchen_cabinet()
         c2 = "darkred",
         corner1_cut = pilar_corner_cut,
         corner2_cut = 0.0,
+        electric_box_cut = 0.0,
         explode = explode);
 
     translate([cabinet_width/2
@@ -78,6 +84,7 @@ module kitchen_cabinet()
         c2 = "darkred",
         corner1_cut = 0.0,
         corner2_cut = pilar_corner_cut,
+        electric_box_cut = 0.0,
         explode = explode);
 
 
@@ -91,6 +98,7 @@ module kitchen_cabinet()
         c2 = "darkred",
         corner1_cut = pilar_corner_cut,
         corner2_cut = pilar_corner_cut,
+        electric_box_cut = 0.0,
         explode = explode);
         
     // Drying racks *******
@@ -124,6 +132,51 @@ module kitchen_cabinet()
     translate([drying_rack_1_x, cabined_depth/2,1])
     rotate([1.5,-1.5,0])
     bottom_pan(ss_drying_width+1, ss_drying_depth);
+
+    // Top frame *******
+    translate([0,0,cabinet_height - top_bar_h]) 
+    {
+        rectbar_frame(length = cabinet_width, 
+            width = cabined_depth, 
+            bar_w = top_bar_w,  /* Width */
+            bar_h = top_bar_h,  /* Height */
+            bar_t = top_bar_t,  /* Metal thickness */
+            c = "red",
+            c2 = "darkred",
+            corner1_cut = pilar_corner_cut,
+            corner2_cut = pilar_corner_cut,
+            electric_box_cut = electric_box_w
+                - pilar_corner_cut,
+            explode = explode);
+            
+        translate([-cabinet_width/2
+                + 1.5 * top_bar_w, 
+                (cabined_depth-pilar_corner_cut)/2,
+                top_bar_h/2])
+        rotate([0,0,90])
+        rectbar_simple(
+            length=cabined_depth 
+                - 2*top_bar_w 
+                - pilar_corner_cut, 
+            bar_w = top_bar_w,  /* Width */
+            bar_h = top_bar_h,  /* Height */
+            c = "orange");        
+
+        translate([cabinet_width/2
+                - 1.5 * top_bar_w, 
+                (cabined_depth
+                    - pilar_corner_cut
+                    + top_bar_w)/2,
+                top_bar_h/2])
+        rotate([0,0,90])
+        rectbar_simple(
+            length=cabined_depth 
+                - top_bar_w 
+                - pilar_corner_cut, 
+            bar_w = top_bar_w,  /* Width */
+            bar_h = top_bar_h,  /* Height */
+            c = "orange");        
+    }
     
     // Electric box placeholder *******
     translate([cabinet_width/2, cabined_depth, cabinet_height])

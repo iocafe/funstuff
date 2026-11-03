@@ -34,7 +34,7 @@ electric_box_w = 98; /* Electric box width plus allowance 2cm on left of the box
 
 pilar_corner_cut = 6.0;
 
-vertical_bar_w = 1.5 * 2.5;
+vertical_bar_w = /* 1.5 * */ 2.5;
 vertical_bar_h = vertical_bar_w;
 vertical_bar_t  = 0.3;
 
@@ -64,11 +64,11 @@ module kitchen_cabinet()
         rotate([0,0,90])
     rectbar_simple(
         length = cabinet_depth - 2*bottom_bar_w, 
-        bar_w = bottom_bar_w,  /* Width */
-        bar_h = bottom_bar_h,  /* Height */
-        c = "orange");
+        bar_w = bottom_bar_w,  // Width 
+        bar_h = bottom_bar_h,  // Height 
+        c = "orange"); 
 
-    translate([-cabinet_width/2
+    /* translate([-cabinet_width/2
             + 1.5 * bottom_bar_w, 
             (cabinet_depth-pilar_corner_cut)/2, bottom_bar_h/2])
         rotate([0,0,90])
@@ -76,9 +76,9 @@ module kitchen_cabinet()
         length=cabinet_depth 
             - 2*bottom_bar_w 
             - pilar_corner_cut, 
-        bar_w = bottom_bar_w,  /* Width */
-        bar_h = bottom_bar_h,  /* Height */
-        c = "orange");
+        bar_w = bottom_bar_w,  // Width 
+        bar_h = bottom_bar_h,  // Height 
+        c = "orange"); */
 
     // Fridge top level frame *******
     translate([cabinet_width/2-fridge_cut_w/2,0,fridge_cut_h]) 
@@ -94,7 +94,7 @@ module kitchen_cabinet()
         electric_box_cut = 0.0,
         explode = explode);
 
-    translate([cabinet_width/2
+    /* translate([cabinet_width/2
             - 1.5 * bottom_bar_w, 
             cabinet_depth/2
             - fridgetop_bar_w, 
@@ -105,9 +105,9 @@ module kitchen_cabinet()
         length = cabinet_depth 
             - pilar_corner_cut 
             - 2*fridgetop_bar_w, 
-        bar_w = fridgetop_bar_w,  /* Width */
-        bar_h = fridgetop_bar_h,  /* Height */
-        c = "orange");
+        bar_w = fridgetop_bar_w,  // Width 
+        bar_h = fridgetop_bar_h,  // Height 
+        c = "orange"); */
 
 
     translate([0,0,dish_drying_height + bottom_bar_h]) 
@@ -140,8 +140,8 @@ module kitchen_cabinet()
     rectbar_simple(
         length=cabinet_depth 
             - 2*bottom_bar_w, 
-        bar_w = dryrack_sep_w,  /* Width */
-        bar_h = dryrack_sep_h,  /* Height */
+        bar_w = dryrack_sep_w,  // Width 
+        bar_h = dryrack_sep_h,  // Height 
         c = "orange");
 
     drying_rack_2_x = drying_rack_1_x
@@ -158,8 +158,8 @@ module kitchen_cabinet()
     rectbar_simple(
         length=cabinet_depth 
             - 2*bottom_bar_w, 
-        bar_w = dryrack_sep_w,  /* Width */
-        bar_h = dryrack_sep_h,  /* Height */
+        bar_w = dryrack_sep_w,  // Width 
+        bar_h = dryrack_sep_h,  // Height 
         c = "orange");
 
     // Bottom pans racks *******
@@ -183,7 +183,7 @@ module kitchen_cabinet()
                 - pilar_corner_cut,
             explode = explode);
             
-        translate([-cabinet_width/2
+        /* translate([-cabinet_width/2
                 + 1.5 * top_bar_w, 
                 (cabinet_depth-pilar_corner_cut)/2,
                 top_bar_h/2])
@@ -192,11 +192,11 @@ module kitchen_cabinet()
             length=cabinet_depth 
                 - 2*top_bar_w 
                 - pilar_corner_cut, 
-            bar_w = top_bar_w,  /* Width */
-            bar_h = top_bar_h,  /* Height */
-            c = "orange");        
+            bar_w = top_bar_w,  // Width 
+            bar_h = top_bar_h,  // Height 
+            c = "orange"); */
 
-        translate([cabinet_width/2
+        /* translate([cabinet_width/2
                 - 1.5 * top_bar_w, 
                 (cabinet_depth
                     - pilar_corner_cut
@@ -207,9 +207,9 @@ module kitchen_cabinet()
             length=cabinet_depth 
                 - top_bar_w 
                 - pilar_corner_cut, 
-            bar_w = top_bar_w,  /* Width */
-            bar_h = top_bar_h,  /* Height */
-            c = "orange");        
+            bar_w = top_bar_w,  // Width 
+            bar_h = top_bar_h,  // Height 
+            c = "orange"); */       
     }
 
     // Left long vertical bars *******
@@ -309,6 +309,22 @@ module kitchen_cabinet()
         bar_h = vertical_bar_w,  /* Height */
         c = "coral");        
 
+    translate([
+        + (cabinet_width
+        - vertical_bar_w)/2
+        - fridge_cut_w,
+        cabinet_depth/2,
+        dish_drying_height 
+        + dryrack_sep_h/2
+        + bottom_bar_h])
+    rotate([0,0,90])
+    rectbar_simple(
+        length=cabinet_depth
+            - 2*fridgetop_bar_h, 
+        bar_w = fridgetop_bar_w,  // Width 
+        bar_h = fridgetop_bar_h,  // Height 
+        c = "orange");   
+        
     // Short center left bottom vertical bars *******
     translate([cabinet_width/2
         + vertical_bar_w/2
@@ -340,6 +356,23 @@ module kitchen_cabinet()
         bar_w = vertical_bar_h,  /* Width */
         bar_h = vertical_bar_w,  /* Height */
         c = "coral");        
+
+    translate([cabinet_width/2
+        + vertical_bar_w/2
+        - fridge_cut_w 
+        - 3 * dryrack_sep_w
+        - 2 * ss_drying_width,
+        cabinet_depth/2,
+        dish_drying_height 
+        + dryrack_sep_h/2
+        + bottom_bar_h])
+    rotate([0,0,90])
+    rectbar_simple(
+        length=cabinet_depth
+            - 2*fridgetop_bar_h, 
+        bar_w = fridgetop_bar_w,  /* Width */
+        bar_h = fridgetop_bar_h,  /* Height */
+        c = "orange");   
         
     // Top center vertical bars *******
     translate([
